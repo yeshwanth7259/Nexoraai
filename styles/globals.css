@@ -1,0 +1,74 @@
+/* styles/globals.css */
+/* All global styles for Nexora AI */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  background: #050b15;
+  color: #e2e8f0;
+  font-family: 'DM Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 2px; }
+
+/* Focus */
+textarea { outline: none !important; resize: none; }
+textarea::placeholder { color: #334155; }
+input { outline: none; }
+button { font-family: 'DM Sans', sans-serif; }
+
+/* Animations */
+@keyframes nx-pulse {
+  0%, 80%, 100% { transform: scale(0.65); opacity: 0.3; }
+  40% { transform: scale(1); opacity: 1; }
+}
+@keyframes nx-fadein {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes nx-glow {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.06); }
+}
+@keyframes nx-shimmer {
+  0%, 100% { opacity: 0.4; }
+  50%       { opacity: 1; }
+}
+@keyframes nx-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+@keyframes nx-slide-in {
+  from { opacity: 0; transform: translateX(-10px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes nx-bounce-in {
+  0%   { opacity: 0; transform: scale(0.92); }
+  60%  { transform: scale(1.02); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+/* Utility classes */
+.nx-fadein  { animation: nx-fadein 0.35s ease both; }
+.nx-spin    { animation: nx-spin 1s linear infinite; }
+.nx-pulse-dot { animation: nx-pulse 1.2s ease-in-out infinite; }
+
+/* Hover states */
+.nx-nav:hover       { background: rgba(56,189,248,0.08) !important; color: #94a3b8 !important; }
+.nx-newbtn:hover    { background: rgba(56,189,248,0.08) !important; border-color: rgba(56,189,248,0.3) !important; color: #94a3b8 !important; }
+.nx-quick:hover     { background: rgba(56,189,248,0.07) !important; border-color: rgba(56,189,248,0.3) !important; }
+.nx-conv:hover      { background: rgba(30,41,59,0.6) !important; }
+.nx-conv:hover .nx-del { opacity: 1 !important; }
+.nx-del             { opacity: 0; transition: opacity 0.15s; }
+.nx-send:hover:not(:disabled) { filter: brightness(1.15); transform: scale(1.04); }
+.nx-send:active:not(:disabled){ transform: scale(0.97); }
+.nx-model-btn:hover { border-color: rgba(56,189,248,0.4) !important; color: #94a3b8 !important; }

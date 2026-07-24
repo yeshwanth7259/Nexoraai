@@ -1,0 +1,31 @@
+{
+  "name": "nexora-ai",
+  "version": "1.0.0",
+  "description": "Nexora AI — Think Faster. Build Smarter. | Yashnav Technologies",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@ai-sdk/anthropic": "^4.0.19",
+    "@ai-sdk/google": "^3.0.100",
+    "@anthropic-ai/sdk": "^0.24.0",
+    "@supabase/ssr": "^0.12.3",
+    "@supabase/supabase-js": "^2.110.8",
+    "ai": "^7.0.37",
+    "lucide-react": "^0.383.0",
+    "next": "^14.2.0",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.14",
+    "autoprefixer": "^10.5.4",
+    "eslint": "^8.57.0",
+    "eslint-config-next": "^14.2.0",
+    "postcss": "^8.5.22",
+    "tailwindcss": "^3.4.17"
+  }
+}
