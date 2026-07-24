@@ -1,494 +1,242 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { createClient } from "../utils/supabase/client";
+import { useState } from "react";
+import { motion } from "framer-motion";
 import { 
-  Plus, Trash2, Code2, GraduationCap, 
-  Check, User, Globe, Menu, X, ArrowUp, Bot, Loader2, Sparkles
+  FolderOpen, MessageSquare, Briefcase, FileText, Bot, Settings,
+  Globe, Mic, ArrowRight, Zap, Code, PenTool, Database, Search, User,
+  Sparkles, Terminal, Layers
 } from "lucide-react";
 
-const supabase = createClient();
-
-export default function NexoraApp() {
-  const [activeTab, setActiveTab] = useState<"chat" | "pricing">("chat");
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [authModalOpen, setAuthModalOpen] = useState(false);
-  const [authMode, setAuthMode] = useState<"login" | "signup">("login");
-  
-  const [user, setUser] = useState<any>(null);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [authError, setAuthError] = useState("");
-
-  const [messages, setMessages] = useState<Array<{ role: string; content: string }>>([]);
+export default function NexoraOS() {
   const [input, setInput] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">("monthly");
-  const [greeting, setGreeting] = useState("Good morning");
-
-  useEffect(() => {
-    const hour = new Date().getHours();
-    if (hour < 12) setGreeting("Good morning");
-    else if (hour < 18) setGreeting("Good afternoon");
-    else setGreeting("Good evening");
-  }, []);
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-    });
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
-
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, isLoading]);
-
-  const handleAuth = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setAuthError("");
-    if (authMode === "signup") {
-      const { error } = await supabase.auth.signUp({ email, password });
-      if (error) setAuthError(error.message);
-      else setAuthModalOpen(false);
-    } else {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error) setAuthError(error.message);
-      else setAuthModalOpen(false);
-    }
-  };
-
-  const handleGoogleLogin = async () => {
-    await supabase.auth.signInWithOAuth({ 
-      provider: "google",
-      options: {
-        redirectTo: `${location.origin}/auth/callback`,
-      }
-    });
-  };
-
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    setUser(null);
-  };
-
-  const sendMessage = async (customPrompt?: string) => {
-    const textToSend = customPrompt || input;
-    if (!textToSend.trim() || isLoading) return;
-
-    const newMessages = [...messages, { role: "user", content: textToSend }];
-    setMessages(newMessages);
-    setInput("");
-    setIsLoading(true);
-
-    try {
-      const res = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: newMessages, userPlan: "basic" }),
-      });
-
-      if (!res.body) throw new Error("No response body");
-
-      const reader = res.body.getReader();
-      const decoder = new TextDecoder();
-      let assistantReply = "";
-
-      setMessages((prev) => [...prev, { role: "assistant", content: "" }]);
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        const chunk = decoder.decode(value, { stream: true });
-        assistantReply += chunk;
-
-        setMessages((prev) => {
-          const updated = [...prev];
-          updated[updated.length - 1].content = assistantReply;
-          return updated;
-        });
-      }
-    } catch (err) {
-      setMessages((prev) => [...prev, { role: "assistant", content: "⚠️ Connection error. Please verify your network and retry." }]);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const workspaces = [
+    { name: "Website Launch", icon: Globe },
+    { name: "Marketing Plan", icon: Briefcase },
+    { name: "CRM Development", icon: Terminal },
+    { name: "UI Design", icon: PenTool },
+    { name: "Analytics", icon: Database },
+  ];
 
   return (
-    <div className="flex h-screen bg-white text-slate-800 font-sans overflow-hidden">
-      
-      {/* ─── SIDEBAR (Claude Aesthetic) ───────────────────────── */}
-      <aside className={`${sidebarOpen ? "w-[260px]" : "w-0"} bg-[#f9f8f6] border-r border-[#e5e3db] flex flex-col transition-all duration-300 overflow-hidden shrink-0`}>
-        <div className="p-4 flex items-center justify-between">
-          <button 
-            onClick={() => setSidebarOpen(false)} 
-            className="p-2 hover:bg-[#eae8df] rounded-lg transition text-slate-600 md:hidden"
-          >
-            <X size={20} strokeWidth={1.5} />
-          </button>
-        </div>
+    <div className="flex h-screen bg-background text-foreground overflow-hidden relative font-sans selection:bg-primary/30">
+      {/* Animated Aurora Background */}
+      <div className="aurora-bg" />
 
-        <div className="px-3 pb-2">
-          <button 
-            onClick={() => { setMessages([]); setActiveTab("chat"); }}
-            className="w-full flex items-center gap-3 bg-white hover:bg-slate-50 text-slate-800 text-sm font-medium py-2.5 px-3 rounded-xl border border-[#e5e3db] shadow-sm transition"
-          >
-            <div className="w-5 h-5 rounded-full bg-orange-100 flex items-center justify-center text-orange-600">
-              <Plus size={14} strokeWidth={2.5} />
-            </div>
-            New chat
-          </button>
-        </div>
-
-        <div className="px-4 py-2 mt-2 text-xs font-semibold text-slate-400 uppercase tracking-wider">
-          Chats
-        </div>
-
-        <div className="flex-1 overflow-y-auto px-2 space-y-1">
-          {messages.length > 0 && (
-            <div className="group flex items-center justify-between py-2 px-3 rounded-lg hover:bg-[#eae8df] text-sm text-slate-700 cursor-pointer transition">
-              <span className="truncate max-w-[160px]">{messages[0]?.content.slice(0, 24)}...</span>
-              <button onClick={() => setMessages([])} className="text-slate-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition"><Trash2 size={14} /></button>
-            </div>
-          )}
-        </div>
-
-        <div className="p-3">
-          <div className="mb-2">
-             <button 
-                onClick={() => setActiveTab("pricing")} 
-                className="w-full flex items-center gap-3 py-2 px-3 rounded-lg hover:bg-[#eae8df] text-sm text-slate-700 transition"
-              >
-                <Sparkles size={16} strokeWidth={1.5} className="text-orange-500" />
-                Upgrade Plan
-             </button>
+      {/* ─── SIDEBAR ──────────────────────────────────────────────────────── */}
+      <aside className="w-[280px] h-full flex flex-col border-r border-borders bg-background/50 backdrop-blur-xl shrink-0 z-10 relative shadow-[4px_0_24px_rgba(0,0,0,0.2)]">
+        {/* Header / Logo */}
+        <div className="p-6 flex items-center gap-3">
+          {/* Custom N Neural Logo */}
+          <div className="w-8 h-8 relative flex items-center justify-center">
+            <svg viewBox="0 0 40 40" className="w-full h-full drop-shadow-[0_0_8px_rgba(109,91,255,0.8)]">
+              <defs>
+                <linearGradient id="n-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#00E5FF" />
+                  <stop offset="50%" stopColor="#6D5BFF" />
+                  <stop offset="100%" stopColor="#A855F7" />
+                </linearGradient>
+              </defs>
+              <path 
+                d="M10 30 V10 L30 30 V10" 
+                fill="none" 
+                stroke="url(#n-grad)" 
+                strokeWidth="4" 
+                strokeLinecap="round" 
+                strokeLinejoin="round" 
+              />
+              <circle cx="10" cy="10" r="3" fill="#00E5FF" />
+              <circle cx="30" cy="30" r="3" fill="#A855F7" />
+              <circle cx="20" cy="20" r="2" fill="#6D5BFF" />
+            </svg>
           </div>
-          
-          <div className="border-t border-[#e5e3db] pt-2">
-            {user ? (
-              <div className="flex items-center justify-between px-3 py-2">
-                <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-bold text-xs uppercase">
-                    {user.email?.[0]}
-                  </div>
-                  <div className="text-sm font-medium truncate max-w-[110px] text-slate-700">{user.email?.split('@')[0]}</div>
-                </div>
-                <button onClick={handleLogout} className="text-slate-400 hover:text-slate-600 p-1"><User size={16} strokeWidth={1.5} /></button>
+          <span className="font-bold tracking-widest text-lg text-white">NEXORA</span>
+        </div>
+
+        {/* Global Navigation */}
+        <div className="px-4 py-2 flex-1 overflow-y-auto">
+          <nav className="space-y-1 mb-8">
+            <NavItem icon={Layers} label="Workspace" active />
+            <NavItem icon={MessageSquare} label="Chats" />
+            <NavItem icon={FolderOpen} label="Projects" />
+            <NavItem icon={FileText} label="Files" />
+            <NavItem icon={Bot} label="Agents" />
+            <NavItem icon={Settings} label="Settings" />
+          </nav>
+
+          <div className="px-2 mb-2 text-xs font-semibold text-slate-500 uppercase tracking-widest">
+            Workspaces
+          </div>
+          <div className="space-y-1">
+            {workspaces.map((ws, i) => (
+              <div 
+                key={i} 
+                className="flex items-center gap-3 px-2 py-2 rounded-lg text-sm text-slate-300 hover:text-white hover:bg-white/5 transition cursor-pointer group"
+              >
+                <ws.icon size={16} className="text-slate-500 group-hover:text-primary transition" />
+                <span className="truncate">{ws.name}</span>
               </div>
-            ) : (
-              <button 
-                onClick={() => setAuthModalOpen(true)} 
-                className="w-full flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-white text-sm font-medium py-2 rounded-xl transition shadow-sm"
-              >
-                Sign In
-              </button>
-            )}
+            ))}
           </div>
+        </div>
+
+        {/* User Profile */}
+        <div className="p-4 border-t border-borders">
+          <button className="w-full flex items-center justify-between p-2 rounded-xl hover:bg-white/5 transition">
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white font-bold text-sm shadow-[0_0_12px_rgba(109,91,255,0.5)]">
+                Y
+              </div>
+              <div className="text-sm font-medium text-slate-200">Yashu</div>
+            </div>
+          </button>
         </div>
       </aside>
 
-      {/* ─── MAIN CONTENT AREA ─────────────────────────────────────── */}
-      <div className="flex-1 flex flex-col h-full bg-white relative">
+      {/* ─── MAIN WORKSPACE CANVAS ────────────────────────────────────────── */}
+      <main className="flex-1 flex flex-col relative z-0">
         
-        {/* Header */}
-        <header className="absolute top-0 left-0 right-0 h-14 flex items-center justify-between px-4 z-10 bg-gradient-to-b from-white/90 to-transparent">
-          <div className="flex items-center gap-2">
-            {!sidebarOpen && (
-              <button onClick={() => setSidebarOpen(true)} className="p-2 hover:bg-slate-100 rounded-lg text-slate-600 transition">
-                <Menu size={20} strokeWidth={1.5} />
-              </button>
-            )}
-            <span className="font-serif text-lg font-semibold tracking-tight text-slate-800 ml-1">
-              Nexora<span className="text-orange-500">.</span>
-            </span>
-          </div>
+        {/* Top bar (Search/Profile) */}
+        <header className="h-16 flex items-center justify-end px-8 gap-6 z-10">
+          <button className="text-slate-400 hover:text-white transition">
+            <Search size={20} />
+          </button>
+          <button className="text-slate-400 hover:text-white transition">
+            <User size={20} />
+          </button>
         </header>
 
-        {/* Tab 1: Chat View (Claude Style) */}
-        {activeTab === "chat" && (
-          <div className="flex-1 flex flex-col h-full overflow-hidden">
-            <div className="flex-1 overflow-y-auto w-full">
-              <div className="pt-16 px-4 md:px-8 pb-32 max-w-3xl w-full mx-auto">
-                
-                {messages.length === 0 && (
-                <div className="flex flex-col items-center justify-center h-full min-h-[60vh]">
-                  <div className="text-center space-y-4">
-                    <h1 className="text-4xl font-serif text-slate-800 tracking-tight flex items-center justify-center gap-3">
-                      <Sparkles className="text-orange-400" size={32} strokeWidth={1.5} />
-                      {greeting}
-                    </h1>
-                  </div>
-                  
-                  <div className="w-full max-w-2xl mt-12 grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <button onClick={() => sendMessage("Help me debug a complex SQL query that is timing out.")} className="p-4 bg-white hover:bg-slate-50 border border-slate-200 rounded-2xl text-left transition shadow-sm hover:shadow-md">
-                      <Code2 className="text-slate-400 mb-3" size={20} strokeWidth={1.5} />
-                      <div className="text-sm font-medium text-slate-700">Database Debugging</div>
-                      <div className="text-xs text-slate-500 mt-1">Fix SQL bottlenecks instantly</div>
-                    </button>
-                    <button onClick={() => sendMessage("Explain the concepts of quantum entanglement clearly.")} className="p-4 bg-white hover:bg-slate-50 border border-slate-200 rounded-2xl text-left transition shadow-sm hover:shadow-md">
-                      <GraduationCap className="text-slate-400 mb-3" size={20} strokeWidth={1.5} />
-                      <div className="text-sm font-medium text-slate-700">Academic Concepts</div>
-                      <div className="text-xs text-slate-500 mt-1">Master difficult subjects</div>
-                    </button>
-                  </div>
-                </div>
-              )}
-
-              {messages.map((m, idx) => (
-                <div key={idx} className="mb-8 flex flex-col">
-                  {m.role === "user" ? (
-                    <div className="self-end max-w-[85%]">
-                      <div className="bg-slate-100 rounded-2xl px-5 py-3.5 text-[15px] text-slate-800 leading-relaxed shadow-sm">
-                        {m.content}
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="flex gap-4 self-start max-w-full">
-                      <div className="w-8 h-8 rounded-full bg-[#E5D5C5] flex items-center justify-center shrink-0 mt-1 shadow-sm border border-[#D5C5B5]">
-                        <Bot size={18} className="text-orange-900" strokeWidth={1.5} />
-                      </div>
-                      <div className="flex-1 pt-1 text-[15px] text-slate-800 leading-relaxed whitespace-pre-wrap">
-                        {m.content}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ))}
-              {isLoading && (
-                <div className="flex gap-4 self-start max-w-full">
-                  <div className="w-8 h-8 rounded-full bg-[#E5D5C5] flex items-center justify-center shrink-0 mt-1 shadow-sm border border-[#D5C5B5]">
-                     <Loader2 size={16} className="text-orange-900 animate-spin" />
-                  </div>
-                  <div className="flex-1 pt-2">
-                    <div className="h-4 w-32 bg-slate-100 rounded animate-pulse"></div>
-                  </div>
-                </div>
-              )}
-              <div ref={messagesEndRef} className="h-10" />
-              </div>
+        {/* Central Hub */}
+        <div className="flex-1 flex flex-col items-center justify-center px-4 pb-32">
+          
+          {/* Animated AI Core */}
+          <motion.div 
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            className="relative flex items-center justify-center mb-8"
+          >
+            {/* Pulsing rings */}
+            <motion.div 
+              animate={{ scale: [1, 1.5, 1], opacity: [0.3, 0, 0.3] }}
+              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute w-32 h-32 rounded-full border border-primary blur-[2px]"
+            />
+            <motion.div 
+              animate={{ scale: [1, 1.8, 1], opacity: [0.2, 0, 0.2] }}
+              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+              className="absolute w-32 h-32 rounded-full border border-accent blur-[4px]"
+            />
+            {/* Solid Core */}
+            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-highlight via-primary to-accent shadow-[0_0_40px_rgba(109,91,255,0.8)] z-10 flex items-center justify-center">
+              <Sparkles className="text-white w-6 h-6" />
             </div>
+          </motion.div>
 
-            {/* Floating Input (Claude Style) */}
-            <div className="absolute bottom-6 left-0 right-0 px-4 pointer-events-none">
-              <div className="max-w-3xl mx-auto relative pointer-events-auto shadow-[0_8px_30px_rgb(0,0,0,0.08)] rounded-2xl bg-white border border-slate-200 p-2">
-                <textarea
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" && !e.shiftKey) {
-                      e.preventDefault();
-                      sendMessage();
-                    }
-                  }}
-                  placeholder="Ask anything..."
-                  className="w-full bg-transparent resize-none min-h-[44px] max-h-32 py-2.5 px-3 text-[15px] text-slate-800 placeholder-slate-400 focus:outline-none"
-                  rows={1}
-                />
-                <div className="flex items-center justify-between pt-2 px-2 pb-1">
-                  <div className="flex items-center gap-1">
-                    <button className="p-2 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-50 transition">
-                      <Plus size={18} strokeWidth={2} />
-                    </button>
-                  </div>
-                  <button
-                    onClick={() => sendMessage()}
-                    disabled={!input.trim() || isLoading}
-                    className="p-2 rounded-xl bg-orange-600 hover:bg-orange-700 text-white disabled:bg-slate-200 disabled:text-slate-400 transition"
-                  >
-                    <ArrowUp size={18} strokeWidth={2.5} />
-                  </button>
-                </div>
-              </div>
-              <div className="text-center mt-2 text-[11px] text-slate-400">
-                Nexora AI can make mistakes. Verify important information.
-              </div>
-            </div>
-          </div>
-        )}
+          {/* Minimalist Typography */}
+          <motion.div 
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.8 }}
+            className="text-center space-y-4 mb-16"
+          >
+            <h1 className="text-5xl md:text-6xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-white via-slate-200 to-slate-400">
+              NEXORA
+            </h1>
+            <p className="text-xl text-highlight font-medium tracking-wide">
+              Your AI Workspace
+            </p>
+            <p className="text-sm text-slate-400 tracking-[0.2em] uppercase">
+              Think • Build • Deploy
+            </p>
+          </motion.div>
 
-        {/* Tab 2: Pricing View (ChatGPT Style) */}
-        {activeTab === "pricing" && (
-          <div className="flex-1 overflow-y-auto bg-white pt-16 px-4 pb-20">
-            <button onClick={() => setActiveTab("chat")} className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-600 transition">
-              <X size={24} strokeWidth={1.5} />
-            </button>
-            <div className="max-w-[1000px] mx-auto pt-8">
-              <div className="text-center mb-10">
-                <h2 className="text-3xl font-semibold text-slate-900">Upgrade your plan</h2>
-              </div>
+          {/* Futuristic Tiles */}
+          <motion.div 
+            initial={{ y: 40, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            transition={{ delay: 0.4, duration: 0.8 }}
+            className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full max-w-4xl"
+          >
+            <ActionTile icon={Code} label="Build" delay={0} />
+            <ActionTile icon={Search} label="Research" delay={0.1} />
+            <ActionTile icon={PenTool} label="Create" delay={0.2} />
+            <ActionTile icon={Zap} label="Automate" delay={0.3} />
+          </motion.div>
 
-              {/* Billing Toggle */}
-              <div className="flex justify-center mb-12">
-                <div className="bg-slate-100 p-1 rounded-full flex items-center">
-                  <button 
-                    onClick={() => setBillingCycle("monthly")}
-                    className={`px-6 py-2 rounded-full text-sm font-medium transition ${billingCycle === "monthly" ? "bg-white shadow-sm text-slate-900" : "text-slate-500"}`}
-                  >
-                    Personal
-                  </button>
-                  <button 
-                    onClick={() => setBillingCycle("yearly")}
-                    className={`px-6 py-2 rounded-full text-sm font-medium transition ${billingCycle === "yearly" ? "bg-white shadow-sm text-slate-900" : "text-slate-500"}`}
-                  >
-                    Business
-                  </button>
-                </div>
-              </div>
+        </div>
 
-              {/* Pricing Cards */}
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                
-                {/* Basic */}
-                <div className="bg-white rounded-2xl p-6 lg:p-8 flex flex-col h-full border border-slate-200">
-                  <h3 className="text-2xl font-semibold text-slate-900 mb-2">Free</h3>
-                  <div className="flex items-baseline gap-1 mb-2">
-                    <span className="text-4xl font-semibold text-slate-900">₹0</span>
-                    <span className="text-sm text-slate-500 font-medium">/ month</span>
-                  </div>
-                  <p className="text-sm text-slate-600 mb-6">Explore the basics of Nexora AI</p>
-                  
-                  <button className="w-full py-3 rounded-full bg-slate-100 text-slate-400 font-medium text-sm mb-8 cursor-default">
-                    Your current plan
-                  </button>
-
-                  <ul className="space-y-4 text-sm text-slate-700 flex-1">
-                    <li className="flex items-start gap-3"><Sparkles size={18} className="text-slate-400 shrink-0" /> Core AI model</li>
-                    <li className="flex items-start gap-3"><Check size={18} className="text-slate-400 shrink-0" /> Standard response speed</li>
-                    <li className="flex items-start gap-3"><Check size={18} className="text-slate-400 shrink-0" /> Basic web search</li>
-                  </ul>
-                </div>
-
-                {/* Pro */}
-                <div className="bg-white rounded-2xl p-6 lg:p-8 flex flex-col h-full border-2 border-orange-500 relative shadow-xl shadow-orange-500/5">
-                  <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">
-                    Popular
-                  </div>
-                  <h3 className="text-2xl font-semibold text-slate-900 mb-2">Plus</h3>
-                  <div className="flex items-baseline gap-1 mb-2">
-                    <span className="text-4xl font-semibold text-slate-900">{billingCycle === "monthly" ? "₹199" : "₹1,000"}</span>
-                    <span className="text-sm text-slate-500 font-medium">/ {billingCycle === "monthly" ? "month" : "year"}</span>
-                  </div>
-                  <p className="text-sm text-slate-600 mb-6">Unlock the full experience</p>
-                  
-                  <button className="w-full py-3 rounded-full bg-orange-500 hover:bg-orange-600 text-white font-medium text-sm mb-8 transition shadow-sm">
-                    Upgrade to Plus
-                  </button>
-
-                  <ul className="space-y-4 text-sm text-slate-700 flex-1">
-                    <li className="flex items-start gap-3"><Sparkles size={18} className="text-orange-500 shrink-0" /> Advanced Claude 3.5 Sonnet</li>
-                    <li className="flex items-start gap-3"><Check size={18} className="text-slate-700 shrink-0" /> Faster response speed</li>
-                    <li className="flex items-start gap-3"><Check size={18} className="text-slate-700 shrink-0" /> Advanced data analysis</li>
-                    <li className="flex items-start gap-3"><Check size={18} className="text-slate-700 shrink-0" /> Early access to new features</li>
-                  </ul>
-                </div>
-
-                {/* Ultra Pro */}
-                <div className="bg-white rounded-2xl p-6 lg:p-8 flex flex-col h-full border border-slate-200">
-                  <h3 className="text-2xl font-semibold text-slate-900 mb-2">Pro</h3>
-                  <div className="flex items-baseline gap-1 mb-2">
-                    <span className="text-4xl font-semibold text-slate-900">{billingCycle === "monthly" ? "₹499" : "₹3,000"}</span>
-                    <span className="text-sm text-slate-500 font-medium">/ {billingCycle === "monthly" ? "month" : "year"}</span>
-                  </div>
-                  <p className="text-sm text-slate-600 mb-6">Maximize your productivity</p>
-                  
-                  <button className="w-full py-3 rounded-full bg-slate-900 hover:bg-slate-800 text-white font-medium text-sm mb-8 transition shadow-sm">
-                    Upgrade to Pro
-                  </button>
-                  
-                  <div className="text-xs font-semibold text-slate-900 mb-4 uppercase tracking-wider">Everything in Plus, and:</div>
-                  <ul className="space-y-4 text-sm text-slate-700 flex-1">
-                    <li className="flex items-start gap-3"><Check size={18} className="text-slate-900 shrink-0" /> Highest message limits</li>
-                    <li className="flex items-start gap-3"><Check size={18} className="text-slate-900 shrink-0" /> Priority API access</li>
-                    <li className="flex items-start gap-3"><Check size={18} className="text-slate-900 shrink-0" /> Dedicated support team</li>
-                  </ul>
-                </div>
-
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* ─── AUTHENTICATION MODAL (Professional Minimal) ─────── */}
-      {authModalOpen && (
-        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-2xl shadow-2xl max-w-[400px] w-full p-8 relative">
-            <button onClick={() => setAuthModalOpen(false)} className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 p-1">
-              <X size={20} strokeWidth={1.5} />
+        {/* ─── FLOATING GLASS PROMPT BAR ────────────────────────────────────── */}
+        <motion.div 
+          initial={{ y: 100, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.6, type: "spring", stiffness: 200, damping: 20 }}
+          className="absolute bottom-10 left-0 right-0 flex justify-center px-4 z-50 pointer-events-none"
+        >
+          <div className="pointer-events-auto w-full max-w-3xl glass-panel rounded-[2rem] p-2 flex items-center gap-2 shadow-[0_20px_60px_-15px_rgba(109,91,255,0.3)] transition-all duration-300 focus-within:shadow-[0_20px_60px_-10px_rgba(0,229,255,0.4)] focus-within:border-highlight/50">
+            
+            <button className="w-10 h-10 rounded-full flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition shrink-0">
+              <Globe size={18} />
             </button>
             
-            <div className="text-center mb-8">
-              <h3 className="text-2xl font-serif font-semibold text-slate-900">{authMode === "login" ? "Welcome back" : "Create an account"}</h3>
-              <p className="text-sm text-slate-500 mt-2">
-                {authMode === "login" ? "Enter your details to sign in." : "Start your journey with Nexora AI."}
-              </p>
-            </div>
-
-            {authError && (
-              <div className="mb-4 p-3 bg-red-50 text-red-600 border border-red-100 rounded-lg text-sm text-center">
-                {authError}
-              </div>
-            )}
-
-            <form onSubmit={handleAuth} className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1.5">Email address</label>
-                <input 
-                  type="email" 
-                  value={email} 
-                  onChange={(e) => setEmail(e.target.value)} 
-                  required 
-                  className="w-full bg-white border border-slate-300 rounded-lg py-2.5 px-3 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition shadow-sm"
-                  placeholder="name@company.com"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1.5">Password</label>
-                <input 
-                  type="password" 
-                  value={password} 
-                  onChange={(e) => setPassword(e.target.value)} 
-                  required 
-                  className="w-full bg-white border border-slate-300 rounded-lg py-2.5 px-3 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition shadow-sm"
-                  placeholder="••••••••"
-                />
-              </div>
-              <button type="submit" className="w-full bg-slate-900 hover:bg-slate-800 text-white font-medium text-sm py-2.5 rounded-lg transition shadow-sm mt-2">
-                {authMode === "login" ? "Continue" : "Sign up"}
-              </button>
-            </form>
-
-            <div className="relative flex py-6 items-center">
-              <div className="flex-grow border-t border-slate-200"></div>
-              <span className="flex-shrink mx-4 text-xs text-slate-400 font-medium">OR</span>
-              <div className="flex-grow border-t border-slate-200"></div>
-            </div>
-
+            <input 
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              placeholder="Ask Nexora anything..."
+              className="flex-1 bg-transparent border-none outline-none text-white placeholder-slate-500 text-lg py-3 px-2"
+            />
+            
+            <button className="w-10 h-10 rounded-full flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition shrink-0">
+              <Mic size={18} />
+            </button>
+            
             <button 
-              onClick={handleGoogleLogin} 
-              className="w-full bg-white hover:bg-slate-50 text-slate-700 text-sm font-medium py-2.5 rounded-lg border border-slate-300 transition flex items-center justify-center gap-2 shadow-sm"
+              disabled={!input.trim()}
+              className="w-12 h-12 rounded-full bg-primary hover:bg-accent text-white flex items-center justify-center transition shadow-[0_0_15px_rgba(109,91,255,0.5)] disabled:opacity-50 disabled:cursor-not-allowed shrink-0 ml-1"
             >
-              <Globe size={16} /> Continue with Google
+              <ArrowRight size={20} strokeWidth={2.5} />
             </button>
 
-            <div className="text-center text-sm text-slate-600 mt-6">
-              {authMode === "login" ? "Don't have an account?" : "Already have an account?"}{" "}
-              <button onClick={() => setAuthMode(authMode === "login" ? "signup" : "login")} className="text-orange-600 hover:text-orange-700 font-medium transition">
-                {authMode === "login" ? "Sign up" : "Log in"}
-              </button>
-            </div>
           </div>
-        </div>
-      )}
+        </motion.div>
 
+      </main>
     </div>
+  );
+}
+
+// Subcomponents
+
+function NavItem({ icon: Icon, label, active = false }: { icon: any, label: string, active?: boolean }) {
+  return (
+    <div className={`flex items-center gap-3 px-3 py-2.5 rounded-xl cursor-pointer transition-all duration-200 ${
+      active 
+        ? "bg-primary/10 text-primary border border-primary/20 shadow-[inset_0_0_12px_rgba(109,91,255,0.1)]" 
+        : "text-slate-400 hover:text-slate-200 hover:bg-white/5"
+    }`}>
+      <Icon size={18} strokeWidth={active ? 2.5 : 2} className={active ? "text-primary" : ""} />
+      <span className="font-medium text-[15px]">{label}</span>
+    </div>
+  );
+}
+
+function ActionTile({ icon: Icon, label, delay }: { icon: any, label: string, delay: number }) {
+  return (
+    <motion.button 
+      whileHover={{ scale: 1.05, y: -5 }}
+      whileTap={{ scale: 0.95 }}
+      transition={{ type: "spring", stiffness: 400, damping: 17 }}
+      className="glass-panel p-6 rounded-2xl flex flex-col items-center justify-center gap-4 text-slate-300 hover:text-white hover:border-primary/50 transition-colors group relative overflow-hidden"
+    >
+      {/* Subtle hover gradient background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      
+      <div className="w-12 h-12 rounded-full bg-white/5 flex items-center justify-center group-hover:scale-110 group-hover:bg-primary/20 transition-all duration-300 z-10">
+        <Icon size={24} className="group-hover:text-highlight transition-colors" />
+      </div>
+      <span className="font-semibold tracking-wide z-10">{label}</span>
+    </motion.button>
   );
 }
