@@ -17,7 +17,7 @@ const NAV_ITEMS = [
   { icon: Settings, label: "Settings", href: "/settings" },
 ];
 
-export function Sidebar() {
+export function Sidebar({ onOpenAuth }: { onOpenAuth?: () => void }) {
   const pathname = usePathname();
   const { user, signOut } = useAuth();
 
@@ -67,18 +67,21 @@ export function Sidebar() {
 
         <div className="px-2 mb-2 text-xs font-semibold text-slate-500 uppercase tracking-widest flex justify-between items-center">
           <span>Recent Workspaces</span>
-          <button className="hover:text-white transition"><Plus size={14}/></button>
+          <Link href="/workspaces">
+            <button className="hover:text-white transition"><Plus size={14}/></button>
+          </Link>
         </div>
         <div className="space-y-1">
           {/* Mocked recent workspaces for now */}
           {["Website Launch", "CRM AI", "Marketing"].map((ws, i) => (
-             <div 
-               key={i} 
-               className="flex items-center gap-3 px-2 py-2 rounded-lg text-sm transition cursor-pointer group text-slate-400 hover:text-white hover:bg-white/5"
-             >
-               <Rocket size={16} className="text-slate-500 group-hover:text-primary transition" />
-               <span className="truncate">{ws}</span>
-             </div>
+             <Link key={i} href="/workspaces">
+               <div 
+                 className="flex items-center gap-3 px-2 py-2 rounded-lg text-sm transition cursor-pointer group text-slate-400 hover:text-white hover:bg-white/5"
+               >
+                 <Rocket size={16} className="text-slate-500 group-hover:text-primary transition" />
+                 <span className="truncate">{ws}</span>
+               </div>
+             </Link>
           ))}
         </div>
       </div>
@@ -98,13 +101,12 @@ export function Sidebar() {
             </button>
           </div>
         ) : (
-          <Link href="/">
-            <button 
-              className="w-full py-2.5 rounded-xl bg-primary hover:bg-accent text-white font-medium text-sm transition shadow-[0_0_15px_rgba(109,91,255,0.3)]"
-            >
-              Sign In
-            </button>
-          </Link>
+          <button 
+            onClick={onOpenAuth}
+            className="w-full py-2.5 rounded-xl bg-primary hover:bg-accent text-white font-medium text-sm transition shadow-[0_0_15px_rgba(109,91,255,0.3)]"
+          >
+            Sign In
+          </button>
         )}
       </div>
     </aside>
