@@ -4,9 +4,12 @@ import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, Code, Search, PenTool, Zap, Globe, Mic, ArrowRight, Loader2 } from "lucide-react";
 import { useAuth } from "@/components/providers/auth-provider";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/utils/supabase/client";
 
 export default function HomePage() {
   const { user } = useAuth();
+  const router = useRouter();
   
   // Greeting logic
   const [greeting, setGreeting] = useState("Good morning");
@@ -30,11 +33,31 @@ export default function HomePage() {
     const textToSend = customPrompt || input;
     if (!textToSend.trim() || isLoading) return;
 
+    setIsLoading(true);
+
+    if (user) {
+      // Authenticated user: Create chat in DB and redirect
+      const supabase = createClient();
+      const title = textToSend.length > 40 ? textToSend.substring(0, 40) + '...' : textToSend;
+      
+      const { data: chat, error } = await supabase.from('chats').insert({
+        user_id: user.id,
+        title: title,
+      }).select('id').single();
+
+      if (chat) {
+        router.push(`/chats/${chat.id}?q=${encodeURIComponent(textToSend)}`);
+        return;
+      } else {
+        console.error("Failed to create chat", error);
+      }
+    }
+
+    // Unauthenticated fallback: Local chat only
     const newMessages = [...messages, { role: "user", content: textToSend }];
     setMessages(newMessages);
     setInput("");
-    setIsLoading(true);
-
+    
     try {
       const res = await fetch("/api/chat", {
         method: "POST",
