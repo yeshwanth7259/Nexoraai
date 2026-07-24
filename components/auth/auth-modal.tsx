@@ -12,14 +12,28 @@ export function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
   const [authError, setAuthError] = useState("");
   const supabase = createClient();
 
+  const [authSuccess, setAuthSuccess] = useState("");
+
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     setAuthError("");
+    setAuthSuccess("");
     
     if (authMode === "signup") {
-      const { error } = await supabase.auth.signUp({ email, password });
-      if (error) setAuthError(error.message);
-      else onClose();
+      const { error, data } = await supabase.auth.signUp({ 
+        email, 
+        password,
+        options: {
+          emailRedirectTo: `${location.origin}/auth/callback`
+        }
+      });
+      if (error) {
+        setAuthError(error.message);
+      } else if (data?.user?.identities?.length === 0) {
+        setAuthError("This email is already registered. Please log in.");
+      } else {
+        setAuthSuccess("Check your email for the confirmation link!");
+      }
     } else {
       const { error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) setAuthError(error.message);
@@ -68,6 +82,12 @@ export function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
             {authError && (
               <div className="mb-6 p-3 bg-red-500/10 text-red-400 border border-red-500/20 rounded-xl text-sm text-center">
                 {authError}
+              </div>
+            )}
+            
+            {authSuccess && (
+              <div className="mb-6 p-3 bg-green-500/10 text-green-400 border border-green-500/20 rounded-xl text-sm text-center">
+                {authSuccess}
               </div>
             )}
 
