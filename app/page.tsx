@@ -26,6 +26,14 @@ export default function NexoraApp() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const [billingCycle, setBillingCycle] = useState<"monthly" | "yearly">("monthly");
+  const [greeting, setGreeting] = useState("Good morning");
+
+  useEffect(() => {
+    const hour = new Date().getHours();
+    if (hour < 12) setGreeting("Good morning");
+    else if (hour < 18) setGreeting("Good afternoon");
+    else setGreeting("Good evening");
+  }, []);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -58,7 +66,12 @@ export default function NexoraApp() {
   };
 
   const handleGoogleLogin = async () => {
-    await supabase.auth.signInWithOAuth({ provider: "google" });
+    await supabase.auth.signInWithOAuth({ 
+      provider: "google",
+      options: {
+        redirectTo: `${location.origin}/auth/callback`,
+      }
+    });
   };
 
   const handleLogout = async () => {
@@ -210,7 +223,7 @@ export default function NexoraApp() {
                   <div className="text-center space-y-4">
                     <h1 className="text-4xl font-serif text-slate-800 tracking-tight flex items-center justify-center gap-3">
                       <Sparkles className="text-orange-400" size={32} strokeWidth={1.5} />
-                      Good morning
+                      {greeting}
                     </h1>
                   </div>
                   
