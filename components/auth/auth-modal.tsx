@@ -31,6 +31,9 @@ export function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
         setAuthError(error.message);
       } else if (data?.user?.identities?.length === 0) {
         setAuthError("This email is already registered. Please log in.");
+      } else if (data.session) {
+        // If email confirmation is disabled, session is returned immediately
+        onClose();
       } else {
         setAuthSuccess("Check your email for the confirmation link!");
       }
