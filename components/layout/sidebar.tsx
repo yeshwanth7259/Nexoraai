@@ -17,7 +17,7 @@ const NAV_ITEMS = [
   { icon: Settings, label: "Settings", href: "/settings" },
 ];
 
-export function Sidebar({ onOpenAuth }: { onOpenAuth?: () => void }) {
+export function Sidebar({ onOpenAuth, workspaces = [] }: { onOpenAuth?: () => void, workspaces?: any[] }) {
   const pathname = usePathname();
   const { user, signOut } = useAuth();
 
@@ -72,17 +72,20 @@ export function Sidebar({ onOpenAuth }: { onOpenAuth?: () => void }) {
           </Link>
         </div>
         <div className="space-y-1">
-          {/* Mocked recent workspaces for now */}
-          {["Website Launch", "CRM AI", "Marketing"].map((ws, i) => (
-             <Link key={i} href="/workspaces">
-               <div 
-                 className="flex items-center gap-3 px-2 py-2 rounded-lg text-sm transition cursor-pointer group text-slate-400 hover:text-white hover:bg-white/5"
-               >
-                 <Rocket size={16} className="text-slate-500 group-hover:text-primary transition" />
-                 <span className="truncate">{ws}</span>
-               </div>
-             </Link>
-          ))}
+          {workspaces.length === 0 ? (
+            <div className="px-2 py-2 text-xs text-slate-500">No workspaces yet.</div>
+          ) : (
+            workspaces.slice(0, 5).map((ws) => (
+               <Link key={ws.id} href={`/workspaces/${ws.id}`}>
+                 <div 
+                   className="flex items-center gap-3 px-2 py-2 rounded-lg text-sm transition cursor-pointer group text-slate-400 hover:text-white hover:bg-white/5"
+                 >
+                   <Rocket size={16} className="text-slate-500 group-hover:text-primary transition shrink-0" />
+                   <span className="truncate">{ws.name}</span>
+                 </div>
+               </Link>
+            ))
+          )}
         </div>
       </div>
 

@@ -1,10 +1,16 @@
-export default function WorkspacesPage() {
+import { getWorkspaces } from "@/utils/supabase/queries";
+import { WorkspaceList } from "@/components/workspaces/workspace-list";
+
+export const metadata = {
+  title: "Workspaces | Nexora AI",
+};
+
+export default async function WorkspacesPage() {
+  const workspaces = await getWorkspaces();
+  
   return (
-    <div className="p-8 max-w-4xl mx-auto w-full">
-      <h1 className="text-3xl font-bold mb-6">Workspaces</h1>
-      <div className="glass-panel p-8 rounded-2xl flex flex-col items-center justify-center text-slate-400">
-        <p>Manage your AI Workspaces (CRM, Marketing, etc.) here.</p>
-      </div>
+    <div className="max-w-6xl mx-auto w-full">
+      <WorkspaceList initialWorkspaces={workspaces} />
     </div>
   );
 }

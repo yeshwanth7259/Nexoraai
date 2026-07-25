@@ -7,7 +7,7 @@ import { MobileDock } from "@/components/layout/mobile-dock";
 import { CommandPalette } from "@/components/layout/command-palette";
 import { AuthModal } from "@/components/auth/auth-modal";
 
-export function ClientLayout({ children }: { children: React.ReactNode }) {
+export function ClientLayout({ children, workspaces = [] }: { children: React.ReactNode, workspaces?: any[] }) {
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
@@ -16,7 +16,7 @@ export function ClientLayout({ children }: { children: React.ReactNode }) {
       <div className="aurora-bg" />
 
       {/* Global Sidebar (Desktop) */}
-      <Sidebar onOpenAuth={() => setIsAuthModalOpen(true)} />
+      <Sidebar onOpenAuth={() => setIsAuthModalOpen(true)} workspaces={workspaces} />
 
       {/* Main Content Area */}
       <main className="flex-1 flex flex-col relative z-0 h-full overflow-hidden">

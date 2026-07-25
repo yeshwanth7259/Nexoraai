@@ -65,3 +65,24 @@ export async function getChatById(chatId: string) {
 
   return chat;
 }
+
+export async function getWorkspaces() {
+  const cookieStore = cookies();
+  const supabase = createClient(cookieStore);
+
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) return [];
+
+  const { data: workspaces, error } = await supabase
+    .from("workspaces")
+    .select("*")
+    .eq("user_id", user.id)
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error("Error fetching workspaces:", error);
+    return [];
+  }
+
+  return workspaces;
+}
