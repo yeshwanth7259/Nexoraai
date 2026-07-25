@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Search, User, Command, Settings, LogOut } from "lucide-react";
+import { Search, Command, Settings, LogOut, Gift, Bell, User } from "lucide-react";
 import { useAuth } from "@/components/providers/auth-provider";
 import Link from "next/link";
 
@@ -22,39 +22,62 @@ export function TopHeader({ onOpenCommandPalette, onOpenAuth }: { onOpenCommandP
   }, []);
 
   return (
-    <header className="absolute top-0 right-0 h-16 flex items-center justify-end px-8 gap-6 z-20 w-full bg-gradient-to-b from-background to-transparent pointer-events-none">
-      <div className="pointer-events-auto flex items-center gap-4">
-        {/* Command Palette Trigger */}
+    <header className="absolute top-0 right-0 h-[72px] flex items-center justify-between px-8 z-20 w-full bg-background/50 backdrop-blur-xl pointer-events-none border-b border-white/5">
+      
+      {/* Left / Search */}
+      <div className="pointer-events-auto flex-1 flex items-center">
         <button 
           onClick={onOpenCommandPalette}
-          className="flex items-center gap-2 text-slate-400 hover:text-white bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-lg border border-white/5 transition"
+          className="flex items-center justify-between w-[340px] text-slate-400 bg-white/5 hover:bg-white/10 px-4 py-2.5 rounded-xl border border-white/5 transition group"
         >
-          <Search size={16} />
-          <span className="text-sm font-medium">Search...</span>
+          <div className="flex items-center gap-3">
+            <Search size={16} className="text-slate-500 group-hover:text-white transition" />
+            <span className="text-[13px] font-medium group-hover:text-white transition">Search anything in Nexora...</span>
+          </div>
           <kbd className="hidden sm:inline-flex items-center gap-1 bg-black/30 border border-white/10 rounded px-1.5 py-0.5 text-[10px] font-mono text-slate-400">
             <Command size={10} /> K
           </kbd>
         </button>
+      </div>
+
+      {/* Right Icons & Profile */}
+      <div className="pointer-events-auto flex items-center gap-5">
+        <button className="text-slate-400 hover:text-white transition">
+          <Gift size={20} />
+        </button>
+        
+        <button className="text-slate-400 hover:text-white transition relative">
+          <Bell size={20} />
+          <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center text-[9px] font-bold text-white border-2 border-background">
+            2
+          </span>
+        </button>
+
+        <div className="w-px h-6 bg-white/10 mx-1"></div>
 
         {/* User Profile Dropdown */}
         <div className="relative" ref={dropdownRef}>
           <button 
             onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-            className={`transition w-8 h-8 flex items-center justify-center rounded-full ${
+            className={`transition w-9 h-9 flex items-center justify-center rounded-full border border-white/10 overflow-hidden ${
               isDropdownOpen 
-                ? "bg-primary text-white shadow-[0_0_15px_rgba(109,91,255,0.4)]" 
-                : "text-slate-400 hover:text-white bg-white/5 hover:bg-white/10"
+                ? "shadow-[0_0_15px_rgba(109,91,255,0.4)]" 
+                : "hover:border-white/30"
             }`}
           >
-            {user && user.email ? (
-              <span className="text-xs font-bold">{user.email[0].toUpperCase()}</span>
+            {user ? (
+              <img 
+                src={`https://api.dicebear.com/7.x/notionists/svg?seed=${user.email}`} 
+                alt="Avatar" 
+                className="w-full h-full object-cover bg-white/10"
+              />
             ) : (
-              <User size={18} />
+              <User size={18} className="text-slate-400" />
             )}
           </button>
 
           {isDropdownOpen && (
-            <div className="absolute right-0 mt-2 w-56 glass-panel border border-white/10 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.3)] overflow-hidden animate-in slide-in-from-top-2 fade-in duration-200">
+            <div className="absolute right-0 mt-2 w-56 glass-panel border border-white/10 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.5)] overflow-hidden animate-in slide-in-from-top-2 fade-in duration-200">
               {user && (
                 <div className="px-4 py-3 border-b border-white/5 bg-white/5">
                   <p className="text-sm font-medium text-white truncate">{user.email}</p>

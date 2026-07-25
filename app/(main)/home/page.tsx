@@ -1,132 +1,352 @@
 import Link from "next/link";
-import { ArrowRight, Globe, LineChart, MessageSquare, Rocket, Users, Zap, CheckCircle2 } from "lucide-react";
+import { 
+  Globe, Smartphone, Palette, LineChart, Users, Edit3, 
+  ArrowRight, Mic, Send, Code, Share2, Rocket, FileText, CheckCircle2,
+  FolderOpen, Folder, PlayCircle, MessageSquare, Plus, UploadCloud
+} from "lucide-react";
 
 export const metadata = {
-  title: "Command Center | Nexora AI",
+  title: "Dashboard | Nexora AI OS",
 };
 
 export default function HomePage() {
   return (
-    <div className="max-w-6xl mx-auto w-full">
-      <div className="mb-10">
-        <h1 className="text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-white/70 mb-3 animate-in fade-in slide-in-from-bottom-2">
-          Good Afternoon, User
-        </h1>
-        <p className="text-slate-400 text-lg animate-in fade-in slide-in-from-bottom-3">
-          Welcome to your Nexora AI Command Center.
-        </p>
-      </div>
+    <div className="w-full h-full max-w-[1600px] mx-auto text-white pb-10">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        {/* LEFT COLUMN (9 columns) */}
+        <div className="lg:col-span-9 flex flex-col gap-6">
+          
+          {/* HERO SECTION */}
+          <div className="relative w-full h-[320px] rounded-3xl overflow-hidden border border-white/5 bg-[#0B0B14] p-10 flex flex-col justify-between">
+            {/* Background Glows & Graphics */}
+            <div className="absolute top-0 right-0 w-[600px] h-full pointer-events-none">
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] bg-blue-600/20 rounded-full blur-[80px]"></div>
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[160px] h-[160px] bg-purple-600/30 rounded-full blur-[60px]"></div>
+              
+              {/* Orbits and Floating Icons mock */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] h-[340px] border border-white/10 rounded-full border-dashed animate-[spin_60s_linear_infinite]"></div>
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[460px] h-[460px] border border-white/5 rounded-full animate-[spin_90s_linear_infinite_reverse]"></div>
+              
+              {/* Center Glowing N */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 rounded-full border border-cyan-400/30 bg-background/50 backdrop-blur-md flex items-center justify-center shadow-[0_0_50px_rgba(0,229,255,0.3)]">
+                <div className="w-24 h-24 rounded-full border border-purple-500/50 flex items-center justify-center bg-gradient-to-br from-blue-600/20 to-purple-600/20 shadow-[0_0_30px_rgba(168,85,247,0.4)]">
+                  <span className="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-cyan-300 to-blue-600">N</span>
+                </div>
+              </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
-        <MetricCard icon={Globe} label="Websites" value="2" color="from-blue-500/20 to-cyan-500/10" iconColor="text-cyan-400" />
-        <MetricCard icon={Rocket} label="Deployments" value="1" color="from-purple-500/20 to-pink-500/10" iconColor="text-purple-400" />
-        <MetricCard icon={LineChart} label="SEO Reports" value="4" color="from-green-500/20 to-emerald-500/10" iconColor="text-emerald-400" />
-        <MetricCard icon={Users} label="CRM Leads" value="12" color="from-orange-500/20 to-amber-500/10" iconColor="text-amber-400" />
-      </div>
+              {/* Floating Element Mockups */}
+              <div className="absolute top-[20%] left-[15%] text-cyan-400 drop-shadow-[0_0_10px_rgba(34,211,238,0.8)]"><Code size={20} /></div>
+              <div className="absolute bottom-[25%] left-[25%] text-purple-400 drop-shadow-[0_0_10px_rgba(168,85,247,0.8)]"><LineChart size={24} /></div>
+              <div className="absolute top-[30%] right-[20%] text-blue-400 drop-shadow-[0_0_10px_rgba(59,130,246,0.8)]"><Users size={20} /></div>
+              <div className="absolute bottom-[20%] right-[30%] text-pink-400 drop-shadow-[0_0_10px_rgba(236,72,153,0.8)]"><Rocket size={22} /></div>
+            </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 space-y-8">
-          <section>
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold">Continue Working</h2>
-              <Link href="/workspaces" className="text-sm text-primary hover:text-accent transition flex items-center gap-1">
-                View All <ArrowRight size={14} />
-              </Link>
+            <div className="relative z-10 max-w-xl">
+              <h1 className="text-4xl font-bold mb-3 tracking-tight">Good Afternoon, Vishnu! <span className="animate-wave inline-block origin-bottom-right">👋</span></h1>
+              <p className="text-slate-400 text-[15px] leading-relaxed max-w-md mb-8">
+                Welcome to Nexora AI OS. Build, grow & manage your digital universe with the power of artificial intelligence.
+              </p>
             </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <QuickLink icon={Users} title="CRM Dashboard" desc="Manage active leads" href="/studios/crm" />
-              <QuickLink icon={Globe} title="Website Builder" desc="Edit agency site" href="/studios/website" />
-              <QuickLink icon={LineChart} title="SEO Audit" desc="Review weekly rankings" href="/studios/seo" />
-            </div>
-          </section>
 
-          <section>
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold">Recent AI Conversations</h2>
-              <Link href="/assistant" className="text-sm text-primary hover:text-accent transition flex items-center gap-1">
-                Open Assistant <ArrowRight size={14} />
-              </Link>
-            </div>
-            
-            <div className="glass-panel border border-white/5 rounded-2xl overflow-hidden">
-              <div className="divide-y divide-white/5">
-                <ConversationItem title="Generate React frontend for CRM" time="2 hours ago" />
-                <ConversationItem title="Write 5 blog posts about AI" time="Yesterday" />
-                <ConversationItem title="Analyze competitor backlink profile" time="Yesterday" />
+            {/* Inline Prompt */}
+            <div className="relative z-10 w-[80%] max-w-2xl bg-[#12121A]/80 backdrop-blur-xl border border-white/10 rounded-2xl p-2 shadow-2xl flex flex-col gap-3">
+              <div className="flex items-center justify-between px-3 pt-2">
+                <input 
+                  type="text" 
+                  placeholder="Ask Nexora to build anything..." 
+                  className="bg-transparent border-none text-white text-[15px] placeholder:text-slate-500 w-full focus:outline-none focus:ring-0"
+                />
+                <div className="flex items-center gap-2">
+                  <button className="w-10 h-10 rounded-xl bg-white/5 hover:bg-white/10 flex items-center justify-center text-slate-400 transition">
+                    <Mic size={18} />
+                  </button>
+                  <button className="w-10 h-10 rounded-xl bg-primary hover:bg-accent flex items-center justify-center text-white transition shadow-[0_0_15px_rgba(109,91,255,0.5)]">
+                    <Send size={18} />
+                  </button>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 px-2 pb-1 overflow-x-auto hide-scrollbar">
+                <PromptPill text="Build a website" />
+                <PromptPill text="Generate SEO report" />
+                <PromptPill text="Create CRM" />
+                <PromptPill text="Design UI" />
+                <PromptPill text="Write blog" />
               </div>
             </div>
-          </section>
+          </div>
+
+          {/* AI STUDIOS */}
+          <div className="bg-[#0B0B14] rounded-3xl border border-white/5 p-6">
+            <div className="flex items-center justify-between mb-5">
+              <div className="flex items-center gap-2">
+                <Sparkles size={18} className="text-primary" />
+                <h2 className="text-lg font-semibold tracking-wide">AI Studios</h2>
+              </div>
+              <Link href="/studios" className="text-sm text-primary hover:text-white transition flex items-center gap-1">
+                View all Studios <ArrowRight size={14} />
+              </Link>
+            </div>
+            
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+              <StudioCard 
+                icon={Globe} title="Website Studio" desc="Build high-converting websites with AI" 
+                color="blue" href="/studios/website"
+              />
+              <StudioCard 
+                icon={Smartphone} title="Mobile App Studio" desc="Create powerful mobile apps in minutes" 
+                color="purple" href="/studios/mobile"
+              />
+              <StudioCard 
+                icon={Palette} title="UI / UX Studio" desc="Design stunning interfaces with AI magic" 
+                color="pink" href="/studios/ui-ux"
+              />
+              <StudioCard 
+                icon={LineChart} title="SEO Studio" desc="Rank higher & grow organic traffic" 
+                color="green" href="/studios/seo"
+              />
+              <StudioCard 
+                icon={Users} title="CRM Studio" desc="Manage leads, clients & deals effortlessly" 
+                color="orange" href="/studios/crm"
+              />
+              <StudioCard 
+                icon={Edit3} title="Content Studio" desc="Create engaging content 10x faster" 
+                color="cyan" href="/studios/content"
+              />
+            </div>
+          </div>
+
+          {/* BOTTOM ROW (Overview/Projects + Tasks) */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            
+            {/* OVERVIEW & PROJECTS */}
+            <div className="flex flex-col gap-6">
+              <div className="bg-[#0B0B14] rounded-3xl border border-white/5 p-6">
+                <h2 className="text-lg font-semibold mb-5">Overview</h2>
+                <div className="grid grid-cols-3 gap-3">
+                  <MetricCard value="12" label="Projects" change="+ 20%" trend="up" color="blue" icon={FolderOpen} />
+                  <MetricCard value="24.5K" label="SEO Traffic" change="+ 18%" trend="up" color="green" icon={LineChart} />
+                  <MetricCard value="8" label="Active Leads" change="+ 35%" trend="up" color="orange" icon={Users} />
+                </div>
+              </div>
+
+              <div className="bg-[#0B0B14] rounded-3xl border border-white/5 p-6 flex-1">
+                <div className="flex items-center justify-between mb-5">
+                  <h2 className="text-lg font-semibold">Recent Projects</h2>
+                  <Link href="/projects" className="text-sm text-primary hover:text-white transition flex items-center gap-1">
+                    View all projects <ArrowRight size={14} />
+                  </Link>
+                </div>
+                <div className="space-y-4">
+                  <ProjectRow title="Digital Agency Website" category="Website" time="Updated 2h ago" progress={80} color="bg-blue-500" iconColor="text-blue-500" />
+                  <ProjectRow title="E-commerce Mobile App" category="Mobile App" time="Updated 5h ago" progress={60} color="bg-purple-500" iconColor="text-purple-500" />
+                  <ProjectRow title="CRM Dashboard" category="CRM" time="Updated 1d ago" progress={90} color="bg-pink-500" iconColor="text-pink-500" />
+                </div>
+              </div>
+            </div>
+
+            {/* TASKS */}
+            <div className="bg-[#0B0B14] rounded-3xl border border-white/5 p-6">
+              <div className="flex items-center justify-between mb-5">
+                <h2 className="text-lg font-semibold">Tasks</h2>
+                <Link href="/tasks" className="text-sm text-primary hover:text-white transition flex items-center gap-1">
+                  View all tasks <ArrowRight size={14} />
+                </Link>
+              </div>
+              <div className="space-y-3">
+                <TaskRow text="SEO Audit for nexora.ai" date="Today" dateColor="text-red-400" />
+                <TaskRow text="Design new landing page" date="Tomorrow" dateColor="text-orange-400" />
+                <TaskRow text="Follow up with leads" date="May 26" dateColor="text-slate-400" />
+                <TaskRow text="Deploy CRM update" date="May 27" dateColor="text-slate-400" />
+              </div>
+            </div>
+
+          </div>
         </div>
 
-        <div>
-          <section>
-            <h2 className="text-xl font-bold mb-4">Tasks & Activity</h2>
-            <div className="glass-panel border border-white/5 rounded-2xl p-5 space-y-4">
-              <TaskItem text="Review new lead from website" />
-              <TaskItem text="Deploy staging environment" />
-              <TaskItem text="Approve Q3 marketing copy" />
-              <div className="pt-2">
-                <button className="w-full py-2.5 rounded-xl bg-white/5 hover:bg-white/10 text-slate-300 text-sm font-medium transition">
-                  View All Tasks
+
+        {/* RIGHT COLUMN (3 columns) */}
+        <div className="lg:col-span-3 flex flex-col gap-6">
+          
+          {/* AI ASSISTANT PROMO */}
+          <div className="bg-gradient-to-b from-[#1A1438] to-[#0B0B14] rounded-3xl border border-purple-500/20 p-6 relative overflow-hidden">
+            <div className="absolute -top-10 -right-10 w-32 h-32 bg-primary/30 rounded-full blur-[40px]"></div>
+            <div className="flex items-center justify-between mb-8 relative z-10">
+              <div className="flex items-center gap-2">
+                <Sparkles size={16} className="text-purple-400" />
+                <span className="text-sm font-semibold text-slate-200">AI Assistant</span>
+              </div>
+              <button className="text-slate-400 hover:text-white"><ArrowRight size={14} /></button>
+            </div>
+            <div className="relative z-10">
+              <h3 className="text-xl font-bold text-white mb-2 leading-tight">I'm Nexora AI</h3>
+              <p className="text-sm text-slate-400 mb-6 leading-relaxed">
+                Your digital business partner. How can I help you today?
+              </p>
+              <Link href="/assistant">
+                <button className="w-full py-2.5 rounded-xl bg-primary hover:bg-accent text-white text-sm font-medium transition flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(109,91,255,0.4)]">
+                  Start a conversation <ArrowRight size={14} />
                 </button>
+              </Link>
+            </div>
+          </div>
+
+          {/* ACTIVITY FEED */}
+          <div className="bg-[#0B0B14] rounded-3xl border border-white/5 p-6 flex-1">
+            <div className="flex items-center justify-between mb-6">
+              <h2 className="text-lg font-semibold">Activity Feed</h2>
+              <div className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-green-500/10 border border-green-500/20">
+                <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></div>
+                <span className="text-[10px] font-bold text-green-500 uppercase tracking-wide">Live</span>
               </div>
             </div>
-          </section>
+            
+            <div className="space-y-6 relative before:absolute before:inset-0 before:ml-4 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-white/5 before:to-transparent">
+              <ActivityRow icon={CheckCircle2} title="Website deployed" desc="nexoraagency.com" time="2m ago" color="text-green-500" bgColor="bg-green-500/10" />
+              <ActivityRow icon={LineChart} title="SEO report generated" desc="nexora.ai" time="15m ago" color="text-blue-500" bgColor="bg-blue-500/10" />
+              <ActivityRow icon={Users} title="New lead added" desc="John Doe" time="32m ago" color="text-orange-500" bgColor="bg-orange-500/10" />
+              <ActivityRow icon={FileText} title="Blog published" desc="10 AI tools for business" time="1h ago" color="text-purple-500" bgColor="bg-purple-500/10" />
+              <ActivityRow icon={CheckCircle2} title="CRM updated" desc="2 deals moved" time="2h ago" color="text-green-500" bgColor="bg-green-500/10" />
+            </div>
+          </div>
+
+          {/* QUICK ACTIONS */}
+          <div className="bg-[#0B0B14] rounded-3xl border border-white/5 p-6">
+            <h2 className="text-lg font-semibold mb-4">Quick Actions</h2>
+            <div className="grid grid-cols-2 gap-3">
+              <ActionCard icon={Plus} label="New Project" color="text-purple-400" bgColor="bg-purple-500/10" />
+              <ActionCard icon={UploadCloud} label="Upload File" color="text-blue-400" bgColor="bg-blue-500/10" />
+              <ActionCard icon={MessageSquare} label="AI Chat" color="text-pink-400" bgColor="bg-pink-500/10" />
+              <ActionCard icon={FileText} label="Generate Report" color="text-green-400" bgColor="bg-green-500/10" />
+            </div>
+          </div>
+
         </div>
+
       </div>
     </div>
   );
 }
 
-function MetricCard({ icon: Icon, label, value, color, iconColor }: any) {
+// --- Helper Components ---
+
+function PromptPill({ text }: { text: string }) {
   return (
-    <div className={`glass-panel p-5 rounded-2xl border border-white/5 flex items-center gap-4 hover:border-white/10 transition cursor-pointer relative overflow-hidden group`}>
-      <div className={`absolute inset-0 bg-gradient-to-br ${color} opacity-50 group-hover:opacity-100 transition-opacity`}></div>
-      <div className={`w-12 h-12 rounded-xl bg-background/50 border border-white/5 flex items-center justify-center backdrop-blur-md relative z-10`}>
-        <Icon size={24} className={iconColor} />
-      </div>
-      <div className="relative z-10">
-        <p className="text-sm text-slate-400 font-medium mb-1">{label}</p>
-        <p className="text-2xl font-bold text-white leading-none">{value}</p>
-      </div>
-    </div>
+    <button className="px-3 py-1.5 rounded-full bg-white/5 border border-white/5 text-[11px] font-medium text-slate-300 hover:text-white hover:bg-white/10 hover:border-white/20 transition whitespace-nowrap">
+      {text}
+    </button>
   );
 }
 
-function QuickLink({ icon: Icon, title, desc, href }: any) {
+function StudioCard({ icon: Icon, title, desc, color, href }: any) {
+  const colorMap: any = {
+    blue: "text-blue-400 bg-blue-500/10 border-blue-500/20 group-hover:border-blue-500/50 group-hover:shadow-[0_0_15px_rgba(59,130,246,0.3)]",
+    purple: "text-purple-400 bg-purple-500/10 border-purple-500/20 group-hover:border-purple-500/50 group-hover:shadow-[0_0_15px_rgba(168,85,247,0.3)]",
+    pink: "text-pink-400 bg-pink-500/10 border-pink-500/20 group-hover:border-pink-500/50 group-hover:shadow-[0_0_15px_rgba(236,72,153,0.3)]",
+    green: "text-green-400 bg-green-500/10 border-green-500/20 group-hover:border-green-500/50 group-hover:shadow-[0_0_15px_rgba(34,197,94,0.3)]",
+    orange: "text-orange-400 bg-orange-500/10 border-orange-500/20 group-hover:border-orange-500/50 group-hover:shadow-[0_0_15px_rgba(249,115,22,0.3)]",
+    cyan: "text-cyan-400 bg-cyan-500/10 border-cyan-500/20 group-hover:border-cyan-500/50 group-hover:shadow-[0_0_15px_rgba(6,182,212,0.3)]",
+  };
+
   return (
     <Link href={href}>
-      <div className="glass-panel p-5 rounded-2xl border border-white/5 hover:border-primary/30 hover:bg-white/5 transition group h-full">
-        <Icon size={20} className="text-slate-400 group-hover:text-primary mb-3 transition" />
-        <h3 className="font-semibold text-white mb-1 group-hover:text-primary transition">{title}</h3>
-        <p className="text-xs text-slate-400">{desc}</p>
+      <div className="flex flex-col h-full bg-[#12121A] rounded-2xl border border-white/5 p-4 transition-all duration-300 hover:bg-white/5 group relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-white/[0.02]"></div>
+        <div className={`w-10 h-10 rounded-xl mb-4 flex items-center justify-center border transition-all duration-300 ${colorMap[color]}`}>
+          <Icon size={20} />
+        </div>
+        <h3 className="text-[13px] font-bold text-white mb-1.5 leading-tight">{title}</h3>
+        <p className="text-[10px] text-slate-400 leading-snug flex-1">{desc}</p>
+        <div className="mt-3 flex justify-end">
+          <div className="w-5 h-5 rounded-full bg-white/5 flex items-center justify-center group-hover:bg-primary group-hover:text-white text-slate-500 transition">
+            <ArrowRight size={10} />
+          </div>
+        </div>
       </div>
     </Link>
   );
 }
 
-function ConversationItem({ title, time }: any) {
+function MetricCard({ value, label, change, trend, color, icon: Icon }: any) {
   return (
-    <div className="p-4 hover:bg-white/5 transition cursor-pointer flex items-center gap-4 group">
-      <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition">
-        <MessageSquare size={14} />
+    <div className="bg-[#12121A] border border-white/5 rounded-2xl p-4 flex flex-col justify-between h-[110px]">
+      <div className="flex justify-between items-start">
+        <span className="text-2xl font-bold text-white leading-none">{value}</span>
+        <div className={`w-7 h-7 rounded-lg bg-${color}-500/10 flex items-center justify-center text-${color}-500`}>
+          <Icon size={14} />
+        </div>
       </div>
-      <div className="flex-1 truncate">
-        <p className="text-sm font-medium text-slate-200 truncate group-hover:text-white transition">{title}</p>
+      <div>
+        <p className="text-[11px] font-medium text-slate-300 mb-1">{label}</p>
+        <p className={`text-[10px] font-semibold ${trend === 'up' ? 'text-green-500' : 'text-red-500'}`}>
+          ↑ {change} <span className="text-slate-500 font-normal ml-1">this week</span>
+        </p>
       </div>
-      <div className="text-xs text-slate-500 whitespace-nowrap">{time}</div>
     </div>
   );
 }
 
-function TaskItem({ text }: any) {
+function ProjectRow({ title, category, time, progress, color, iconColor }: any) {
   return (
-    <div className="flex items-start gap-3 cursor-pointer group">
-      <div className="mt-0.5 text-slate-600 group-hover:text-green-500 transition">
-        <CheckCircle2 size={16} />
+    <div className="flex items-center justify-between text-sm group cursor-pointer">
+      <div className="flex items-center gap-3">
+        <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-white/20 transition">
+           <Folder size={14} className={iconColor} />
+        </div>
+        <div>
+          <h4 className="text-[13px] font-medium text-slate-200 group-hover:text-white transition leading-tight">{title}</h4>
+          <p className="text-[10px] text-slate-500 mt-0.5">{category}</p>
+        </div>
       </div>
-      <p className="text-sm text-slate-300 group-hover:text-white transition leading-tight">{text}</p>
+      <div className="flex items-center gap-6">
+        <span className="text-[11px] text-slate-500 hidden sm:block">{time}</span>
+        <div className="flex items-center gap-2 w-24">
+          <div className="flex-1 h-1.5 bg-white/5 rounded-full overflow-hidden">
+            <div className={`h-full rounded-full ${color}`} style={{ width: `${progress}%` }}></div>
+          </div>
+          <span className="text-[11px] font-semibold text-slate-300 w-6 text-right">{progress}%</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TaskRow({ text, date, dateColor }: any) {
+  return (
+    <div className="flex items-center justify-between p-3 rounded-xl border border-white/5 bg-[#12121A] hover:bg-white/5 transition cursor-pointer group">
+      <div className="flex items-center gap-3">
+        <div className="w-4 h-4 rounded-full border border-slate-600 group-hover:border-primary transition flex items-center justify-center"></div>
+        <span className="text-[13px] text-slate-300 group-hover:text-white transition">{text}</span>
+      </div>
+      <span className={`text-[11px] font-semibold ${dateColor}`}>{date}</span>
+    </div>
+  );
+}
+
+function ActivityRow({ icon: Icon, title, desc, time, color, bgColor }: any) {
+  return (
+    <div className="relative flex gap-4 w-full">
+      <div className={`relative z-10 w-8 h-8 rounded-full flex items-center justify-center shrink-0 border border-background shadow-[0_0_0_2px_rgba(255,255,255,0.05)] ${bgColor}`}>
+        <Icon size={12} className={color} />
+      </div>
+      <div className="flex-1 flex justify-between items-start pt-1">
+        <div>
+          <h4 className="text-[12px] font-bold text-slate-200 leading-tight">{title}</h4>
+          <p className="text-[11px] text-slate-500 mt-0.5">{desc}</p>
+        </div>
+        <span className="text-[10px] text-slate-500 whitespace-nowrap">{time}</span>
+      </div>
+    </div>
+  );
+}
+
+function ActionCard({ icon: Icon, label, color, bgColor }: any) {
+  return (
+    <div className="bg-[#12121A] rounded-xl border border-white/5 p-4 flex flex-col items-center justify-center gap-3 hover:bg-white/5 transition cursor-pointer group">
+      <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-transform group-hover:scale-110 ${bgColor}`}>
+        <Icon size={18} className={color} />
+      </div>
+      <span className="text-[11px] font-semibold text-slate-300 group-hover:text-white transition">{label}</span>
     </div>
   );
 }
