@@ -38,11 +38,12 @@ export default async function HomePage() {
         <div className="lg:col-span-9 flex flex-col gap-6">
           
           {/* HERO SECTION */}
-          <div className="relative w-full h-[320px] rounded-3xl overflow-hidden border border-white/5 bg-[#0B0B14] p-8 md:p-10 flex flex-col justify-between">
+          <div className="relative w-full min-h-[320px] rounded-3xl border border-white/5 bg-[#0B0B14] p-8 md:p-10 flex flex-col justify-between">
             {/* Background Glows & Graphics */}
-            <div className="absolute top-0 right-0 w-[600px] h-full pointer-events-none">
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] bg-blue-600/20 rounded-full blur-[80px]"></div>
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[160px] h-[160px] bg-purple-600/30 rounded-full blur-[60px]"></div>
+            <div className="absolute inset-0 overflow-hidden rounded-3xl pointer-events-none">
+              <div className="absolute top-0 right-0 w-[600px] h-full">
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] bg-blue-600/20 rounded-full blur-[80px]"></div>
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[160px] h-[160px] bg-purple-600/30 rounded-full blur-[60px]"></div>
               
               {/* Orbits and Floating Icons mock */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] h-[340px] border border-white/10 rounded-full border-dashed animate-[spin_60s_linear_infinite]"></div>
@@ -60,6 +61,7 @@ export default async function HomePage() {
               <div className="absolute bottom-[25%] left-[25%] text-purple-400 drop-shadow-[0_0_10px_rgba(168,85,247,0.8)]"><LineChart size={24} /></div>
               <div className="absolute top-[30%] right-[20%] text-blue-400 drop-shadow-[0_0_10px_rgba(59,130,246,0.8)]"><Users size={20} /></div>
               <div className="absolute bottom-[20%] right-[30%] text-pink-400 drop-shadow-[0_0_10px_rgba(236,72,153,0.8)]"><Rocket size={22} /></div>
+              </div>
             </div>
 
             <div className="relative z-10 max-w-xl">

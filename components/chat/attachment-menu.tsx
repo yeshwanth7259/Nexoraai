@@ -32,8 +32,9 @@ export function AttachmentMenu() {
   return (
     <div className="relative flex items-center" ref={menuRef}>
       <button 
+        type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className={`w-10 h-10 rounded-full flex items-center justify-center transition shrink-0 ${isOpen ? 'bg-white/10 text-white' : 'text-slate-400 hover:text-white hover:bg-white/10'}`}
+        className={`w-10 h-10 rounded-full flex items-center justify-center transition shrink-0 ${isOpen ? 'bg-white/10 text-white' : 'text-slate-400 hover:text-white hover:bg-white/10 outline-none focus:ring-2 focus:ring-white/20'}`}
       >
         <Plus size={22} className={`transition-transform duration-200 ${isOpen ? 'rotate-45' : ''}`} />
       </button>
