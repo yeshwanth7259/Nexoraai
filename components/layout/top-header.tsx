@@ -5,7 +5,7 @@ import { Search, User, Command, Settings, LogOut } from "lucide-react";
 import { useAuth } from "@/components/providers/auth-provider";
 import Link from "next/link";
 
-export function TopHeader({ onOpenCommandPalette }: { onOpenCommandPalette: () => void }) {
+export function TopHeader({ onOpenCommandPalette, onOpenAuth }: { onOpenCommandPalette: () => void, onOpenAuth?: () => void }) {
   const { user, signOut } = useAuth();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -83,9 +83,16 @@ export function TopHeader({ onOpenCommandPalette }: { onOpenCommandPalette: () =
                     Sign Out
                   </button>
                 ) : (
-                  <div className="px-4 py-2 text-sm text-slate-400">
-                    Not signed in
-                  </div>
+                  <button 
+                    onClick={() => {
+                      setIsDropdownOpen(false);
+                      if (onOpenAuth) onOpenAuth();
+                    }}
+                    className="w-full flex items-center gap-3 px-4 py-2 text-sm text-primary hover:text-primary/80 hover:bg-primary/10 transition-colors text-left"
+                  >
+                    <User size={16} />
+                    Sign In
+                  </button>
                 )}
               </div>
             </div>

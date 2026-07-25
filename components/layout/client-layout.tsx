@@ -20,7 +20,10 @@ export function ClientLayout({ children, workspaces = [] }: { children: React.Re
 
       {/* Main Content Area */}
       <main className="flex-1 flex flex-col relative z-0 h-full overflow-hidden">
-        <TopHeader onOpenCommandPalette={() => setIsCommandPaletteOpen(true)} />
+        <TopHeader 
+          onOpenCommandPalette={() => setIsCommandPaletteOpen(true)} 
+          onOpenAuth={() => setIsAuthModalOpen(true)}
+        />
         
         {/* Scrollable Container for Pages */}
         <div className="flex-1 overflow-y-auto pt-16 pb-24 md:pb-0 px-4 md:px-8 w-full">
