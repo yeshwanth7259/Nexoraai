@@ -6,7 +6,7 @@ import {
 } from "lucide-react";
 import { getDashboardMetrics, getRecentProjects, getUpcomingTasks, getSessionUser } from "@/utils/supabase/queries";
 import { formatDistanceToNow } from 'date-fns';
-import { AttachmentMenu } from "@/components/chat/attachment-menu";
+import { InlinePrompt } from "@/components/home/inline-prompt";
 
 export const metadata = {
   title: "Dashboard | Nexora AI OS",
@@ -72,31 +72,7 @@ export default async function HomePage() {
             </div>
 
             {/* Inline Prompt */}
-            <div className="relative z-10 w-full md:w-[80%] max-w-2xl bg-[#12121A]/80 backdrop-blur-xl border border-white/10 rounded-2xl p-2 shadow-2xl flex flex-col gap-3">
-              <div className="flex items-center justify-between px-3 pt-2">
-                <AttachmentMenu />
-                <input 
-                  type="text" 
-                  placeholder="Ask Nexora to build, design, or analyze anything..." 
-                  className="bg-transparent border-none text-white text-[15px] placeholder:text-slate-500 w-full focus:outline-none focus:ring-0 ml-2"
-                />
-                <div className="flex items-center gap-2">
-                  <button className="w-10 h-10 rounded-xl bg-white/5 hover:bg-white/10 flex items-center justify-center text-slate-400 transition">
-                    <Mic size={18} />
-                  </button>
-                  <button className="w-10 h-10 rounded-xl bg-primary hover:bg-accent flex items-center justify-center text-white transition shadow-[0_0_15px_rgba(109,91,255,0.5)]">
-                    <Send size={18} />
-                  </button>
-                </div>
-              </div>
-              <div className="flex items-center gap-2 px-2 pb-1 overflow-x-auto hide-scrollbar">
-                <PromptPill text="Build a website" href="/studios/website" />
-                <PromptPill text="Generate SEO report" href="/studios/seo" />
-                <PromptPill text="Create CRM" href="/studios/crm" />
-                <PromptPill text="Design UI" href="/studios/ui-ux" />
-                <PromptPill text="Write blog" href="/studios/content" />
-              </div>
-            </div>
+            <InlinePrompt />
           </div>
 
           {/* AI STUDIOS */}
@@ -291,16 +267,6 @@ export default async function HomePage() {
 }
 
 // --- Helper Components ---
-
-function PromptPill({ text, href }: { text: string, href: string }) {
-  return (
-    <Link href={href}>
-      <button className="px-3 py-1.5 rounded-full bg-white/5 border border-white/5 text-[11px] font-medium text-slate-300 hover:text-white hover:bg-white/10 hover:border-white/20 transition whitespace-nowrap cursor-pointer">
-        {text}
-      </button>
-    </Link>
-  );
-}
 
 function StudioCard({ icon: Icon, title, desc, color, href }: any) {
   const colorMap: any = {

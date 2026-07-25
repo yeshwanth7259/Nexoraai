@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, Globe, Mic, ArrowRight, Loader2 } from "lucide-react";
 import { useAuth } from "@/components/providers/auth-provider";
 import { createClient } from "@/utils/supabase/client";
@@ -17,6 +17,7 @@ export function ChatInterface({
   const { user } = useAuth();
   const [messages, setMessages] = useState<any[]>(initialMessages);
   const [input, setInput] = useState("");
+  const [attachedFile, setAttachedFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const supabase = createClient();
@@ -34,6 +35,7 @@ export function ChatInterface({
     const newMessages = [...messages, userMessage];
     setMessages(newMessages);
     setInput("");
+    setAttachedFile(null); // Clear the attached file
     setIsLoading(true);
 
     // 2. Save User Message to DB
@@ -153,34 +155,81 @@ export function ChatInterface({
         animate={{ y: 0, opacity: 1 }}
         className="absolute bottom-10 left-0 right-0 flex justify-center px-4 z-40"
       >
-        <div className="w-full max-w-3xl glass-panel rounded-[2rem] p-2 flex items-center gap-2 shadow-[0_20px_60px_-15px_rgba(109,91,255,0.3)] focus-within:border-highlight/50 bg-[#060816]/60 backdrop-blur-xl">
-          <AttachmentMenu />
+        <div className="w-full max-w-3xl glass-panel rounded-[2rem] p-2 flex flex-col gap-2 shadow-[0_20px_60px_-15px_rgba(109,91,255,0.3)] focus-within:border-highlight/50 bg-[#060816]/60 backdrop-blur-xl">
           
-          <input 
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === "Enter" && !e.shiftKey) {
-                e.preventDefault();
-                sendMessage();
-              }
-            }}
-            placeholder="Reply to Nexora..."
-            className="flex-1 bg-transparent border-none outline-none text-white placeholder-slate-500 text-[15px] py-3 px-2"
-          />
-          
-          <button className="w-10 h-10 rounded-full flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition shrink-0">
-            <Mic size={18} />
-          </button>
-          
-          <button 
-            onClick={() => sendMessage()}
-            disabled={!input.trim() || isLoading}
-            className="w-12 h-12 rounded-full bg-primary hover:bg-accent text-white flex items-center justify-center transition shadow-[0_0_15px_rgba(109,91,255,0.5)] disabled:opacity-50 disabled:cursor-not-allowed shrink-0 ml-1"
-          >
-            <ArrowRight size={20} strokeWidth={2.5} />
-          </button>
+          {/* File Preview Area */}
+          <AnimatePresence>
+            {attachedFile && (
+              <motion.div 
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                className="px-4 pt-2"
+              >
+                <div className="relative inline-flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl p-2 pr-4">
+                  <button 
+                    onClick={() => setAttachedFile(null)}
+                    className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-slate-700 hover:bg-red-500 text-white flex items-center justify-center transition z-10"
+                  >
+                    <span className="text-[10px]">✕</span>
+                  </button>
+                  
+                  {attachedFile.type.startsWith("image/") ? (
+                    <div className="w-10 h-10 rounded-lg overflow-hidden shrink-0 bg-black/50">
+                      <img 
+                        src={URL.createObjectURL(attachedFile)} 
+                        alt="Preview" 
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  ) : (
+                    <div className="w-10 h-10 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center shrink-0">
+                      <span className="text-xs font-bold">FILE</span>
+                    </div>
+                  )}
+                  
+                  <div className="flex flex-col">
+                    <span className="text-[12px] font-medium text-white max-w-[150px] truncate">
+                      {attachedFile.name}
+                    </span>
+                    <span className="text-[10px] text-slate-400">
+                      {(attachedFile.size / 1024 / 1024).toFixed(2)} MB
+                    </span>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          <div className="flex items-center gap-2">
+            <AttachmentMenu direction="up" onFileSelect={(file) => setAttachedFile(file)} />
+            
+            <input 
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault();
+                  sendMessage();
+                }
+              }}
+              placeholder="Reply to Nexora..."
+              className="flex-1 bg-transparent border-none outline-none text-white placeholder-slate-500 text-[15px] py-3 px-2"
+            />
+            
+            <button className="w-10 h-10 rounded-full flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition shrink-0">
+              <Mic size={18} />
+            </button>
+            
+            <button 
+              onClick={() => sendMessage()}
+              disabled={(!input.trim() && !attachedFile) || isLoading}
+              className="w-12 h-12 rounded-full bg-primary hover:bg-accent text-white flex items-center justify-center transition shadow-[0_0_15px_rgba(109,91,255,0.5)] disabled:opacity-50 disabled:cursor-not-allowed shrink-0 ml-1"
+            >
+              <ArrowRight size={20} strokeWidth={2.5} />
+            </button>
+          </div>
         </div>
       </motion.div>
     </div>

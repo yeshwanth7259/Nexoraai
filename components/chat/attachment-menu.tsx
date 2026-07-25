@@ -14,9 +14,15 @@ import {
   Triangle
 } from "lucide-react";
 
-export function AttachmentMenu() {
+interface AttachmentMenuProps {
+  direction?: "up" | "down";
+  onFileSelect?: (file: File) => void;
+}
+
+export function AttachmentMenu({ direction = "up", onFileSelect }: AttachmentMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Close menu when clicking outside
   useEffect(() => {
@@ -29,6 +35,24 @@ export function AttachmentMenu() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file && onFileSelect) {
+      onFileSelect(file);
+      setIsOpen(false);
+    }
+    // reset input
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+  const positionClasses = direction === "up" 
+    ? "bottom-[120%] left-0" 
+    : "top-[120%] left-0";
+
+  const initialY = direction === "up" ? 10 : -10;
+
   return (
     <div className="relative flex items-center" ref={menuRef}>
       <button 
@@ -39,14 +63,22 @@ export function AttachmentMenu() {
         <Plus size={22} className={`transition-transform duration-200 ${isOpen ? 'rotate-45' : ''}`} />
       </button>
 
+      <input 
+        type="file" 
+        ref={fileInputRef} 
+        onChange={handleFileChange} 
+        className="hidden" 
+        accept="image/*,.pdf,.doc,.docx,.txt"
+      />
+
       <AnimatePresence>
         {isOpen && (
           <motion.div 
-            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+            initial={{ opacity: 0, y: initialY, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+            exit={{ opacity: 0, y: initialY, scale: 0.95 }}
             transition={{ duration: 0.15, ease: "easeOut" }}
-            className="absolute bottom-[120%] left-0 w-[340px] bg-[#212121] border border-white/5 rounded-2xl shadow-2xl p-2 z-50 overflow-hidden"
+            className={`absolute ${positionClasses} w-[340px] bg-[#212121] border border-white/5 rounded-2xl shadow-2xl p-2 z-50 overflow-hidden`}
           >
             <div className="max-h-[350px] overflow-y-auto scrollbar-hide py-1">
               
@@ -54,6 +86,7 @@ export function AttachmentMenu() {
                 icon={Paperclip} 
                 title="Add photos & files" 
                 subtitle="Upload from computer" 
+                onClick={() => fileInputRef.current?.click()}
               />
               <MenuItem 
                 icon={ImageIcon} 
@@ -127,9 +160,9 @@ export function AttachmentMenu() {
   );
 }
 
-function MenuItem({ icon: Icon, iconColor = "text-slate-300", title, subtitle }: any) {
+function MenuItem({ icon: Icon, iconColor = "text-slate-300", title, subtitle, onClick }: any) {
   return (
-    <div className="flex items-center gap-3 group cursor-pointer hover:bg-white/5 p-2.5 rounded-xl transition">
+    <div onClick={onClick} className="flex items-center gap-3 group cursor-pointer hover:bg-white/5 p-2.5 rounded-xl transition">
       <Icon size={18} className={`${iconColor} shrink-0`} />
       <div>
         <h4 className="text-[13px] font-medium text-slate-200 flex items-center gap-2">
