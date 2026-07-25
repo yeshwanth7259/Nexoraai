@@ -17,9 +17,10 @@ import {
 interface AttachmentMenuProps {
   direction?: "up" | "down";
   onFileSelect?: (file: File) => void;
+  onAction?: (actionName: string) => void;
 }
 
-export function AttachmentMenu({ direction = "up", onFileSelect }: AttachmentMenuProps) {
+export function AttachmentMenu({ direction = "up", onFileSelect, onAction }: AttachmentMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -44,6 +45,13 @@ export function AttachmentMenu({ direction = "up", onFileSelect }: AttachmentMen
     // reset input
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
+    }
+  };
+
+  const handleAction = (name: string) => {
+    if (onAction) {
+      onAction(name);
+      setIsOpen(false);
     }
   };
 
@@ -93,24 +101,28 @@ export function AttachmentMenu({ direction = "up", onFileSelect }: AttachmentMen
                 iconColor="text-blue-400"
                 title="Create image" 
                 subtitle="Visualize anything" 
+                onClick={() => handleAction("Create Image")}
               />
               <MenuItem 
                 icon={Globe} 
                 iconColor="text-cyan-400"
                 title="Web search" 
                 subtitle="Find real-time news and info" 
+                onClick={() => handleAction("Web Search")}
               />
               <MenuItem 
                 icon={Telescope} 
                 iconColor="text-indigo-400"
                 title="Deep research" 
                 subtitle="Get a detailed report" 
+                onClick={() => handleAction("Deep Research")}
               />
               <MenuItem 
                 icon={Shapes} 
                 iconColor="text-pink-400"
                 title="Visualize" 
                 subtitle="Create visualizations and interactive tools" 
+                onClick={() => handleAction("Visualize")}
               />
               
               <div className="w-full h-px bg-white/10 my-2"></div>
@@ -120,9 +132,10 @@ export function AttachmentMenu({ direction = "up", onFileSelect }: AttachmentMen
                 iconColor="text-blue-600"
                 title="OpenAI Platform" 
                 subtitle="Create an OpenAI API key after connecting..." 
+                onClick={() => handleAction("OpenAI Platform")}
               />
               
-              <div className="flex items-center justify-between group cursor-pointer hover:bg-white/5 p-2.5 rounded-xl transition">
+              <div onClick={() => handleAction("Atlassian Rovo")} className="flex items-center justify-between group cursor-pointer hover:bg-white/5 p-2.5 rounded-xl transition">
                 <div className="flex items-center gap-3">
                   <Triangle size={18} className="text-blue-500 fill-blue-500 shrink-0" />
                   <div>
@@ -133,7 +146,7 @@ export function AttachmentMenu({ direction = "up", onFileSelect }: AttachmentMen
                 <span className="text-[11px] text-slate-500 group-hover:text-white transition">Connect</span>
               </div>
 
-              <div className="flex items-center justify-between group cursor-pointer hover:bg-white/5 p-2.5 rounded-xl transition">
+              <div onClick={() => handleAction("Box")} className="flex items-center justify-between group cursor-pointer hover:bg-white/5 p-2.5 rounded-xl transition">
                 <div className="flex items-center gap-3">
                   <Box size={18} className="text-blue-400 fill-blue-400/20 shrink-0" />
                   <div>

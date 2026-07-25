@@ -202,7 +202,11 @@ export function ChatInterface({
           </AnimatePresence>
 
           <div className="flex items-center gap-2">
-            <AttachmentMenu direction="up" onFileSelect={(file) => setAttachedFile(file)} />
+            <AttachmentMenu 
+              direction="up" 
+              onFileSelect={(file) => setAttachedFile(file)} 
+              onAction={(action) => setInput(`[${action}] ` + input)}
+            />
             
             <input 
               type="text"

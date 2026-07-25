@@ -66,7 +66,11 @@ export function InlinePrompt() {
       </AnimatePresence>
 
       <div className="flex items-center justify-between px-3 pt-2">
-        <AttachmentMenu direction="down" onFileSelect={handleFileSelect} />
+        <AttachmentMenu 
+          direction="down" 
+          onFileSelect={handleFileSelect} 
+          onAction={(action) => setInput(`[${action}] ` + input)}
+        />
         
         <input 
           type="text" 
