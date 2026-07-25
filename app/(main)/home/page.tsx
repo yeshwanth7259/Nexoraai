@@ -4,12 +4,31 @@ import {
   ArrowRight, Mic, Send, Code, Share2, Rocket, FileText, CheckCircle2,
   FolderOpen, Folder, PlayCircle, MessageSquare, Plus, UploadCloud, Sparkles
 } from "lucide-react";
+import { getDashboardMetrics, getRecentProjects, getUpcomingTasks, getSessionUser } from "@/utils/supabase/queries";
+import { formatDistanceToNow } from 'date-fns';
 
 export const metadata = {
   title: "Dashboard | Nexora AI OS",
 };
 
-export default function HomePage() {
+export default async function HomePage() {
+  const [dashboardData, projects, tasks, user] = await Promise.all([
+    getDashboardMetrics(),
+    getRecentProjects(),
+    getUpcomingTasks(),
+    getSessionUser()
+  ]);
+
+  const { projectsCount, metrics } = dashboardData;
+
+  // Calculate greeting
+  const hour = new Date().getHours();
+  let greeting = "Good evening";
+  if (hour < 12) greeting = "Good morning";
+  else if (hour < 18) greeting = "Good afternoon";
+
+  const firstName = user?.profileName || user?.email?.split('@')[0] || "User";
+
   return (
     <div className="w-full h-full max-w-[1600px] mx-auto text-white pb-10">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
@@ -18,7 +37,7 @@ export default function HomePage() {
         <div className="lg:col-span-9 flex flex-col gap-6">
           
           {/* HERO SECTION */}
-          <div className="relative w-full h-[320px] rounded-3xl overflow-hidden border border-white/5 bg-[#0B0B14] p-10 flex flex-col justify-between">
+          <div className="relative w-full h-[320px] rounded-3xl overflow-hidden border border-white/5 bg-[#0B0B14] p-8 md:p-10 flex flex-col justify-between">
             {/* Background Glows & Graphics */}
             <div className="absolute top-0 right-0 w-[600px] h-full pointer-events-none">
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] bg-blue-600/20 rounded-full blur-[80px]"></div>
@@ -43,14 +62,14 @@ export default function HomePage() {
             </div>
 
             <div className="relative z-10 max-w-xl">
-              <h1 className="text-4xl font-bold mb-3 tracking-tight">Good Afternoon, Vishnu! <span className="animate-wave inline-block origin-bottom-right">👋</span></h1>
+              <h1 className="text-4xl font-bold mb-3 tracking-tight">{greeting}, <span className="capitalize">{firstName}</span>! <span className="animate-wave inline-block origin-bottom-right">👋</span></h1>
               <p className="text-slate-400 text-[15px] leading-relaxed max-w-md mb-8">
                 Welcome to Nexora AI OS. Build, grow & manage your digital universe with the power of artificial intelligence.
               </p>
             </div>
 
             {/* Inline Prompt */}
-            <div className="relative z-10 w-[80%] max-w-2xl bg-[#12121A]/80 backdrop-blur-xl border border-white/10 rounded-2xl p-2 shadow-2xl flex flex-col gap-3">
+            <div className="relative z-10 w-full md:w-[80%] max-w-2xl bg-[#12121A]/80 backdrop-blur-xl border border-white/10 rounded-2xl p-2 shadow-2xl flex flex-col gap-3">
               <div className="flex items-center justify-between px-3 pt-2">
                 <input 
                   type="text" 
@@ -67,11 +86,11 @@ export default function HomePage() {
                 </div>
               </div>
               <div className="flex items-center gap-2 px-2 pb-1 overflow-x-auto hide-scrollbar">
-                <PromptPill text="Build a website" />
-                <PromptPill text="Generate SEO report" />
-                <PromptPill text="Create CRM" />
-                <PromptPill text="Design UI" />
-                <PromptPill text="Write blog" />
+                <PromptPill text="Build a website" href="/studios/website" />
+                <PromptPill text="Generate SEO report" href="/studios/seo" />
+                <PromptPill text="Create CRM" href="/studios/crm" />
+                <PromptPill text="Design UI" href="/studios/ui-ux" />
+                <PromptPill text="Write blog" href="/studios/content" />
               </div>
             </div>
           </div>
@@ -83,7 +102,7 @@ export default function HomePage() {
                 <Sparkles size={18} className="text-primary" />
                 <h2 className="text-lg font-semibold tracking-wide">AI Studios</h2>
               </div>
-              <Link href="/studios" className="text-sm text-primary hover:text-white transition flex items-center gap-1">
+              <Link href="/studios/website" className="text-sm text-primary hover:text-white transition flex items-center gap-1">
                 View all Studios <ArrowRight size={14} />
               </Link>
             </div>
@@ -123,14 +142,14 @@ export default function HomePage() {
             <div className="flex flex-col gap-6">
               <div className="bg-[#0B0B14] rounded-3xl border border-white/5 p-6">
                 <h2 className="text-lg font-semibold mb-5">Overview</h2>
-                <div className="grid grid-cols-3 gap-3">
-                  <MetricCard value="12" label="Projects" change="+ 20%" trend="up" color="blue" icon={FolderOpen} />
-                  <MetricCard value="24.5K" label="SEO Traffic" change="+ 18%" trend="up" color="green" icon={LineChart} />
-                  <MetricCard value="8" label="Active Leads" change="+ 35%" trend="up" color="orange" icon={Users} />
+                <div className="grid grid-cols-3 gap-4">
+                  <MetricCard value={projectsCount.toString()} label="Projects" change="+ 0%" trend="up" color="blue" icon={FolderOpen} />
+                  <MetricCard value={metrics?.seo_traffic?.toString() || "0"} label="SEO Traffic" change={`+ ${metrics?.traffic_growth || 0}%`} trend="up" color="green" icon={LineChart} />
+                  <MetricCard value={metrics?.active_leads?.toString() || "0"} label="Active Leads" change={`+ ${metrics?.leads_growth || 0}%`} trend="up" color="orange" icon={Users} />
                 </div>
               </div>
 
-              <div className="bg-[#0B0B14] rounded-3xl border border-white/5 p-6 flex-1">
+              <div className="bg-[#0B0B14] rounded-3xl border border-white/5 p-6 flex-1 min-h-[250px]">
                 <div className="flex items-center justify-between mb-5">
                   <h2 className="text-lg font-semibold">Recent Projects</h2>
                   <Link href="/projects" className="text-sm text-primary hover:text-white transition flex items-center gap-1">
@@ -138,15 +157,30 @@ export default function HomePage() {
                   </Link>
                 </div>
                 <div className="space-y-4">
-                  <ProjectRow title="Digital Agency Website" category="Website" time="Updated 2h ago" progress={80} color="bg-blue-500" iconColor="text-blue-500" />
-                  <ProjectRow title="E-commerce Mobile App" category="Mobile App" time="Updated 5h ago" progress={60} color="bg-purple-500" iconColor="text-purple-500" />
-                  <ProjectRow title="CRM Dashboard" category="CRM" time="Updated 1d ago" progress={90} color="bg-pink-500" iconColor="text-pink-500" />
+                  {projects.length > 0 ? (
+                    projects.map((proj: any) => (
+                      <ProjectRow 
+                        key={proj.id} 
+                        title={proj.title} 
+                        category={proj.type} 
+                        time={`Updated ${formatDistanceToNow(new Date(proj.updated_at))} ago`} 
+                        progress={proj.progress} 
+                        color="bg-blue-500" 
+                        iconColor="text-blue-500" 
+                      />
+                    ))
+                  ) : (
+                    <div className="text-center py-6">
+                      <FolderOpen size={32} className="mx-auto mb-3 text-slate-500" />
+                      <p className="text-sm text-slate-400">No projects yet. Build something amazing!</p>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
 
             {/* TASKS */}
-            <div className="bg-[#0B0B14] rounded-3xl border border-white/5 p-6">
+            <div className="bg-[#0B0B14] rounded-3xl border border-white/5 p-6 min-h-[300px]">
               <div className="flex items-center justify-between mb-5">
                 <h2 className="text-lg font-semibold">Tasks</h2>
                 <Link href="/tasks" className="text-sm text-primary hover:text-white transition flex items-center gap-1">
@@ -154,10 +188,21 @@ export default function HomePage() {
                 </Link>
               </div>
               <div className="space-y-3">
-                <TaskRow text="SEO Audit for nexora.ai" date="Today" dateColor="text-red-400" />
-                <TaskRow text="Design new landing page" date="Tomorrow" dateColor="text-orange-400" />
-                <TaskRow text="Follow up with leads" date="May 26" dateColor="text-slate-400" />
-                <TaskRow text="Deploy CRM update" date="May 27" dateColor="text-slate-400" />
+                {tasks.length > 0 ? (
+                  tasks.map((task: any) => (
+                    <TaskRow 
+                      key={task.id} 
+                      text={task.title} 
+                      date={task.due_date} 
+                      dateColor={task.due_date === "Today" ? "text-red-400" : "text-slate-400"} 
+                    />
+                  ))
+                ) : (
+                  <div className="text-center py-10">
+                    <CheckCircle2 size={32} className="mx-auto mb-3 text-slate-500" />
+                    <p className="text-sm text-slate-400">You're all caught up!</p>
+                  </div>
+                )}
               </div>
             </div>
 
@@ -176,7 +221,7 @@ export default function HomePage() {
                 <Sparkles size={16} className="text-purple-400" />
                 <span className="text-sm font-semibold text-slate-200">AI Assistant</span>
               </div>
-              <button className="text-slate-400 hover:text-white"><ArrowRight size={14} /></button>
+              <Link href="/assistant" className="text-slate-400 hover:text-white"><ArrowRight size={14} /></Link>
             </div>
             <div className="relative z-10">
               <h3 className="text-xl font-bold text-white mb-2 leading-tight">I'm Nexora AI</h3>
@@ -192,7 +237,7 @@ export default function HomePage() {
           </div>
 
           {/* ACTIVITY FEED */}
-          <div className="bg-[#0B0B14] rounded-3xl border border-white/5 p-6 flex-1">
+          <div className="bg-[#0B0B14] rounded-3xl border border-white/5 p-6 flex-1 min-h-[300px]">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-lg font-semibold">Activity Feed</h2>
               <div className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-green-500/10 border border-green-500/20">
@@ -201,23 +246,36 @@ export default function HomePage() {
               </div>
             </div>
             
-            <div className="space-y-6 relative before:absolute before:inset-0 before:ml-4 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-white/5 before:to-transparent">
-              <ActivityRow icon={CheckCircle2} title="Website deployed" desc="nexoraagency.com" time="2m ago" color="text-green-500" bgColor="bg-green-500/10" />
-              <ActivityRow icon={LineChart} title="SEO report generated" desc="nexora.ai" time="15m ago" color="text-blue-500" bgColor="bg-blue-500/10" />
-              <ActivityRow icon={Users} title="New lead added" desc="John Doe" time="32m ago" color="text-orange-500" bgColor="bg-orange-500/10" />
-              <ActivityRow icon={FileText} title="Blog published" desc="10 AI tools for business" time="1h ago" color="text-purple-500" bgColor="bg-purple-500/10" />
-              <ActivityRow icon={CheckCircle2} title="CRM updated" desc="2 deals moved" time="2h ago" color="text-green-500" bgColor="bg-green-500/10" />
-            </div>
+            {projects.length === 0 && tasks.length === 0 ? (
+              <div className="text-center py-6">
+                <p className="text-sm text-slate-500 italic">No recent activity yet.</p>
+              </div>
+            ) : (
+              <div className="space-y-6 relative before:absolute before:inset-0 before:ml-4 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-0.5 before:bg-gradient-to-b before:from-transparent before:via-white/5 before:to-transparent">
+                <ActivityRow icon={CheckCircle2} title="Dashboard initialized" desc="Nexora AI OS" time="Just now" color="text-green-500" bgColor="bg-green-500/10" />
+                {projects.map((proj: any, idx: number) => (
+                  <ActivityRow 
+                    key={idx} 
+                    icon={Folder} 
+                    title={`Project created`} 
+                    desc={proj.title} 
+                    time={formatDistanceToNow(new Date(proj.created_at))} 
+                    color="text-blue-500" 
+                    bgColor="bg-blue-500/10" 
+                  />
+                ))}
+              </div>
+            )}
           </div>
 
           {/* QUICK ACTIONS */}
           <div className="bg-[#0B0B14] rounded-3xl border border-white/5 p-6">
             <h2 className="text-lg font-semibold mb-4">Quick Actions</h2>
             <div className="grid grid-cols-2 gap-3">
-              <ActionCard icon={Plus} label="New Project" color="text-purple-400" bgColor="bg-purple-500/10" />
-              <ActionCard icon={UploadCloud} label="Upload File" color="text-blue-400" bgColor="bg-blue-500/10" />
-              <ActionCard icon={MessageSquare} label="AI Chat" color="text-pink-400" bgColor="bg-pink-500/10" />
-              <ActionCard icon={FileText} label="Generate Report" color="text-green-400" bgColor="bg-green-500/10" />
+              <Link href="/studios/website"><ActionCard icon={Plus} label="New Project" color="text-purple-400" bgColor="bg-purple-500/10" /></Link>
+              <Link href="/home"><ActionCard icon={UploadCloud} label="Upload File" color="text-blue-400" bgColor="bg-blue-500/10" /></Link>
+              <Link href="/assistant"><ActionCard icon={MessageSquare} label="AI Chat" color="text-pink-400" bgColor="bg-pink-500/10" /></Link>
+              <Link href="/studios/seo"><ActionCard icon={FileText} label="Generate Report" color="text-green-400" bgColor="bg-green-500/10" /></Link>
             </div>
           </div>
 
@@ -230,11 +288,13 @@ export default function HomePage() {
 
 // --- Helper Components ---
 
-function PromptPill({ text }: { text: string }) {
+function PromptPill({ text, href }: { text: string, href: string }) {
   return (
-    <button className="px-3 py-1.5 rounded-full bg-white/5 border border-white/5 text-[11px] font-medium text-slate-300 hover:text-white hover:bg-white/10 hover:border-white/20 transition whitespace-nowrap">
-      {text}
-    </button>
+    <Link href={href}>
+      <button className="px-3 py-1.5 rounded-full bg-white/5 border border-white/5 text-[11px] font-medium text-slate-300 hover:text-white hover:bg-white/10 hover:border-white/20 transition whitespace-nowrap cursor-pointer">
+        {text}
+      </button>
+    </Link>
   );
 }
 
@@ -279,7 +339,7 @@ function MetricCard({ value, label, change, trend, color, icon: Icon }: any) {
       <div>
         <p className="text-[11px] font-medium text-slate-300 mb-1">{label}</p>
         <p className={`text-[10px] font-semibold ${trend === 'up' ? 'text-green-500' : 'text-red-500'}`}>
-          ↑ {change} <span className="text-slate-500 font-normal ml-1">this week</span>
+          {change} <span className="text-slate-500 font-normal ml-1">this week</span>
         </p>
       </div>
     </div>
@@ -288,9 +348,9 @@ function MetricCard({ value, label, change, trend, color, icon: Icon }: any) {
 
 function ProjectRow({ title, category, time, progress, color, iconColor }: any) {
   return (
-    <div className="flex items-center justify-between text-sm group cursor-pointer">
+    <div className="flex items-center justify-between text-sm group cursor-pointer border-b border-white/5 pb-3 last:border-0 last:pb-0">
       <div className="flex items-center gap-3">
-        <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-white/20 transition">
+        <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center group-hover:border-white/20 transition shrink-0">
            <Folder size={14} className={iconColor} />
         </div>
         <div>
@@ -299,7 +359,7 @@ function ProjectRow({ title, category, time, progress, color, iconColor }: any) 
         </div>
       </div>
       <div className="flex items-center gap-6">
-        <span className="text-[11px] text-slate-500 hidden sm:block">{time}</span>
+        <span className="text-[11px] text-slate-500 hidden sm:block whitespace-nowrap">{time}</span>
         <div className="flex items-center gap-2 w-24">
           <div className="flex-1 h-1.5 bg-white/5 rounded-full overflow-hidden">
             <div className={`h-full rounded-full ${color}`} style={{ width: `${progress}%` }}></div>
@@ -315,10 +375,10 @@ function TaskRow({ text, date, dateColor }: any) {
   return (
     <div className="flex items-center justify-between p-3 rounded-xl border border-white/5 bg-[#12121A] hover:bg-white/5 transition cursor-pointer group">
       <div className="flex items-center gap-3">
-        <div className="w-4 h-4 rounded-full border border-slate-600 group-hover:border-primary transition flex items-center justify-center"></div>
-        <span className="text-[13px] text-slate-300 group-hover:text-white transition">{text}</span>
+        <div className="w-4 h-4 rounded-full border border-slate-600 group-hover:border-primary transition flex items-center justify-center shrink-0"></div>
+        <span className="text-[13px] text-slate-300 group-hover:text-white transition line-clamp-1">{text}</span>
       </div>
-      <span className={`text-[11px] font-semibold ${dateColor}`}>{date}</span>
+      <span className={`text-[11px] font-semibold ${dateColor} whitespace-nowrap pl-3`}>{date}</span>
     </div>
   );
 }
@@ -329,12 +389,12 @@ function ActivityRow({ icon: Icon, title, desc, time, color, bgColor }: any) {
       <div className={`relative z-10 w-8 h-8 rounded-full flex items-center justify-center shrink-0 border border-background shadow-[0_0_0_2px_rgba(255,255,255,0.05)] ${bgColor}`}>
         <Icon size={12} className={color} />
       </div>
-      <div className="flex-1 flex justify-between items-start pt-1">
-        <div>
-          <h4 className="text-[12px] font-bold text-slate-200 leading-tight">{title}</h4>
-          <p className="text-[11px] text-slate-500 mt-0.5">{desc}</p>
+      <div className="flex-1 flex justify-between items-start pt-1 overflow-hidden">
+        <div className="overflow-hidden pr-2">
+          <h4 className="text-[12px] font-bold text-slate-200 leading-tight truncate">{title}</h4>
+          <p className="text-[11px] text-slate-500 mt-0.5 truncate">{desc}</p>
         </div>
-        <span className="text-[10px] text-slate-500 whitespace-nowrap">{time}</span>
+        <span className="text-[10px] text-slate-500 whitespace-nowrap shrink-0">{time}</span>
       </div>
     </div>
   );
@@ -342,11 +402,11 @@ function ActivityRow({ icon: Icon, title, desc, time, color, bgColor }: any) {
 
 function ActionCard({ icon: Icon, label, color, bgColor }: any) {
   return (
-    <div className="bg-[#12121A] rounded-xl border border-white/5 p-4 flex flex-col items-center justify-center gap-3 hover:bg-white/5 transition cursor-pointer group">
+    <div className="bg-[#12121A] rounded-xl border border-white/5 p-4 flex flex-col items-center justify-center gap-3 hover:bg-white/5 transition cursor-pointer group h-full">
       <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-transform group-hover:scale-110 ${bgColor}`}>
         <Icon size={18} className={color} />
       </div>
-      <span className="text-[11px] font-semibold text-slate-300 group-hover:text-white transition">{label}</span>
+      <span className="text-[11px] font-semibold text-slate-300 group-hover:text-white transition text-center">{label}</span>
     </div>
   );
 }

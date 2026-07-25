@@ -106,3 +106,61 @@ ALTER TABLE public.users
 ADD COLUMN IF NOT EXISTS plan_type TEXT DEFAULT 'basic', -- 'basic', 'pro', 'ultra_pro'
 ADD COLUMN IF NOT EXISTS billing_cycle TEXT DEFAULT 'monthly', -- 'monthly', 'yearly'
 ADD COLUMN IF NOT EXISTS subscription_end TIMESTAMPTZ;
+
+-- Projects table
+CREATE TABLE IF NOT EXISTS public.projects (
+  id          UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id     UUID NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
+  title       TEXT NOT NULL,
+  type        TEXT NOT NULL DEFAULT 'Website',
+  progress    INTEGER DEFAULT 0,
+  updated_at  TIMESTAMPTZ DEFAULT NOW(),
+  created_at  TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Tasks table
+CREATE TABLE IF NOT EXISTS public.tasks (
+  id          UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id     UUID NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
+  title       TEXT NOT NULL,
+  due_date    TEXT NOT NULL,
+  completed   BOOLEAN DEFAULT FALSE,
+  created_at  TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Metrics table (or we can just calculate them, but for now we can store a snapshot)
+CREATE TABLE IF NOT EXISTS public.user_metrics (
+  id              UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id         UUID UNIQUE NOT NULL REFERENCES public.users(id) ON DELETE CASCADE,
+  seo_traffic     INTEGER DEFAULT 0,
+  traffic_growth  INTEGER DEFAULT 0,
+  active_leads    INTEGER DEFAULT 0,
+  leads_growth    INTEGER DEFAULT 0,
+  updated_at      TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Indexes
+CREATE INDEX IF NOT EXISTS idx_projects_user ON public.projects(user_id);
+CREATE INDEX IF NOT EXISTS idx_tasks_user ON public.tasks(user_id);
+
+-- RLS
+ALTER TABLE public.projects ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.tasks ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.user_metrics ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY ""Own projects read"" ON public.projects FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY ""Own projects insert"" ON public.projects FOR INSERT WITH CHECK (auth.uid() = user_id);
+CREATE POLICY ""Own projects update"" ON public.projects FOR UPDATE USING (auth.uid() = user_id);
+
+CREATE POLICY ""Own tasks read"" ON public.tasks FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY ""Own tasks insert"" ON public.tasks FOR INSERT WITH CHECK (auth.uid() = user_id);
+CREATE POLICY ""Own tasks update"" ON public.tasks FOR UPDATE USING (auth.uid() = user_id);
+
+CREATE POLICY ""Own metrics read"" ON public.user_metrics FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY ""Own metrics insert"" ON public.user_metrics FOR INSERT WITH CHECK (auth.uid() = user_id);
+CREATE POLICY ""Own metrics update"" ON public.user_metrics FOR UPDATE USING (auth.uid() = user_id);
+
+-- Auto-update updated_at for projects and metrics
+CREATE TRIGGER projects_updated_at BEFORE UPDATE ON public.projects FOR EACH ROW EXECUTE PROCEDURE public.set_updated_at();
+CREATE TRIGGER metrics_updated_at BEFORE UPDATE ON public.user_metrics FOR EACH ROW EXECUTE PROCEDURE public.set_updated_at();
+
