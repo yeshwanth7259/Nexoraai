@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { Sparkles, Globe, Mic, ArrowRight, Loader2 } from "lucide-react";
 import { useAuth } from "@/components/providers/auth-provider";
 import { createClient } from "@/utils/supabase/client";
+import { AttachmentMenu } from "@/components/chat/attachment-menu";
 
 export function ChatInterface({ 
   chatId, 
@@ -153,9 +154,7 @@ export function ChatInterface({
         className="absolute bottom-10 left-0 right-0 flex justify-center px-4 z-40"
       >
         <div className="w-full max-w-3xl glass-panel rounded-[2rem] p-2 flex items-center gap-2 shadow-[0_20px_60px_-15px_rgba(109,91,255,0.3)] focus-within:border-highlight/50 bg-[#060816]/60 backdrop-blur-xl">
-          <button className="w-10 h-10 rounded-full flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition shrink-0">
-            <Globe size={18} />
-          </button>
+          <AttachmentMenu />
           
           <input 
             type="text"
