@@ -1,7 +1,7 @@
+"use client";
 import { StudioLayout } from "@/components/studios/studio-layout";
 import { Edit3, FileText, Twitter, Linkedin, Instagram, Video } from "lucide-react";
 
-export const metadata = { title: "Content Studio | Nexora AI" };
 
 export default function ContentStudioPage() {
   return (

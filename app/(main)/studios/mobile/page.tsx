@@ -1,7 +1,7 @@
+"use client";
 import { StudioLayout } from "@/components/studios/studio-layout";
 import { Smartphone, ShoppingBag, Utensils, HeartPulse, Video, MapPin } from "lucide-react";
 
-export const metadata = { title: "Mobile Apps Studio | Nexora AI" };
 
 export default function MobileAppStudioPage() {
   return (

@@ -1,7 +1,7 @@
+"use client";
 import { StudioLayout } from "@/components/studios/studio-layout";
 import { Users, Mail, Phone, FileText, Calendar, Building2 } from "lucide-react";
 
-export const metadata = { title: "CRM Studio | Nexora AI" };
 
 export default function CRMStudioPage() {
   return (

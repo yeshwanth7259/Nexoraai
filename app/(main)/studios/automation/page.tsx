@@ -1,7 +1,7 @@
+"use client";
 import { StudioLayout } from "@/components/studios/studio-layout";
 import { Zap, Workflow, Mail, CalendarClock, Webhook, Bot, ServerCog } from "lucide-react";
 
-export const metadata = { title: "Automation Studio | Nexora AI" };
 
 export default function AutomationStudioPage() {
   return (

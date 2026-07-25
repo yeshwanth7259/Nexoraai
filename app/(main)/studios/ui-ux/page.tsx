@@ -1,7 +1,7 @@
+"use client";
 import { StudioLayout } from "@/components/studios/studio-layout";
 import { Palette, MousePointerClick, Type, Component, Image as ImageIcon, LayoutGrid } from "lucide-react";
 
-export const metadata = { title: "UI/UX Studio | Nexora AI" };
 
 export default function UIUXStudioPage() {
   return (

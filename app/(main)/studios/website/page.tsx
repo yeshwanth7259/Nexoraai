@@ -1,7 +1,7 @@
+"use client";
 import { StudioLayout } from "@/components/studios/studio-layout";
 import { Globe, LayoutTemplate, Briefcase, ShoppingCart, Activity, GraduationCap, Building } from "lucide-react";
 
-export const metadata = { title: "Website Studio | Nexora AI" };
 
 export default function WebsiteStudioPage() {
   return (

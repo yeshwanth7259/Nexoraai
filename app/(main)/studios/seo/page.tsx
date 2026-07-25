@@ -1,7 +1,7 @@
+"use client";
 import { StudioLayout } from "@/components/studios/studio-layout";
 import { LineChart, Search, Target, Link as LinkIcon, BarChart, FileSearch } from "lucide-react";
 
-export const metadata = { title: "SEO Studio | Nexora AI" };
 
 export default function SEOStudioPage() {
   return (

@@ -2,7 +2,7 @@ import Link from "next/link";
 import { 
   Globe, Smartphone, Palette, LineChart, Users, Edit3, 
   ArrowRight, Mic, Send, Code, Share2, Rocket, FileText, CheckCircle2,
-  FolderOpen, Folder, PlayCircle, MessageSquare, Plus, UploadCloud
+  FolderOpen, Folder, PlayCircle, MessageSquare, Plus, UploadCloud, Sparkles
 } from "lucide-react";
 
 export const metadata = {
