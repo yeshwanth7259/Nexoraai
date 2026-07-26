@@ -31,36 +31,36 @@ export default async function HomePage() {
   const firstName = user?.profileName || user?.email?.split('@')[0] || "User";
 
   return (
-    <div className="w-full h-full max-w-[1600px] mx-auto text-white pb-10">
+    <div className="w-full h-full max-w-[1600px] mx-auto text-white pt-8 pb-10">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         
         {/* LEFT COLUMN (9 columns) */}
         <div className="lg:col-span-9 flex flex-col gap-6">
           
           {/* HERO SECTION */}
-          <div className="relative w-full min-h-[320px] rounded-3xl border border-white/5 bg-[#0B0B14] p-8 md:p-10 flex flex-col justify-between">
+          <div className="relative w-full min-h-[360px] rounded-3xl border border-white/5 bg-[#0B0B14] p-8 md:p-10 flex flex-col justify-between overflow-hidden">
             {/* Background Glows & Graphics */}
-            <div className="absolute inset-0 overflow-hidden rounded-3xl pointer-events-none">
-              <div className="absolute top-0 right-0 w-[600px] h-full">
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] bg-blue-600/20 rounded-full blur-[80px]"></div>
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[160px] h-[160px] bg-purple-600/30 rounded-full blur-[60px]"></div>
+            <div className="absolute inset-0 pointer-events-none">
+              <div className="absolute top-0 right-0 w-[600px] h-full transform translate-x-10 md:translate-x-0">
+                <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] bg-blue-600/20 rounded-full blur-[80px]"></div>
+                <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[160px] h-[160px] bg-purple-600/30 rounded-full blur-[60px]"></div>
               
               {/* Orbits and Floating Icons mock */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] h-[340px] border border-white/10 rounded-full border-dashed animate-[spin_60s_linear_infinite]"></div>
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[460px] h-[460px] border border-white/5 rounded-full animate-[spin_90s_linear_infinite_reverse]"></div>
+              <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] h-[340px] border border-white/10 rounded-full border-dashed animate-[spin_60s_linear_infinite]"></div>
+              <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[460px] h-[460px] border border-white/5 rounded-full animate-[spin_90s_linear_infinite_reverse]"></div>
               
               {/* Center Glowing N */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 rounded-full border border-cyan-400/30 bg-background/50 backdrop-blur-md flex items-center justify-center shadow-[0_0_50px_rgba(0,229,255,0.3)]">
+              <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 rounded-full border border-cyan-400/30 bg-background/50 backdrop-blur-md flex items-center justify-center shadow-[0_0_50px_rgba(0,229,255,0.3)] z-0">
                 <div className="w-24 h-24 rounded-full border border-purple-500/50 flex items-center justify-center bg-gradient-to-br from-blue-600/20 to-purple-600/20 shadow-[0_0_30px_rgba(168,85,247,0.4)]">
                   <span className="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-br from-cyan-300 to-blue-600">N</span>
                 </div>
               </div>
 
               {/* Floating Element Mockups */}
-              <div className="absolute top-[20%] left-[15%] text-cyan-400 drop-shadow-[0_0_10px_rgba(34,211,238,0.8)]"><Code size={20} /></div>
-              <div className="absolute bottom-[25%] left-[25%] text-purple-400 drop-shadow-[0_0_10px_rgba(168,85,247,0.8)]"><LineChart size={24} /></div>
-              <div className="absolute top-[30%] right-[20%] text-blue-400 drop-shadow-[0_0_10px_rgba(59,130,246,0.8)]"><Users size={20} /></div>
-              <div className="absolute bottom-[20%] right-[30%] text-pink-400 drop-shadow-[0_0_10px_rgba(236,72,153,0.8)]"><Rocket size={22} /></div>
+              <div className="absolute top-[10%] left-[15%] text-cyan-400 drop-shadow-[0_0_10px_rgba(34,211,238,0.8)]"><Code size={20} /></div>
+              <div className="absolute top-[60%] left-[25%] text-purple-400 drop-shadow-[0_0_10px_rgba(168,85,247,0.8)]"><LineChart size={24} /></div>
+              <div className="absolute top-[20%] right-[20%] text-blue-400 drop-shadow-[0_0_10px_rgba(59,130,246,0.8)]"><Users size={20} /></div>
+              <div className="absolute top-[55%] right-[30%] text-pink-400 drop-shadow-[0_0_10px_rgba(236,72,153,0.8)]"><Rocket size={22} /></div>
               </div>
             </div>
 
@@ -72,7 +72,9 @@ export default async function HomePage() {
             </div>
 
             {/* Inline Prompt */}
-            <InlinePrompt />
+            <div className="relative z-20">
+              <InlinePrompt />
+            </div>
           </div>
 
           {/* AI STUDIOS */}
