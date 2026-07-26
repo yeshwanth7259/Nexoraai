@@ -1,0 +1,1 @@
+export default function ReportsPage() { return <div className='p-6 bg-[#0B0B14] border border-white/5 rounded-3xl'><h2>AI Reports Generator</h2><p className='text-slate-400 mt-2'>Coming soon...</p></div>; }
