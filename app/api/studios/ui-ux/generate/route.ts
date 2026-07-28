@@ -3,6 +3,8 @@ import { google } from "@ai-sdk/google";
 import { generateText } from "ai";
 import { NextResponse } from "next/server";
 
+export const maxDuration = 60;
+
 export async function POST(req: Request) {
   try {
     const { prompt, framework } = await req.json();
@@ -26,8 +28,12 @@ export async function POST(req: Request) {
     console.log("Generating Stitch screen for prompt:", prompt);
     const screen = await project.generate(prompt, "DESKTOP");
     
-    console.log("Fetching HTML...");
-    const rawHtml = await screen.getHtml();
+    console.log("Fetching HTML URL from Stitch...");
+    const htmlUrl = await screen.getHtml();
+    
+    console.log("Downloading actual HTML content...");
+    const htmlResponse = await fetch(htmlUrl);
+    const rawHtml = await htmlResponse.text();
     
     // Close the connection
     await client.close();
