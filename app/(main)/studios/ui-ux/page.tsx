@@ -98,10 +98,10 @@ export default function UIUXStudioPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95 }}
-            className="flex-1 flex flex-col items-center justify-center p-6 md:p-12 max-w-[1200px] mx-auto w-full overflow-y-auto hide-scrollbar"
+            className="flex-1 flex flex-col items-center pt-12 pb-16 px-6 md:px-12 max-w-[1200px] mx-auto w-full overflow-y-auto custom-scrollbar"
           >
             {/* Header Area */}
-            <div className="mb-10 text-center flex flex-col items-center mt-auto pt-8">
+            <div className="mb-10 text-center flex flex-col items-center shrink-0">
               <div className="mb-6 relative w-[72px] h-[72px] rounded-2xl bg-gradient-to-br from-indigo-500/20 via-purple-500/20 to-pink-500/20 flex items-center justify-center border border-purple-500/30 shadow-[0_0_50px_rgba(168,85,247,0.2)]">
                 <Sparkles className="w-8 h-8 text-purple-400" />
               </div>
@@ -114,7 +114,7 @@ export default function UIUXStudioPage() {
             </div>
 
             {/* Input Box Area */}
-            <div className="w-full max-w-4xl relative group mb-10">
+            <div className="w-full max-w-4xl relative group mb-10 shrink-0">
               <div className="rounded-[24px] p-[1px] bg-gradient-to-r from-pink-500/40 via-purple-500/40 to-blue-500/40 group-hover:from-pink-500/70 group-hover:via-purple-500/70 group-hover:to-blue-500/70 transition-all duration-500 relative shadow-[0_0_40px_-15px_rgba(168,85,247,0.3)]">
                 <div className="relative bg-[#09090E] rounded-[23px] flex flex-col pt-2">
                   <div className="px-5 pt-4 pb-2 flex items-center gap-2 text-sm text-slate-400 font-medium">
@@ -176,7 +176,7 @@ export default function UIUXStudioPage() {
             </div>
             
             {/* Template Suggestions */}
-            <div className="flex items-center gap-4 mb-14 text-sm">
+            <div className="flex items-center gap-4 mb-16 text-sm shrink-0">
               <span className="text-slate-400 font-medium">Try these examples</span>
               <button onClick={() => setPrompt("A modern SaaS landing page with dark mode, glowing accents, and an animated hero section.")} className="px-4 py-2 rounded-full border border-white/5 bg-[#12121A] hover:bg-[#1A1A24] text-slate-300 hover:text-white transition flex items-center gap-2 font-medium shadow-sm">
                 <Rocket size={14} className="text-pink-400"/> SaaS Landing Page
@@ -190,10 +190,11 @@ export default function UIUXStudioPage() {
             </div>
 
             {/* Bottom Features Grid */}
-            <div className="w-full grid grid-cols-1 md:grid-cols-5 gap-5 pb-12 mt-auto">
+            <div className="w-full grid grid-cols-1 md:grid-cols-5 gap-5 shrink-0">
               <FeatureCard 
                 icon={<Sparkles size={20} className="text-purple-400"/>} 
                 iconBg="bg-purple-500/10 border-purple-500/20"
+
                 title="AI Design Generation"
                 desc="Generate beautiful UI/UX designs from text or reference images."
               />
