@@ -98,100 +98,99 @@ export default function UIUXStudioPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95 }}
-            className="flex-1 flex flex-col items-center justify-center p-6 max-w-5xl mx-auto w-full overflow-y-auto hide-scrollbar"
+            className="flex-1 flex flex-col items-center justify-center p-6 md:p-12 max-w-[1200px] mx-auto w-full overflow-y-auto hide-scrollbar"
           >
             {/* Header Area */}
-            <div className="mb-10 text-center flex flex-col items-center">
-              <div className="mb-6 relative w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-600/20 to-purple-600/20 flex items-center justify-center border border-purple-500/30 shadow-[0_0_40px_rgba(168,85,247,0.3)]">
-                <Sparkles className="w-8 h-8 text-white" />
+            <div className="mb-10 text-center flex flex-col items-center mt-auto pt-8">
+              <div className="mb-6 relative w-[72px] h-[72px] rounded-2xl bg-gradient-to-br from-indigo-500/20 via-purple-500/20 to-pink-500/20 flex items-center justify-center border border-purple-500/30 shadow-[0_0_50px_rgba(168,85,247,0.2)]">
+                <Sparkles className="w-8 h-8 text-purple-400" />
               </div>
-              <h1 className="text-4xl sm:text-5xl font-bold mb-4 tracking-tight">
-                Nexora <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-500">Design</span> AI
+              <h1 className="text-4xl sm:text-[3.5rem] leading-tight font-bold mb-4 tracking-tight text-white">
+                Nexora <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-600">Design</span> <span className="text-blue-500">AI</span>
               </h1>
-              <p className="text-slate-400 max-w-2xl mx-auto text-[15px]">
+              <p className="text-slate-400 max-w-2xl mx-auto text-base">
                 Describe what you want to build, upload reference images, wireframes, or brand assets, and let Nexora generate a fully editable design system and code.
               </p>
             </div>
 
             {/* Input Box Area */}
-            <div className="w-full max-w-4xl relative group mb-8">
-              {/* Glowing Border Wrapper */}
-              <div className="absolute -inset-0.5 bg-gradient-to-r from-pink-500 via-purple-500 to-blue-500 rounded-3xl opacity-30 group-hover:opacity-60 transition duration-500 blur-sm"></div>
-              
-              <div className="relative bg-[#0B0B14] rounded-3xl p-1 shadow-2xl border border-white/5 flex flex-col">
-                <div className="px-5 pt-5 pb-2 flex items-center gap-2 text-sm text-slate-400">
-                  <Sparkles size={14} className="text-purple-400" /> Describe what you want to build...
-                </div>
-                
-                <textarea 
-                  value={prompt}
-                  onChange={(e) => setPrompt(e.target.value)}
-                  placeholder="e.g., A dark-mode analytics dashboard with a sidebar and premium glassmorphism cards"
-                  className="w-full bg-transparent border-none outline-none text-base text-white px-5 pb-8 min-h-[100px] resize-none focus:ring-0 placeholder:text-slate-600"
-                />
-
-                {/* Bottom Action Row */}
-                <div className="p-3 flex items-center justify-between flex-wrap gap-4 mt-auto">
-                  
-                  {/* Left: Upload Buttons */}
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <button className="w-10 h-10 rounded-xl bg-white/5 hover:bg-white/10 flex items-center justify-center text-slate-400 hover:text-white transition">
-                      <Plus size={18} />
-                    </button>
-                    <button className="px-3 h-10 rounded-xl bg-white/5 hover:bg-white/10 flex items-center gap-2 text-xs font-medium text-slate-300 transition border border-white/5">
-                      <ImageIcon size={14} className="text-blue-400"/> Upload Image
-                    </button>
-                    <button className="px-3 h-10 rounded-xl bg-white/5 hover:bg-white/10 flex items-center gap-2 text-xs font-medium text-slate-300 transition border border-white/5">
-                      <Link2 size={14} className="text-green-400"/> Website URL
-                    </button>
-                    <button className="px-3 h-10 rounded-xl bg-white/5 hover:bg-white/10 flex items-center gap-2 text-xs font-medium text-slate-300 transition border border-white/5">
-                      <Figma size={14} className="text-pink-400"/> Figma File
-                    </button>
-                    <button className="px-3 h-10 rounded-xl bg-white/5 hover:bg-white/10 flex items-center gap-2 text-xs font-medium text-slate-300 transition border border-white/5">
-                      <Palette size={14} className="text-orange-400"/> Brand Kit
-                    </button>
+            <div className="w-full max-w-4xl relative group mb-10">
+              <div className="rounded-[24px] p-[1px] bg-gradient-to-r from-pink-500/40 via-purple-500/40 to-blue-500/40 group-hover:from-pink-500/70 group-hover:via-purple-500/70 group-hover:to-blue-500/70 transition-all duration-500 relative shadow-[0_0_40px_-15px_rgba(168,85,247,0.3)]">
+                <div className="relative bg-[#09090E] rounded-[23px] flex flex-col pt-2">
+                  <div className="px-5 pt-4 pb-2 flex items-center gap-2 text-sm text-slate-400 font-medium">
+                    <Sparkles size={16} className="text-purple-400" /> Describe what you want to build...
                   </div>
+                  
+                  <textarea 
+                    value={prompt}
+                    onChange={(e) => setPrompt(e.target.value)}
+                    placeholder="e.g., A dark-mode analytics dashboard with a sidebar and premium glassmorphism cards"
+                    className="w-full bg-transparent border-none outline-none text-lg text-white px-5 pb-6 pt-2 min-h-[120px] resize-none focus:ring-0 placeholder:text-slate-600"
+                  />
 
-                  {/* Right: Framework & Generate */}
-                  <div className="flex items-center gap-3 ml-auto">
-                    <select 
-                      value={framework}
-                      onChange={(e) => setFramework(e.target.value)}
-                      className="bg-white/5 border border-white/10 rounded-xl px-3 h-10 text-xs font-medium text-slate-300 outline-none cursor-pointer appearance-none pr-8 relative hover:bg-white/10 transition"
-                      style={{ backgroundImage: 'url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2394a3b8%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.4-12.8z%22%2F%3E%3C%2Fsvg%3E")', backgroundRepeat: 'no-repeat', backgroundPosition: 'right 0.7rem top 50%', backgroundSize: '0.65rem auto' }}
-                    >
-                      <option className="bg-[#12121A]">React + Tailwind</option>
-                      <option className="bg-[#12121A]">HTML + CSS</option>
-                    </select>
+                  {/* Bottom Action Row */}
+                  <div className="px-3 pb-3 flex items-center justify-between flex-wrap gap-4 mt-auto">
                     
-                    <button 
-                      onClick={handleGenerate}
-                      disabled={!prompt}
-                      className="px-6 h-10 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white rounded-xl font-bold transition flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_15px_rgba(168,85,247,0.4)]"
-                    >
-                      Generate <Zap size={14} className="fill-white" />
-                    </button>
+                    {/* Left: Upload Buttons */}
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <button className="w-10 h-10 rounded-xl bg-[#12121A] hover:bg-[#1A1A24] flex items-center justify-center text-slate-400 hover:text-white transition border border-white/5">
+                        <Plus size={18} />
+                      </button>
+                      <button className="px-3 h-10 rounded-xl bg-[#12121A] hover:bg-[#1A1A24] flex items-center gap-2 text-xs font-semibold text-slate-300 transition border border-white/5">
+                        <ImageIcon size={14} className="text-blue-400"/> Upload Image
+                      </button>
+                      <button className="px-3 h-10 rounded-xl bg-[#12121A] hover:bg-[#1A1A24] flex items-center gap-2 text-xs font-semibold text-slate-300 transition border border-white/5">
+                        <Link2 size={14} className="text-green-400"/> Website URL
+                      </button>
+                      <button className="px-3 h-10 rounded-xl bg-[#12121A] hover:bg-[#1A1A24] flex items-center gap-2 text-xs font-semibold text-slate-300 transition border border-white/5">
+                        <Figma size={14} className="text-pink-400"/> Figma File
+                      </button>
+                      <button className="px-3 h-10 rounded-xl bg-[#12121A] hover:bg-[#1A1A24] flex items-center gap-2 text-xs font-semibold text-slate-300 transition border border-white/5">
+                        <Palette size={14} className="text-orange-400"/> Brand Kit
+                      </button>
+                    </div>
+
+                    {/* Right: Framework & Generate */}
+                    <div className="flex items-center gap-3 ml-auto">
+                      <select 
+                        value={framework}
+                        onChange={(e) => setFramework(e.target.value)}
+                        className="bg-[#12121A] border border-white/5 rounded-xl px-4 h-10 text-xs font-semibold text-slate-300 outline-none cursor-pointer appearance-none pr-9 relative hover:bg-[#1A1A24] transition"
+                        style={{ backgroundImage: 'url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2394a3b8%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.4-12.8z%22%2F%3E%3C%2Fsvg%3E")', backgroundRepeat: 'no-repeat', backgroundPosition: 'right 0.8rem top 50%', backgroundSize: '0.65rem auto' }}
+                      >
+                        <option className="bg-[#12121A]">React + Tailwind</option>
+                        <option className="bg-[#12121A]">HTML + CSS</option>
+                      </select>
+                      
+                      <button 
+                        onClick={handleGenerate}
+                        disabled={!prompt}
+                        className="px-6 h-10 bg-gradient-to-r from-[#6366f1] via-[#8b5cf6] to-[#d946ef] hover:opacity-90 text-white rounded-xl font-bold transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_20px_rgba(139,92,246,0.5)]"
+                      >
+                        Generate <Zap size={16} className="fill-white" />
+                      </button>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
             
             {/* Template Suggestions */}
-            <div className="flex items-center gap-3 mb-16">
-              <span className="text-sm text-slate-400">Try these examples</span>
-              <button onClick={() => setPrompt("A modern SaaS landing page with dark mode, glowing accents, and an animated hero section.")} className="px-4 py-2 rounded-full border border-white/5 bg-white/5 text-xs text-slate-300 hover:text-white hover:bg-white/10 transition flex items-center gap-2 font-medium">
+            <div className="flex items-center gap-4 mb-14 text-sm">
+              <span className="text-slate-400 font-medium">Try these examples</span>
+              <button onClick={() => setPrompt("A modern SaaS landing page with dark mode, glowing accents, and an animated hero section.")} className="px-4 py-2 rounded-full border border-white/5 bg-[#12121A] hover:bg-[#1A1A24] text-slate-300 hover:text-white transition flex items-center gap-2 font-medium shadow-sm">
                 <Rocket size={14} className="text-pink-400"/> SaaS Landing Page
               </button>
-              <button onClick={() => setPrompt("A complex e-commerce dashboard with sales charts, recent orders table, and a sidebar navigation.")} className="px-4 py-2 rounded-full border border-white/5 bg-white/5 text-xs text-slate-300 hover:text-white hover:bg-white/10 transition flex items-center gap-2 font-medium">
+              <button onClick={() => setPrompt("A complex e-commerce dashboard with sales charts, recent orders table, and a sidebar navigation.")} className="px-4 py-2 rounded-full border border-white/5 bg-[#12121A] hover:bg-[#1A1A24] text-slate-300 hover:text-white transition flex items-center gap-2 font-medium shadow-sm">
                 <ShoppingCart size={14} className="text-green-400"/> E-commerce Dashboard
               </button>
-              <button onClick={() => setPrompt("A minimalistic blog layout with large typography and plenty of whitespace.")} className="px-4 py-2 rounded-full border border-white/5 bg-white/5 text-xs text-slate-300 hover:text-white hover:bg-white/10 transition flex items-center gap-2 font-medium">
+              <button onClick={() => setPrompt("A minimalistic blog layout with large typography and plenty of whitespace.")} className="px-4 py-2 rounded-full border border-white/5 bg-[#12121A] hover:bg-[#1A1A24] text-slate-300 hover:text-white transition flex items-center gap-2 font-medium shadow-sm">
                 <Paperclip size={14} className="text-slate-400"/> Minimal Blog
               </button>
             </div>
 
             {/* Bottom Features Grid */}
-            <div className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-5 gap-4">
+            <div className="w-full grid grid-cols-1 md:grid-cols-5 gap-5 pb-12 mt-auto">
               <FeatureCard 
                 icon={<Sparkles size={20} className="text-purple-400"/>} 
                 iconBg="bg-purple-500/10 border-purple-500/20"
@@ -388,12 +387,12 @@ export default function UIUXStudioPage() {
 
 function FeatureCard({ icon, iconBg, title, desc }: { icon: React.ReactNode, iconBg: string, title: string, desc: string }) {
   return (
-    <div className="bg-[#12121A] border border-white/5 rounded-2xl p-5 hover:bg-white/5 transition duration-300 cursor-pointer group">
-      <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-4 border ${iconBg} shadow-lg`}>
+    <div className="bg-[#09090E] border border-white/5 rounded-[20px] p-6 hover:bg-[#12121A] transition duration-300 cursor-pointer group shadow-sm flex flex-col h-full">
+      <div className={`w-12 h-12 rounded-2xl flex items-center justify-center mb-5 border ${iconBg} shadow-inner bg-[#0B0B14]`}>
         {icon}
       </div>
-      <h3 className="text-sm font-semibold text-white mb-2 group-hover:text-purple-400 transition-colors">{title}</h3>
-      <p className="text-xs text-slate-500 leading-relaxed">{desc}</p>
+      <h3 className="text-[15px] font-bold text-white mb-2 group-hover:text-purple-400 transition-colors">{title}</h3>
+      <p className="text-[13px] text-slate-400 leading-relaxed">{desc}</p>
     </div>
   );
 }
@@ -416,3 +415,4 @@ function SidebarSubItem({ label }: { label: string }) {
     </div>
   );
 }
+
