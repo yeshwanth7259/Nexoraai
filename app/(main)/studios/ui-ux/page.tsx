@@ -12,6 +12,7 @@ import {
   Rocket, ShoppingCart, Paperclip
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { SandpackProvider, SandpackPreview } from "@codesandbox/sandpack-react";
 
 type AppState = 'input' | 'analyzing' | 'canvas';
 type ResponsiveMode = 'desktop' | 'tablet' | 'mobile';
@@ -337,15 +338,37 @@ export default function UIUXStudioPage() {
                           <body>${generatedCode}</body>
                         </html>
                       `}
-                      className="w-full h-full border-none"
+                      className="w-full h-full border-none min-h-[600px]"
                       title="Generated Component Preview"
                     />
                   ) : (
-                    <div className="w-full h-full flex flex-col items-center justify-center p-10 text-center">
-                      <Code2 size={48} className="text-slate-700 mb-4" />
-                      <h3 className="text-xl font-bold text-slate-300 mb-2">React Preview Not Available</h3>
-                      <p className="text-slate-500 max-w-md">The generated code is a React component. Because it may use external imports, we cannot render it safely in the browser here. Please view the code in the right panel.</p>
-                      <button onClick={() => {setFramework('HTML + CSS'); handleGenerate();}} className="mt-6 px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-lg font-medium text-sm transition">Generate HTML version instead</button>
+                    <div className="w-full h-full min-h-[600px] bg-white rounded-[23px] overflow-hidden">
+                      <SandpackProvider 
+                        template="react"
+                        theme="dark"
+                        files={{
+                          "/App.js": generatedCode || `export default function App() { return <div>Wait</div> }`,
+                          "/public/index.html": `<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>React App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>`
+                        }}
+                        customSetup={{
+                          dependencies: {
+                            "lucide-react": "latest"
+                          }
+                        }}
+                      >
+                        <SandpackPreview className="w-full h-full border-none" style={{height: '600px'}} showOpenInCodeSandbox={false} />
+                      </SandpackProvider>
                     </div>
                   )}
                 </div>

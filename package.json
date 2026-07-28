@@ -12,6 +12,7 @@
     "@ai-sdk/anthropic": "^4.0.19",
     "@ai-sdk/google": "^3.0.100",
     "@anthropic-ai/sdk": "^0.24.0",
+    "@codesandbox/sandpack-react": "^2.20.0",
     "@supabase/ssr": "^0.12.3",
     "@supabase/supabase-js": "^2.110.8",
     "ai": "^7.0.37",
