@@ -26,6 +26,10 @@ export default function AssistantPage() {
         body: JSON.stringify({ messages: newMessages, userPlan: "basic" }),
       });
 
+      if (!res.ok) {
+        const errText = await res.text();
+        throw new Error(errText || "API Error");
+      }
       if (!res.body) throw new Error("No response body");
 
       const reader = res.body.getReader();
@@ -39,8 +43,25 @@ export default function AssistantPage() {
         const { done, value } = await reader.read();
         if (done) break;
         
-        const chunk = decoder.decode(value, { stream: true });
-        assistantReply += chunk;
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop() || "";
+        
+        for (const line of lines) {
+          if (line.trim() === "") continue;
+          if (line.startsWith('data: ')) {
+            const dataStr = line.substring(6).trim();
+            if (dataStr === "[DONE]") continue;
+            try {
+              const data = JSON.parse(dataStr);
+              if (data.candidates?.[0]?.content?.parts?.[0]?.text) {
+                assistantReply += data.candidates[0].content.parts[0].text;
+              }
+            } catch (e) {
+              // Ignore partial JSON blocks across chunks
+            }
+          }
+        }
 
         setMessages((prev) => {
           const updated = [...prev];

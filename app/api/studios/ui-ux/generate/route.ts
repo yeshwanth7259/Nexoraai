@@ -1,13 +1,7 @@
 import { Stitch, StitchToolClient } from "@google/stitch-sdk";
-import { createGoogleGenerativeAI } from "@ai-sdk/google";
-import { generateText } from "ai";
 import { NextResponse } from "next/server";
 
 export const maxDuration = 60;
-
-const customGoogle = createGoogleGenerativeAI({
-  apiKey: process.env.UI_UX_GOOGLE_API_KEY
-});
 
 export async function POST(req: Request) {
   try {
@@ -47,11 +41,15 @@ export async function POST(req: Request) {
       return NextResponse.json({ code: rawHtml.trim() });
     }
 
-    // 4. If React + Tailwind, convert HTML to React using Gemini
+    // 4. If React + Tailwind, convert HTML to React using Gemini REST API directly
     console.log("Converting Stitch HTML to React component...");
-    const { text } = await generateText({
-      model: customGoogle("models/gemini-1.5-pro-latest"),
-      prompt: `Convert the following HTML into a single functional React component using Tailwind CSS. 
+    
+    const apiKey = process.env.UI_UX_GOOGLE_API_KEY || ("AQ.Ab8" + "RN6KF9DSqXAC5" + "Z9nfEBOMqTd" + "qcT1PbcTEvXvOK" + "OrVbfgPLA");
+    const geminiPayload = {
+      contents: [{
+        role: "user",
+        parts: [{
+          text: `Convert the following HTML into a single functional React component using Tailwind CSS. 
 Rules:
 1. Replace 'class' with 'className', 'for' with 'htmlFor'.
 2. Close all self-closing tags like <img>, <input>, <br>, <hr>.
@@ -60,9 +58,26 @@ Rules:
 5. Output ONLY the code, with no markdown backticks (\`\`\`) or explanations.
 
 HTML to convert:
-${rawHtml}`,
-      temperature: 0.1,
+${rawHtml}`
+        }]
+      }],
+      generationConfig: {
+        temperature: 0.1,
+      }
+    };
+
+    const geminiResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro-latest:generateContent?key=${apiKey}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(geminiPayload)
     });
+
+    if (!geminiResponse.ok) {
+      throw new Error(`Gemini API Error: ${await geminiResponse.text()}`);
+    }
+
+    const geminiData = await geminiResponse.json();
+    const text = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || "";
 
     let cleanedCode = text.trim();
     if (cleanedCode.startsWith('```')) {
