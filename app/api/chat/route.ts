@@ -40,7 +40,7 @@ Your core mission is to empower students to learn deeply and developers to build
       messages,
     });
 
-    return result.toDataStreamResponse();
+    return result.toTextStreamResponse();
   } catch (error) {
     console.error("Chat API Error:", error);
     return new Response(JSON.stringify({ error: "Failed to process chat request." }), { status: 500 });

@@ -39,25 +39,8 @@ export default function AssistantPage() {
         const { done, value } = await reader.read();
         if (done) break;
         
-        buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split('\n');
-        buffer = lines.pop() || "";
-        
-        for (const line of lines) {
-          if (line.startsWith('0:')) {
-            try {
-              const text = JSON.parse(line.substring(2));
-              assistantReply += text;
-            } catch (e) {
-              console.error("Failed to parse chunk", line);
-            }
-          } else if (line.startsWith('3:')) {
-             try {
-                const error = JSON.parse(line.substring(2));
-                assistantReply += "\n\nError: " + error.message;
-             } catch(e) {}
-          }
-        }
+        const chunk = decoder.decode(value, { stream: true });
+        assistantReply += chunk;
 
         setMessages((prev) => {
           const updated = [...prev];
