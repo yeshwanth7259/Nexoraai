@@ -37,21 +37,9 @@ export default function AssistantPage() {
         const { done, value } = await reader.read();
         if (done) break;
         
-        // Vercel AI SDK text streams send chunks in the format: 0:"text"
+        // The API uses .toTextStreamResponse() which returns raw text
         const chunk = decoder.decode(value, { stream: true });
-        
-        // Parse the chunk. Split by newline since multiple chunks might arrive
-        const lines = chunk.split('\n');
-        for (const line of lines) {
-          if (line.startsWith('0:')) {
-            try {
-              const text = JSON.parse(line.substring(2));
-              assistantReply += text;
-            } catch (e) {
-              // Handle incomplete JSON if chunking was weird
-            }
-          }
-        }
+        assistantReply += chunk;
 
         setMessages((prev) => {
           const updated = [...prev];
