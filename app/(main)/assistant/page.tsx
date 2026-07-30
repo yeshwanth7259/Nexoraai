@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Send, Sparkles, Plus, Mic, User, Bot, Loader2 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
-import { useChat } from "@ai-sdk/react";
 
 export default function AssistantPage() {
   const searchParams = useSearchParams();
@@ -11,17 +10,74 @@ export default function AssistantPage() {
   const hasInitialized = useRef(false);
   const formRef = useRef<HTMLFormElement>(null);
   
-  const { messages, input, handleInputChange, handleSubmit, append, isLoading } = useChat({
-    api: "/api/chat",
-    body: { userPlan: "basic" },
-  });
+  const [input, setInput] = useState("");
+  const [messages, setMessages] = useState<{role: string, content: string}[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const sendMessage = async (msg: { role: string; content: string }) => {
+    const newMessages = [...messages, msg];
+    setMessages(newMessages);
+    setIsLoading(true);
+
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: newMessages, userPlan: "basic" }),
+      });
+
+      if (!res.body) throw new Error("No response body");
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let assistantReply = "";
+      let buffer = "";
+
+      setMessages((prev) => [...prev, { role: "assistant", content: "" }]);
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        
+        buffer += decoder.decode(value, { stream: true });
+        const lines = buffer.split('\n');
+        buffer = lines.pop() || "";
+        
+        for (const line of lines) {
+          if (line.startsWith('0:')) {
+            try {
+              const text = JSON.parse(line.substring(2));
+              assistantReply += text;
+            } catch (e) {
+              console.error("Failed to parse chunk", line);
+            }
+          } else if (line.startsWith('3:')) {
+             try {
+                const error = JSON.parse(line.substring(2));
+                assistantReply += "\n\nError: " + error.message;
+             } catch(e) {}
+          }
+        }
+
+        setMessages((prev) => {
+          const updated = [...prev];
+          updated[updated.length - 1].content = assistantReply;
+          return updated;
+        });
+      }
+    } catch (err) {
+      setMessages((prev) => [...prev, { role: "assistant", content: "⚠️ Connection error." }]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (initialQuery && !hasInitialized.current) {
       hasInitialized.current = true;
-      append({ role: "user", content: initialQuery });
+      sendMessage({ role: "user", content: initialQuery });
     }
-  }, [initialQuery, append]);
+  }, [initialQuery]);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -32,7 +88,6 @@ export default function AssistantPage() {
     <div className="flex flex-col h-full max-w-5xl mx-auto w-full relative">
       <div className="flex-1 overflow-y-auto pb-32 pt-8 hide-scrollbar">
         {messages.length === 0 ? (
-          /* Initial Empty State */
           <div className="flex flex-col items-center justify-center min-h-[50vh] text-center px-4">
             <div className="w-20 h-20 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center mb-8 shadow-[0_0_40px_rgba(109,91,255,0.4)] animate-in zoom-in duration-500">
               <Sparkles size={32} className="text-white" />
@@ -45,14 +100,13 @@ export default function AssistantPage() {
             </p>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-2xl animate-in fade-in slide-in-from-bottom-4">
-              <SuggestionCard title="Build a CRM" desc="for my real estate agency" icon="👥" onClick={() => append({ role: 'user', content: 'Build a CRM for my real estate agency' })} />
-              <SuggestionCard title="Generate a Landing Page" desc="for a new SaaS product" icon="🌐" onClick={() => append({ role: 'user', content: 'Generate a Landing Page for a new SaaS product' })} />
-              <SuggestionCard title="Run an SEO Audit" desc="on my main competitor" icon="📈" onClick={() => append({ role: 'user', content: 'Run an SEO Audit on my main competitor' })} />
-              <SuggestionCard title="Deploy my React app" desc="to Vercel with preview URLs" icon="🚀" onClick={() => append({ role: 'user', content: 'Deploy my React app to Vercel with preview URLs' })} />
+              <SuggestionCard title="Build a CRM" desc="for my real estate agency" icon="👥" onClick={() => sendMessage({ role: 'user', content: 'Build a CRM for my real estate agency' })} />
+              <SuggestionCard title="Generate a Landing Page" desc="for a new SaaS product" icon="🌐" onClick={() => sendMessage({ role: 'user', content: 'Generate a Landing Page for a new SaaS product' })} />
+              <SuggestionCard title="Run an SEO Audit" desc="on my main competitor" icon="📈" onClick={() => sendMessage({ role: 'user', content: 'Run an SEO Audit on my main competitor' })} />
+              <SuggestionCard title="Deploy my React app" desc="to Vercel with preview URLs" icon="🚀" onClick={() => sendMessage({ role: 'user', content: 'Deploy my React app to Vercel with preview URLs' })} />
             </div>
           </div>
         ) : (
-          /* Chat Messages */
           <div className="max-w-3xl mx-auto w-full px-4">
             {messages.map((m, idx) => (
               <div 
@@ -93,7 +147,13 @@ export default function AssistantPage() {
       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-background via-background to-transparent pt-10 pb-6 px-4">
         <form 
           ref={formRef} 
-          onSubmit={handleSubmit} 
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (input.trim() && !isLoading) {
+              sendMessage({ role: "user", content: input });
+              setInput("");
+            }
+          }} 
           className="max-w-3xl mx-auto relative group"
         >
           <div className="absolute inset-0 bg-primary/20 rounded-2xl blur-xl group-focus-within:bg-primary/30 transition-all duration-300"></div>
@@ -103,7 +163,7 @@ export default function AssistantPage() {
             </button>
             <textarea 
               value={input}
-              onChange={handleInputChange}
+              onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === "Enter" && !e.shiftKey) {
                   e.preventDefault();
