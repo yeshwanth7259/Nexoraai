@@ -1,7 +1,11 @@
-import { google } from '@ai-sdk/google';
+import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import { streamText } from 'ai';
 
 export const runtime = 'edge';
+
+const customGoogle = createGoogleGenerativeAI({
+  apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY
+});
 
 export async function POST(req: Request) {
   try {
@@ -25,10 +29,10 @@ Your core mission is to empower students to learn deeply and developers to build
 - Be concise, direct, empathetic, and highly accurate. You are Nexora AI.
 `;
 
-    // Using Gemini models since user provided Google API Key
+    // Using Gemini models with provided API Key
     const selectedModel = userPlan === 'ultra_pro' 
-      ? google('gemini-3.6-flash') 
-      : google('gemini-3.5-flash-lite');
+      ? customGoogle('gemini-1.5-pro') 
+      : customGoogle('gemini-1.5-flash');
 
     const result = streamText({
       model: selectedModel,

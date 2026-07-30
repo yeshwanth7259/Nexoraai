@@ -1,9 +1,13 @@
 import { Stitch, StitchToolClient } from "@google/stitch-sdk";
-import { google } from "@ai-sdk/google";
+import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { generateText } from "ai";
 import { NextResponse } from "next/server";
 
 export const maxDuration = 60;
+
+const customGoogle = createGoogleGenerativeAI({
+  apiKey: process.env.UI_UX_GOOGLE_API_KEY
+});
 
 export async function POST(req: Request) {
   try {
@@ -46,7 +50,7 @@ export async function POST(req: Request) {
     // 4. If React + Tailwind, convert HTML to React using Gemini
     console.log("Converting Stitch HTML to React component...");
     const { text } = await generateText({
-      model: google("models/gemini-1.5-pro-latest"),
+      model: customGoogle("models/gemini-1.5-pro-latest"),
       prompt: `Convert the following HTML into a single functional React component using Tailwind CSS. 
 Rules:
 1. Replace 'class' with 'className', 'for' with 'htmlFor'.

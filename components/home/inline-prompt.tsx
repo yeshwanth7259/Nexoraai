@@ -5,10 +5,12 @@ import { Mic, Send, X, File as FileIcon } from "lucide-react";
 import { AttachmentMenu } from "@/components/chat/attachment-menu";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import { useRouter } from "next/navigation";
 
 export function InlinePrompt() {
   const [input, setInput] = useState("");
   const [attachedFile, setAttachedFile] = useState<File | null>(null);
+  const router = useRouter();
 
   const handleFileSelect = (file: File) => {
     setAttachedFile(file);
@@ -16,6 +18,18 @@ export function InlinePrompt() {
 
   const removeFile = () => {
     setAttachedFile(null);
+  };
+
+  const handleSubmit = () => {
+    if (input.trim() || attachedFile) {
+      router.push(`/assistant?q=${encodeURIComponent(input.trim())}`);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSubmit();
+    }
   };
 
   return (
@@ -76,6 +90,7 @@ export function InlinePrompt() {
           type="text" 
           value={input}
           onChange={(e) => setInput(e.target.value)}
+          onKeyDown={handleKeyDown}
           placeholder="Ask Nexora to build, design, or analyze anything..." 
           className="bg-transparent border-none text-white text-[15px] placeholder:text-slate-500 w-full focus:outline-none focus:ring-0 ml-2"
         />
@@ -84,7 +99,10 @@ export function InlinePrompt() {
           <button className="w-10 h-10 rounded-xl bg-white/5 hover:bg-white/10 flex items-center justify-center text-slate-400 transition">
             <Mic size={18} />
           </button>
-          <button className={`w-10 h-10 rounded-xl flex items-center justify-center transition shadow-[0_0_15px_rgba(109,91,255,0.5)] ${input.trim() || attachedFile ? 'bg-primary hover:bg-accent text-white' : 'bg-primary/50 text-white/50 cursor-not-allowed'}`}>
+          <button 
+            onClick={handleSubmit}
+            className={`w-10 h-10 rounded-xl flex items-center justify-center transition shadow-[0_0_15px_rgba(109,91,255,0.5)] ${input.trim() || attachedFile ? 'bg-primary hover:bg-accent text-white' : 'bg-primary/50 text-white/50 cursor-not-allowed'}`}
+          >
             <Send size={18} />
           </button>
         </div>
@@ -110,3 +128,4 @@ function PromptPill({ text, href }: { text: string, href: string }) {
     </Link>
   );
 }
+
