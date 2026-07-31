@@ -31,7 +31,7 @@ export default async function HomePage() {
   const firstName = user?.profileName || user?.email?.split('@')[0] || "User";
 
   return (
-    <div className="w-full h-full max-w-[1600px] mx-auto text-white px-2 sm:px-4 md:px-8 pt-6 pb-12">
+    <div className="w-full min-h-full max-w-[1600px] mx-auto text-white px-2 sm:px-4 md:px-8 pt-6 pb-32 md:pb-12">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         
         {/* LEFT COLUMN (9 columns) */}
