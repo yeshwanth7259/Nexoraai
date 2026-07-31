@@ -31,14 +31,14 @@ export default async function HomePage() {
   const firstName = user?.profileName || user?.email?.split('@')[0] || "User";
 
   return (
-    <div className="w-full h-full max-w-[1600px] mx-auto text-white pt-8 pb-10">
+    <div className="w-full h-full max-w-[1600px] mx-auto text-white px-4 md:px-8 pt-4 md:pt-8 pb-10 md:pb-12">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         
         {/* LEFT COLUMN (9 columns) */}
         <div className="lg:col-span-9 flex flex-col gap-6">
           
           {/* HERO SECTION */}
-          <div className="relative w-full min-h-[360px] rounded-3xl border border-white/5 bg-[#0B0B14] p-8 md:p-10 flex flex-col justify-between overflow-hidden">
+          <div className="relative w-full min-h-[300px] md:min-h-[360px] rounded-3xl border border-white/5 bg-[#0B0B14] p-5 sm:p-8 md:p-10 flex flex-col justify-between overflow-hidden">
             {/* Background Glows & Graphics */}
             <div className="absolute inset-0 pointer-events-none">
               <div className="absolute top-0 right-0 w-[600px] h-full transform translate-x-10 md:translate-x-0">
@@ -65,7 +65,7 @@ export default async function HomePage() {
             </div>
 
             <div className="relative z-10 max-w-xl">
-              <h1 className="text-4xl font-bold mb-3 tracking-tight">{greeting}, <span className="capitalize">{firstName}</span>! <span className="animate-wave inline-block origin-bottom-right">👋</span></h1>
+              <h1 className="text-3xl md:text-4xl font-bold mb-3 tracking-tight">{greeting}, <span className="capitalize">{firstName}</span>! <span className="animate-wave inline-block origin-bottom-right">👋</span></h1>
               <p className="text-slate-400 text-[15px] leading-relaxed max-w-md mb-8">
                 Welcome to Nexora AI OS. Build, grow & manage your digital universe with the power of artificial intelligence.
               </p>
@@ -78,7 +78,7 @@ export default async function HomePage() {
           </div>
 
           {/* AI STUDIOS */}
-          <div className="bg-[#0B0B14] rounded-3xl border border-white/5 p-6">
+          <div className="bg-[#0B0B14] rounded-3xl border border-white/5 p-5 md:p-6">
             <div className="flex items-center justify-between mb-5">
               <div className="flex items-center gap-2">
                 <Sparkles size={18} className="text-primary" />
@@ -89,7 +89,7 @@ export default async function HomePage() {
               </Link>
             </div>
             
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
               <StudioCard 
                 icon={Globe} title="Website Studio" desc="Build high-converting websites with AI" 
                 color="blue" href="/studios/website"
@@ -122,16 +122,16 @@ export default async function HomePage() {
             
             {/* OVERVIEW & PROJECTS */}
             <div className="flex flex-col gap-6">
-              <div className="bg-[#0B0B14] rounded-3xl border border-white/5 p-6">
+              <div className="bg-[#0B0B14] rounded-3xl border border-white/5 p-5 md:p-6">
                 <h2 className="text-lg font-semibold mb-5">Overview</h2>
-                <div className="grid grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <MetricCard value={projectsCount.toString()} label="Projects" change="+ 0%" trend="up" color="blue" icon={FolderOpen} />
                   <MetricCard value={metrics?.seo_traffic?.toString() || "0"} label="SEO Traffic" change={`+ ${metrics?.traffic_growth || 0}%`} trend="up" color="green" icon={LineChart} />
                   <MetricCard value={metrics?.active_leads?.toString() || "0"} label="Active Leads" change={`+ ${metrics?.leads_growth || 0}%`} trend="up" color="orange" icon={Users} />
                 </div>
               </div>
 
-              <div className="bg-[#0B0B14] rounded-3xl border border-white/5 p-6 flex-1 min-h-[250px]">
+              <div className="bg-[#0B0B14] rounded-3xl border border-white/5 p-5 md:p-6 flex-1 min-h-[250px]">
                 <div className="flex items-center justify-between mb-5">
                   <h2 className="text-lg font-semibold">Recent Projects</h2>
                   <Link href="/projects" className="text-sm text-primary hover:text-white transition flex items-center gap-1">
@@ -162,7 +162,7 @@ export default async function HomePage() {
             </div>
 
             {/* TASKS */}
-            <div className="bg-[#0B0B14] rounded-3xl border border-white/5 p-6 min-h-[300px]">
+            <div className="bg-[#0B0B14] rounded-3xl border border-white/5 p-5 md:p-6 min-h-[300px]">
               <div className="flex items-center justify-between mb-5">
                 <h2 className="text-lg font-semibold">Tasks</h2>
                 <Link href="/tasks" className="text-sm text-primary hover:text-white transition flex items-center gap-1">
@@ -196,7 +196,7 @@ export default async function HomePage() {
         <div className="lg:col-span-3 flex flex-col gap-6">
           
           {/* AI ASSISTANT PROMO */}
-          <div className="bg-gradient-to-b from-[#1A1438] to-[#0B0B14] rounded-3xl border border-purple-500/20 p-6 relative overflow-hidden">
+          <div className="bg-gradient-to-b from-[#1A1438] to-[#0B0B14] rounded-3xl border border-purple-500/20 p-5 md:p-6 relative overflow-hidden">
             <div className="absolute -top-10 -right-10 w-32 h-32 bg-primary/30 rounded-full blur-[40px]"></div>
             <div className="flex items-center justify-between mb-8 relative z-10">
               <div className="flex items-center gap-2">
@@ -219,7 +219,7 @@ export default async function HomePage() {
           </div>
 
           {/* ACTIVITY FEED */}
-          <div className="bg-[#0B0B14] rounded-3xl border border-white/5 p-6 flex-1 min-h-[300px]">
+          <div className="bg-[#0B0B14] rounded-3xl border border-white/5 p-5 md:p-6 flex-1 min-h-[300px]">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-lg font-semibold">Activity Feed</h2>
               <div className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-green-500/10 border border-green-500/20">
@@ -251,7 +251,7 @@ export default async function HomePage() {
           </div>
 
           {/* QUICK ACTIONS */}
-          <div className="bg-[#0B0B14] rounded-3xl border border-white/5 p-6">
+          <div className="bg-[#0B0B14] rounded-3xl border border-white/5 p-5 md:p-6">
             <h2 className="text-lg font-semibold mb-4">Quick Actions</h2>
             <div className="grid grid-cols-2 gap-3">
               <Link href="/studios/website"><ActionCard icon={Plus} label="New Project" color="text-purple-400" bgColor="bg-purple-500/10" /></Link>
