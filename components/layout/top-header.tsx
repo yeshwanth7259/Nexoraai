@@ -22,17 +22,17 @@ export function TopHeader({ onOpenCommandPalette, onOpenAuth }: { onOpenCommandP
   }, []);
 
   return (
-    <header className="absolute top-0 right-0 h-[72px] flex items-center justify-between px-8 z-20 w-full bg-background/50 backdrop-blur-xl pointer-events-none border-b border-white/5">
+    <header className="absolute top-0 right-0 h-[72px] flex items-center justify-between px-4 md:px-8 z-20 w-full bg-background/50 backdrop-blur-xl pointer-events-none border-b border-white/5">
       
       {/* Left / Search */}
       <div className="pointer-events-auto flex-1 flex items-center">
         <button 
           onClick={onOpenCommandPalette}
-          className="flex items-center justify-between w-[340px] text-slate-400 bg-white/5 hover:bg-white/10 px-4 py-2.5 rounded-xl border border-white/5 transition group"
+          className="flex items-center justify-between w-[200px] sm:w-[280px] md:w-[340px] text-slate-400 bg-white/5 hover:bg-white/10 px-3 md:px-4 py-2 md:py-2.5 rounded-xl border border-white/5 transition group"
         >
-          <div className="flex items-center gap-3">
-            <Search size={16} className="text-slate-500 group-hover:text-white transition" />
-            <span className="text-[13px] font-medium group-hover:text-white transition">Search anything in Nexora...</span>
+          <div className="flex items-center gap-2 md:gap-3 overflow-hidden">
+            <Search size={16} className="text-slate-500 group-hover:text-white transition shrink-0" />
+            <span className="text-[12px] md:text-[13px] font-medium group-hover:text-white transition truncate">Search...</span>
           </div>
           <kbd className="hidden sm:inline-flex items-center gap-1 bg-black/30 border border-white/10 rounded px-1.5 py-0.5 text-[10px] font-mono text-slate-400">
             <Command size={10} /> K
@@ -41,8 +41,8 @@ export function TopHeader({ onOpenCommandPalette, onOpenAuth }: { onOpenCommandP
       </div>
 
       {/* Right Icons & Profile */}
-      <div className="pointer-events-auto flex items-center gap-5">
-        <button className="text-slate-400 hover:text-white transition">
+      <div className="pointer-events-auto flex items-center gap-3 md:gap-5">
+        <button className="text-slate-400 hover:text-white transition hidden sm:block">
           <Gift size={20} />
         </button>
         

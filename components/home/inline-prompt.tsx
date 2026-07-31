@@ -33,7 +33,7 @@ export function InlinePrompt() {
   };
 
   return (
-    <div className="relative z-10 w-full md:w-[80%] max-w-2xl bg-[#12121A]/80 backdrop-blur-xl border border-white/10 rounded-2xl p-2 shadow-2xl flex flex-col gap-2">
+    <div className="relative z-10 w-full max-w-2xl bg-[#12121A]/80 backdrop-blur-xl border border-white/10 rounded-2xl p-2 shadow-2xl flex flex-col gap-2 mx-auto">
       
       {/* File Preview Area */}
       <AnimatePresence>
@@ -79,7 +79,7 @@ export function InlinePrompt() {
         )}
       </AnimatePresence>
 
-      <div className="flex items-center justify-between px-3 pt-2">
+      <div className="flex items-center justify-between px-2 sm:px-3 pt-2">
         <AttachmentMenu 
           direction="down" 
           onFileSelect={handleFileSelect} 
@@ -91,24 +91,24 @@ export function InlinePrompt() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Ask Nexora to build, design, or analyze anything..." 
-          className="bg-transparent border-none text-white text-[15px] placeholder:text-slate-500 w-full focus:outline-none focus:ring-0 ml-2"
+          placeholder="Ask Nexora to build..." 
+          className="bg-transparent border-none text-white text-[13px] sm:text-[15px] placeholder:text-slate-500 w-full focus:outline-none focus:ring-0 ml-1 sm:ml-2 min-w-0"
         />
         
-        <div className="flex items-center gap-2">
-          <button className="w-10 h-10 rounded-xl bg-white/5 hover:bg-white/10 flex items-center justify-center text-slate-400 transition">
-            <Mic size={18} />
+        <div className="flex items-center gap-1 sm:gap-2 shrink-0">
+          <button className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-white/5 hover:bg-white/10 flex items-center justify-center text-slate-400 transition">
+            <Mic size={16} className="sm:w-[18px] sm:h-[18px]" />
           </button>
           <button 
             onClick={handleSubmit}
-            className={`w-10 h-10 rounded-xl flex items-center justify-center transition shadow-[0_0_15px_rgba(109,91,255,0.5)] ${input.trim() || attachedFile ? 'bg-primary hover:bg-accent text-white' : 'bg-primary/50 text-white/50 cursor-not-allowed'}`}
+            className={`w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center transition shadow-[0_0_15px_rgba(109,91,255,0.5)] ${input.trim() || attachedFile ? 'bg-primary hover:bg-accent text-white' : 'bg-primary/50 text-white/50 cursor-not-allowed'}`}
           >
-            <Send size={18} />
+            <Send size={16} className="sm:w-[18px] sm:h-[18px]" />
           </button>
         </div>
       </div>
       
-      <div className="flex items-center gap-2 px-2 pb-1 overflow-x-auto hide-scrollbar mt-1">
+      <div className="flex items-center gap-2 px-2 pb-2 overflow-x-auto mt-1 scrollbar-hide [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         <PromptPill text="Build a website" href="/studios/website" />
         <PromptPill text="Generate SEO report" href="/studios/seo" />
         <PromptPill text="Create CRM" href="/studios/crm" />
