@@ -10,47 +10,62 @@ export function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [authError, setAuthError] = useState("");
-  const supabase = createClient();
-
   const [authSuccess, setAuthSuccess] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const supabase = createClient();
 
   const handleAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     setAuthError("");
     setAuthSuccess("");
+    setIsLoading(true);
     
-    if (authMode === "signup") {
-      const { error, data } = await supabase.auth.signUp({ 
-        email, 
-        password,
-        options: {
-          emailRedirectTo: `${location.origin}/auth/callback`
+    try {
+      if (authMode === "signup") {
+        const { error, data } = await supabase.auth.signUp({ 
+          email, 
+          password,
+          options: {
+            emailRedirectTo: `${location.origin}/auth/callback`
+          }
+        });
+        if (error) {
+          setAuthError(error.message);
+        } else if (data?.user?.identities?.length === 0) {
+          setAuthError("This email is already registered. Please log in.");
+        } else if (data.session) {
+          onClose();
+        } else {
+          setAuthSuccess("Check your email for the confirmation link!");
         }
-      });
-      if (error) {
-        setAuthError(error.message);
-      } else if (data?.user?.identities?.length === 0) {
-        setAuthError("This email is already registered. Please log in.");
-      } else if (data.session) {
-        // If email confirmation is disabled, session is returned immediately
-        onClose();
       } else {
-        setAuthSuccess("Check your email for the confirmation link!");
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) setAuthError(error.message);
+        else onClose();
       }
-    } else {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
-      if (error) setAuthError(error.message);
-      else onClose();
+    } catch (err: any) {
+      setAuthError("An unexpected error occurred. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleGoogleLogin = async () => {
-    await supabase.auth.signInWithOAuth({ 
-      provider: "google",
-      options: {
-        redirectTo: `${location.origin}/auth/callback`,
-      }
-    });
+    setIsLoading(true);
+    setAuthError("");
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({ 
+        provider: "google",
+        options: {
+          redirectTo: `${location.origin}/auth/callback`,
+        }
+      });
+      if (error) setAuthError(error.message);
+    } catch (err: any) {
+      setAuthError("Failed to initialize Google login.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -102,7 +117,8 @@ export function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
                   value={email} 
                   onChange={(e) => setEmail(e.target.value)} 
                   required 
-                  className="w-full bg-black/30 border border-white/10 rounded-xl py-3 px-4 text-sm text-white focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition"
+                  disabled={isLoading}
+                  className="w-full bg-black/30 border border-white/10 rounded-xl py-3 px-4 text-sm text-white focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition disabled:opacity-50"
                   placeholder="name@company.com"
                 />
               </div>
@@ -113,11 +129,22 @@ export function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
                   value={password} 
                   onChange={(e) => setPassword(e.target.value)} 
                   required 
-                  className="w-full bg-black/30 border border-white/10 rounded-xl py-3 px-4 text-sm text-white focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition"
+                  disabled={isLoading}
+                  className="w-full bg-black/30 border border-white/10 rounded-xl py-3 px-4 text-sm text-white focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition disabled:opacity-50"
                   placeholder="••••••••"
                 />
               </div>
-              <button type="submit" className="w-full bg-primary hover:bg-accent text-white font-medium py-3 rounded-xl transition shadow-[0_0_20px_rgba(109,91,255,0.4)] mt-4">
+              <button 
+                type="submit" 
+                disabled={isLoading}
+                className="w-full bg-primary hover:bg-accent text-white font-medium py-3 rounded-xl transition shadow-[0_0_20px_rgba(109,91,255,0.4)] mt-4 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+              >
+                {isLoading && (
+                  <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                )}
                 {authMode === "login" ? "Continue" : "Sign up"}
               </button>
             </form>
@@ -130,7 +157,8 @@ export function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
 
             <button 
               onClick={handleGoogleLogin} 
-              className="w-full bg-white/5 hover:bg-white/10 text-white text-sm font-medium py-3 rounded-xl border border-white/10 transition flex items-center justify-center gap-2"
+              disabled={isLoading}
+              className="w-full bg-white/5 hover:bg-white/10 text-white text-sm font-medium py-3 rounded-xl border border-white/10 transition flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Globe size={18} /> Continue with Google
             </button>
