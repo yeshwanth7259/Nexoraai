@@ -331,63 +331,63 @@ function OrganicTrafficView({ data }: { data: any }) {
       <h2 className="text-3xl font-medium truncate mb-2">{data.url}</h2>
       <p className="text-sm text-slate-500 mb-6 border-b pb-4">Domain including subdomains</p>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
         {/* Left Side: Stats */}
         <div className="flex flex-col">
-          <div className="flex gap-12 mb-6">
+          <div className="flex gap-6 sm:gap-12 mb-6">
             <div>
               <div className="flex items-center gap-1 text-slate-600 mb-1">
                 <span className="font-medium text-[13px]">Organic traffic</span>
                 <span className="text-[9px] bg-slate-200 text-slate-500 rounded-full w-3 h-3 flex items-center justify-center cursor-help">i</span>
               </div>
-              <div className="text-[28px] leading-none font-medium">{data.trafficEstimate}</div>
+              <div className="text-2xl sm:text-[28px] leading-none font-medium">{data.trafficEstimate}</div>
             </div>
             <div>
               <div className="flex items-center gap-1 text-slate-600 mb-1">
                 <span className="font-medium text-[13px]">Traffic value</span>
                 <span className="text-[9px] bg-slate-200 text-slate-500 rounded-full w-3 h-3 flex items-center justify-center cursor-help">i</span>
               </div>
-              <div className="text-[28px] leading-none font-medium">{data.trafficValue}</div>
+              <div className="text-2xl sm:text-[28px] leading-none font-medium">{data.trafficValue}</div>
             </div>
           </div>
 
-          <div className="bg-[#f8f9fa] rounded-lg p-5 border border-slate-100 flex items-center gap-8 shadow-sm">
+          <div className="bg-[#f8f9fa] rounded-lg p-4 sm:p-5 border border-slate-100 flex items-center gap-4 sm:gap-8 shadow-sm">
             <div className="flex items-center gap-3">
-              <div className="w-[50px] h-[50px] rounded-full flex items-center justify-center relative">
+              <div className="w-[40px] h-[40px] sm:w-[50px] sm:h-[50px] rounded-full flex items-center justify-center relative shrink-0">
                 <svg className="absolute inset-0 w-full h-full transform -rotate-90">
-                   <circle cx="25" cy="25" r="20" fill="none" stroke="#e9ecef" strokeWidth="6" />
-                   <circle cx="25" cy="25" r="20" fill="none" stroke="#FFA726" strokeWidth="6" strokeDasharray="125.6" strokeDashoffset={125.6 - (125.6 * (data.domainRating/100))} strokeLinecap="round" />
+                   <circle cx="50%" cy="50%" r="40%" fill="none" stroke="#e9ecef" strokeWidth="12%" />
+                   <circle cx="50%" cy="50%" r="40%" fill="none" stroke="#FFA726" strokeWidth="12%" strokeDasharray="251.2%" strokeDashoffset={`${251.2 - (251.2 * (data.domainRating/100))}%`} strokeLinecap="round" />
                 </svg>
-                <span className="text-sm font-bold text-slate-700">{data.domainRating}</span>
+                <span className="text-xs sm:text-sm font-bold text-slate-700">{data.domainRating}</span>
               </div>
               <div className="flex flex-col">
-                <span className="font-medium text-[13px] text-slate-700">Domain</span>
-                <span className="font-medium text-[13px] text-slate-700 flex items-center gap-1">Rating <span className="text-[9px] bg-slate-200 text-slate-500 rounded-full w-3 h-3 flex items-center justify-center">i</span></span>
+                <span className="font-medium text-[12px] sm:text-[13px] text-slate-700">Domain</span>
+                <span className="font-medium text-[12px] sm:text-[13px] text-slate-700 flex items-center gap-1">Rating <span className="text-[9px] bg-slate-200 text-slate-500 rounded-full w-3 h-3 flex items-center justify-center">i</span></span>
               </div>
             </div>
             
             <div className="flex items-center gap-3">
-              <div className="w-[50px] h-[50px] rounded-full flex items-center justify-center relative">
+              <div className="w-[40px] h-[40px] sm:w-[50px] sm:h-[50px] rounded-full flex items-center justify-center relative shrink-0">
                 <svg className="absolute inset-0 w-full h-full transform -rotate-90">
-                   <circle cx="25" cy="25" r="20" fill="none" stroke="#e9ecef" strokeWidth="6" />
-                   <circle cx="25" cy="25" r="20" fill="none" stroke="#42A5F5" strokeWidth="6" strokeDasharray="125.6" strokeDashoffset={125.6 - (125.6 * (data.urlRating/100))} strokeLinecap="round" />
+                   <circle cx="50%" cy="50%" r="40%" fill="none" stroke="#e9ecef" strokeWidth="12%" />
+                   <circle cx="50%" cy="50%" r="40%" fill="none" stroke="#42A5F5" strokeWidth="12%" strokeDasharray="251.2%" strokeDashoffset={`${251.2 - (251.2 * (data.urlRating/100))}%`} strokeLinecap="round" />
                 </svg>
-                <span className="text-sm font-bold text-slate-700">{data.urlRating}</span>
+                <span className="text-xs sm:text-sm font-bold text-slate-700">{data.urlRating}</span>
               </div>
               <div className="flex flex-col">
-                <span className="font-medium text-[13px] text-slate-700">URL</span>
-                <span className="font-medium text-[13px] text-slate-700 flex items-center gap-1">Rating <span className="text-[9px] bg-slate-200 text-slate-500 rounded-full w-3 h-3 flex items-center justify-center">i</span></span>
+                <span className="font-medium text-[12px] sm:text-[13px] text-slate-700">URL</span>
+                <span className="font-medium text-[12px] sm:text-[13px] text-slate-700 flex items-center gap-1">Rating <span className="text-[9px] bg-slate-200 text-slate-500 rounded-full w-3 h-3 flex items-center justify-center">i</span></span>
               </div>
             </div>
           </div>
           
-          <div className="mt-4 text-[13px] text-slate-800 font-medium">
+          <div className="mt-4 text-[12px] sm:text-[13px] text-slate-800 font-medium">
             Get DR and UR free with <a href="#" className="text-blue-600 hover:underline">Ahrefs SEO Toolbar</a>
           </div>
         </div>
 
         {/* Right Side: Chart */}
-        <div className="flex flex-col w-full h-full relative pl-2 pt-2">
+        <div className="flex flex-col w-full h-full relative pl-2 pt-6 md:pt-2 mt-4 md:mt-0">
           {/* Y Axis labels */}
           <div className="absolute right-0 top-0 bottom-6 flex flex-col justify-between text-[11px] text-slate-400 text-right pr-1 font-mono">
             <span>{max >= 1000 ? (max/1000).toFixed(1) + 'K' : max}</span>
