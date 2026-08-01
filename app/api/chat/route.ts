@@ -10,12 +10,8 @@ export async function POST(req: Request) {
     // 1. Basic AI Router (Intent Detection)
     // Intercept the latest message to see if it's an image generation request
     const latestMessage = messages[messages.length - 1]?.content?.toLowerCase() || "";
-    const isImageRequest = 
-      latestMessage.includes("poster") || 
-      latestMessage.includes("thumbnail") || 
-      latestMessage.includes("logo") || 
-      latestMessage.includes("generate an image") ||
-      latestMessage.includes("create an image");
+    const imageKeywords = ["image", "poster", "thumbnail", "logo", "picture", "photo", "illustration", "art", "draw me", "paint me"];
+    const isImageRequest = imageKeywords.some(keyword => latestMessage.includes(keyword));
 
     if (isImageRequest) {
       console.log("[AI Router] Image Generation Intent Detected!");
