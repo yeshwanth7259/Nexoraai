@@ -6,6 +6,8 @@ import { Sparkles, Globe, Mic, ArrowRight, Loader2 } from "lucide-react";
 import { useAuth } from "@/components/providers/auth-provider";
 import { createClient } from "@/utils/supabase/client";
 import { AttachmentMenu } from "@/components/chat/attachment-menu";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 export function ChatInterface({ 
   chatId, 
@@ -121,7 +123,9 @@ export function ChatInterface({
             >
               {m.role === "user" ? (
                 <div className="max-w-[85%] bg-primary/20 border border-primary/30 rounded-2xl px-5 py-3.5 text-[15px] text-white leading-relaxed shadow-sm backdrop-blur-md">
-                  {m.content}
+                  <ReactMarkdown remarkPlugins={[remarkGfm]} className="prose prose-invert max-w-none">
+                    {m.content}
+                  </ReactMarkdown>
                 </div>
               ) : (
                 <div className="flex gap-4 max-w-full w-full group">
@@ -129,7 +133,12 @@ export function ChatInterface({
                     <Sparkles size={16} className="text-white" />
                   </div>
                   <div className="flex-1 pt-1 text-[15px] text-slate-200 leading-relaxed whitespace-pre-wrap">
-                    {m.content}
+                    <ReactMarkdown 
+                      remarkPlugins={[remarkGfm]} 
+                      className="prose prose-invert max-w-none prose-img:rounded-xl prose-img:shadow-lg"
+                    >
+                      {m.content}
+                    </ReactMarkdown>
                   </div>
                 </div>
               )}
