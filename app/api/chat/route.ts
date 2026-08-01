@@ -61,8 +61,10 @@ export async function POST(req: Request) {
 
             controller.enqueue(encoder.encode(`\n\n![Generated Image](${imageUrl})\n\n*Successfully generated using OpenAI DALL-E 3.*`));
           } catch (err: any) {
-            controller.enqueue(encoder.encode(`\n\n⚠️ Failed to generate image: ${err.message}`));
+            controller.enqueue(encoder.encode(`\n\n**⚠️ Failed to generate image:**\n\`\`\`json\n${err.message}\n\`\`\`\n*Note: Your OpenAI API key may not have billing enabled or access to the DALL-E 3 model.*`));
           }
+          // Small delay to ensure Edge runtime flushes the final chunks to the client
+          await new Promise(r => setTimeout(r, 500));
           controller.close();
         }
       });
