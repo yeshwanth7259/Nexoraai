@@ -108,7 +108,7 @@ export async function POST(req: Request) {
 
     // --- LLM AI ENHANCEMENT FOR TRAFFIC & SOLUTIONS ---
     let aiTrafficEstimate = "0";
-    let aiSolutions = [];
+    let aiSolutions: string[] = [];
 
     try {
       const apiKey = process.env.OPENROUTER_API_KEY;
