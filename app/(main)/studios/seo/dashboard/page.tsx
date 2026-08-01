@@ -118,9 +118,14 @@ export default function SEODashboardPage() {
             {/* QUICK METRICS */}
             <div className="md:col-span-2 grid grid-cols-2 md:grid-cols-4 gap-4">
               <MetricCard title="Word Count" value={data.metrics.wordCount} icon={FileText} color="blue" />
-              <MetricCard title="Load Time" value={`${data.metrics.loadTimeMs}ms`} icon={Clock} color="orange" />
+              <MetricCard title="Load Time" value={`${data.loadTimeMs}ms`} icon={Clock} color="orange" />
               <MetricCard title="Internal Links" value={data.metrics.internalLinks} icon={LinkIcon} color="purple" />
               <MetricCard title="Total Images" value={data.metrics.totalImages} icon={ImageIcon} color="green" />
+            </div>
+
+            {/* AHREFS STYLE ORGANIC TRAFFIC CHART */}
+            <div className="lg:col-span-4">
+              <OrganicTrafficView data={data} />
             </div>
 
           </div>
@@ -301,6 +306,131 @@ function IssueCard({ type, title, color }: any) {
         {type}
       </div>
       <p className="text-xs font-medium text-slate-300 leading-snug">{title}</p>
+    </div>
+  );
+}
+
+function OrganicTrafficView({ data }: { data: any }) {
+  if (!data) return null;
+  const history = data.trafficHistory || [0, 0, 0, 0, 0, 0];
+  const max = Math.max(...history, 100);
+  
+  // Create an SVG path for the chart
+  const points = history.map((val: number, i: number) => {
+    const x = (i / (history.length - 1)) * 100;
+    const y = 100 - ((val / max) * 90); // leave some padding at top
+    return `${x},${y}`;
+  }).join(" ");
+
+  const fillPath = `0,100 ${points} 100,100`;
+
+  return (
+    <div className="bg-white rounded-xl p-6 text-slate-800 shadow-sm relative overflow-hidden font-sans border border-slate-200">
+      {/* Top Header */}
+      <h2 className="text-3xl font-normal mb-1">Organic traffic of</h2>
+      <h2 className="text-3xl font-medium truncate mb-2">{data.url}</h2>
+      <p className="text-sm text-slate-500 mb-6 border-b pb-4">Domain including subdomains</p>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* Left Side: Stats */}
+        <div className="flex flex-col">
+          <div className="flex gap-12 mb-6">
+            <div>
+              <div className="flex items-center gap-1 text-slate-600 mb-1">
+                <span className="font-medium text-[13px]">Organic traffic</span>
+                <span className="text-[9px] bg-slate-200 text-slate-500 rounded-full w-3 h-3 flex items-center justify-center cursor-help">i</span>
+              </div>
+              <div className="text-[28px] leading-none font-medium">{data.trafficEstimate}</div>
+            </div>
+            <div>
+              <div className="flex items-center gap-1 text-slate-600 mb-1">
+                <span className="font-medium text-[13px]">Traffic value</span>
+                <span className="text-[9px] bg-slate-200 text-slate-500 rounded-full w-3 h-3 flex items-center justify-center cursor-help">i</span>
+              </div>
+              <div className="text-[28px] leading-none font-medium">{data.trafficValue}</div>
+            </div>
+          </div>
+
+          <div className="bg-[#f8f9fa] rounded-lg p-5 border border-slate-100 flex items-center gap-8 shadow-sm">
+            <div className="flex items-center gap-3">
+              <div className="w-[50px] h-[50px] rounded-full flex items-center justify-center relative">
+                <svg className="absolute inset-0 w-full h-full transform -rotate-90">
+                   <circle cx="25" cy="25" r="20" fill="none" stroke="#e9ecef" strokeWidth="6" />
+                   <circle cx="25" cy="25" r="20" fill="none" stroke="#FFA726" strokeWidth="6" strokeDasharray="125.6" strokeDashoffset={125.6 - (125.6 * (data.domainRating/100))} strokeLinecap="round" />
+                </svg>
+                <span className="text-sm font-bold text-slate-700">{data.domainRating}</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="font-medium text-[13px] text-slate-700">Domain</span>
+                <span className="font-medium text-[13px] text-slate-700 flex items-center gap-1">Rating <span className="text-[9px] bg-slate-200 text-slate-500 rounded-full w-3 h-3 flex items-center justify-center">i</span></span>
+              </div>
+            </div>
+            
+            <div className="flex items-center gap-3">
+              <div className="w-[50px] h-[50px] rounded-full flex items-center justify-center relative">
+                <svg className="absolute inset-0 w-full h-full transform -rotate-90">
+                   <circle cx="25" cy="25" r="20" fill="none" stroke="#e9ecef" strokeWidth="6" />
+                   <circle cx="25" cy="25" r="20" fill="none" stroke="#42A5F5" strokeWidth="6" strokeDasharray="125.6" strokeDashoffset={125.6 - (125.6 * (data.urlRating/100))} strokeLinecap="round" />
+                </svg>
+                <span className="text-sm font-bold text-slate-700">{data.urlRating}</span>
+              </div>
+              <div className="flex flex-col">
+                <span className="font-medium text-[13px] text-slate-700">URL</span>
+                <span className="font-medium text-[13px] text-slate-700 flex items-center gap-1">Rating <span className="text-[9px] bg-slate-200 text-slate-500 rounded-full w-3 h-3 flex items-center justify-center">i</span></span>
+              </div>
+            </div>
+          </div>
+          
+          <div className="mt-4 text-[13px] text-slate-800 font-medium">
+            Get DR and UR free with <a href="#" className="text-blue-600 hover:underline">Ahrefs SEO Toolbar</a>
+          </div>
+        </div>
+
+        {/* Right Side: Chart */}
+        <div className="flex flex-col w-full h-full relative pl-2 pt-2">
+          {/* Y Axis labels */}
+          <div className="absolute right-0 top-0 bottom-6 flex flex-col justify-between text-[11px] text-slate-400 text-right pr-1 font-mono">
+            <span>{max >= 1000 ? (max/1000).toFixed(1) + 'K' : max}</span>
+            <span>{Math.round(max/2) >= 1000 ? (Math.round(max/2)/1000).toFixed(1) + 'K' : Math.round(max/2)}</span>
+            <span>0</span>
+          </div>
+          
+          {/* Chart Area */}
+          <div className="w-full h-40 relative pr-10 border-l border-b border-slate-200">
+            {/* Grid lines */}
+            <div className="absolute top-0 left-0 right-0 border-t border-slate-100 w-full"></div>
+            <div className="absolute top-[50%] left-0 right-0 border-t border-slate-100 w-full"></div>
+
+            {/* SVG Chart */}
+            <svg viewBox="0 0 100 100" className="w-full h-full absolute inset-0 overflow-visible" preserveAspectRatio="none">
+              <polyline 
+                points={fillPath} 
+                fill="#FF9800" 
+                fillOpacity="0.15" 
+              />
+              <polyline 
+                points={points} 
+                fill="none" 
+                stroke="#FF9800" 
+                strokeWidth="2" 
+                vectorEffect="non-scaling-stroke"
+                strokeLinejoin="round"
+                strokeLinecap="round"
+              />
+            </svg>
+          </div>
+          
+          {/* X Axis labels */}
+          <div className="flex justify-between text-[11px] text-slate-400 mt-2 px-1 font-mono">
+            <span>Mar</span>
+            <span>Apr</span>
+            <span>May</span>
+            <span>Jun</span>
+            <span>Jul</span>
+            <span>Aug</span>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

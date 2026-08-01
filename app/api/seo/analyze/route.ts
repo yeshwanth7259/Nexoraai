@@ -108,6 +108,10 @@ export async function POST(req: Request) {
 
     // --- LLM AI ENHANCEMENT FOR TRAFFIC & SOLUTIONS ---
     let aiTrafficEstimate = "0";
+    let aiTrafficValue = "$0";
+    let aiDomainRating = 0;
+    let aiUrlRating = 0;
+    let aiTrafficHistory = [0,0,0,0,0,0];
     let aiSolutions: string[] = [];
 
     try {
@@ -118,7 +122,7 @@ export async function POST(req: Request) {
           messages: [
             { 
               role: 'system', 
-              content: 'You are an expert SEO Analyst. Given a webpage\'s metadata and issues, estimate its monthly organic traffic potential (return just a realistic number formatted with K or M, e.g., "15.2K", "1.5M", based on how well-optimized it is) and provide exactly 3 short, actionable solutions to fix the listed issues. Return strictly in JSON format: {"traffic": "10K", "solutions": ["sol 1", "sol 2", "sol 3"]}.' 
+              content: 'You are an expert SEO Analyst. Given a webpage\'s metadata and issues, estimate its SEO metrics. Return strictly in JSON format: {"traffic": "1.2K", "trafficValue": "$1.5K", "domainRating": 45, "urlRating": 32, "trafficHistory": [800, 950, 1100, 1050, 1200, 1200], "solutions": ["sol 1", "sol 2", "sol 3"]}. The trafficHistory should be an array of 6 numbers representing the last 6 months of traffic.' 
             },
             { 
               role: 'user', 
@@ -144,6 +148,10 @@ export async function POST(req: Request) {
             const cleanContent = content.replace(/^```json\s*/, '').replace(/\s*```$/, '');
             const parsedAi = JSON.parse(cleanContent);
             aiTrafficEstimate = parsedAi.traffic || "0";
+            aiTrafficValue = parsedAi.trafficValue || "$0";
+            aiDomainRating = parsedAi.domainRating || 0;
+            aiUrlRating = parsedAi.urlRating || 0;
+            aiTrafficHistory = parsedAi.trafficHistory || [0,0,0,0,0,0];
             aiSolutions = parsedAi.solutions || [];
           }
         }
@@ -152,6 +160,10 @@ export async function POST(req: Request) {
       console.error("AI SEO Enhancement Error:", e);
       // Fallback
       aiTrafficEstimate = score > 80 ? "10K+" : score > 50 ? "2.5K" : "< 500";
+      aiTrafficValue = score > 80 ? "$12.5K" : score > 50 ? "$3.2K" : "< $100";
+      aiDomainRating = score > 80 ? 65 : score > 50 ? 42 : 12;
+      aiUrlRating = score > 80 ? 55 : score > 50 ? 35 : 10;
+      aiTrafficHistory = score > 80 ? [8000, 8500, 9000, 9200, 9800, 10000] : [100, 200, 250, 300, 400, 450];
       aiSolutions = issues.map(i => `Fix: ${i.message}`);
     }
 
@@ -160,6 +172,10 @@ export async function POST(req: Request) {
       score,
       loadTimeMs: loadTime,
       trafficEstimate: aiTrafficEstimate,
+      trafficValue: aiTrafficValue,
+      domainRating: aiDomainRating,
+      urlRating: aiUrlRating,
+      trafficHistory: aiTrafficHistory,
       aiSolutions,
       metrics: {
         title,
