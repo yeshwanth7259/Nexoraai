@@ -5,7 +5,7 @@ export const maxDuration = 60;
 
 export async function POST(req: Request) {
   try {
-    const { prompt, framework } = await req.json();
+    const { prompt, framework }: any = await req.json();
 
     if (!prompt) {
       return NextResponse.json({ error: "Prompt is required" }, { status: 400 });
@@ -76,7 +76,7 @@ ${rawHtml}`
       throw new Error(`Gemini API Error: ${await geminiResponse.text()}`);
     }
 
-    const geminiData = await geminiResponse.json();
+    const geminiData: any = await geminiResponse.json();
     const text = geminiData.candidates?.[0]?.content?.parts?.[0]?.text || "";
 
     let cleanedCode = text.trim();

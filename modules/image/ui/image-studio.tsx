@@ -35,7 +35,7 @@ export function ImageStudio() {
         body: JSON.stringify({ prompt: finalPrompt }),
       });
 
-      const data = await response.json();
+      const data: any = await response.json();
       
       if (response.ok && data.success) {
         setGeneratedImageUrl(data.data.url);

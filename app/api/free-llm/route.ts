@@ -2,7 +2,7 @@ export const runtime = 'edge';
 
 export async function POST(req: Request) {
   try {
-    const body = await req.json();
+    const body: any = await req.json();
     const { messages, model } = body;
 
     const apiKey = process.env.OPENROUTER_API_KEY;

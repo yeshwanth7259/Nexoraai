@@ -63,7 +63,7 @@ export default function UIUXStudioPage() {
         body: JSON.stringify({ prompt, framework })
       });
       
-      const data = await response.json();
+      const data: any = await response.json();
       
       clearInterval(progressInterval);
       setAnalysisStep(4);

@@ -4,7 +4,7 @@ export const runtime = 'edge';
 
 export async function POST(req: Request) {
   try {
-    const { jobDescription, resumeText } = await req.json();
+    const { jobDescription, resumeText }: any = await req.json();
 
     if (!jobDescription || !resumeText) {
       return NextResponse.json({ error: "Missing jobDescription or resumeText" }, { status: 400 });
@@ -54,7 +54,7 @@ Do not return any other text outside the JSON object.`;
       throw new Error(`OpenRouter API error: ${response.status} ${err}`);
     }
 
-    const data = await response.json();
+    const data: any = await response.json();
     const content = data.choices[0]?.message?.content;
 
     if (!content) {

@@ -21,7 +21,7 @@ export default function KeywordResearchPage() {
         body: JSON.stringify({ keyword })
       });
       
-      const result = await res.json();
+      const result: any = await res.json();
       
       if (!res.ok) {
         throw new Error(result.error || "Failed to generate keywords");

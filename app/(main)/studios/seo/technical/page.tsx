@@ -21,7 +21,7 @@ export default function TechnicalSEOPage() {
         body: JSON.stringify({ url })
       });
       
-      const result = await res.json();
+      const result: any = await res.json();
       
       if (!res.ok) {
         throw new Error(result.error || "Failed to analyze");

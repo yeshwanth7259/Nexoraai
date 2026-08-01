@@ -21,7 +21,7 @@ async function discoverAgent(agentUuid: string, doToken: string) {
   if (!agentRes.ok) {
     throw new Error(`Failed to fetch agent details: ${await agentRes.text()}`);
   }
-  const agentData = await agentRes.json();
+  const agentData: any = await agentRes.json();
   const deployUrl = agentData.agent?.deployment?.url;
   
   if (!deployUrl) {
@@ -40,7 +40,7 @@ async function discoverAgent(agentUuid: string, doToken: string) {
   if (!keyRes.ok) {
     throw new Error(`Failed to create agent API key: ${await keyRes.text()}`);
   }
-  const keyData = await keyRes.json();
+  const keyData: any = await keyRes.json();
   const key = keyData.api_key_info?.secret_key;
 
   if (!key) {
@@ -56,7 +56,7 @@ async function discoverAgent(agentUuid: string, doToken: string) {
 
 export async function POST(req: Request) {
   try {
-    const { messages } = await req.json();
+    const { messages }: any = await req.json();
 
     const doToken = process.env.DO_API_TOKEN;
     const agentUuid = process.env.AGENT_UUID;

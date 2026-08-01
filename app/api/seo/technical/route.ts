@@ -3,7 +3,7 @@ import * as cheerio from "cheerio";
 
 export async function POST(req: Request) {
   try {
-    const { url } = await req.json();
+    const { url }: any = await req.json();
 
     if (!url) {
       return NextResponse.json({ error: "URL is required" }, { status: 400 });

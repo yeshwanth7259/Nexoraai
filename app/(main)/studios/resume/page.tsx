@@ -33,7 +33,7 @@ export default function ResumeMakerPage() {
         body: JSON.stringify({ jobDescription, resumeText }),
       });
 
-      const data = await res.json();
+      const data: any = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to analyze resume");
 
       setResult({

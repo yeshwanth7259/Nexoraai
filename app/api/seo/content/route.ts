@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    const { keyword, content } = await req.json();
+    const { keyword, content }: any = await req.json();
 
     if (!keyword || !content) {
       return NextResponse.json({ error: "Keyword and content are required" }, { status: 400 });

@@ -5,7 +5,7 @@ export const maxDuration = 60;
 
 export async function POST(req: Request) {
   try {
-    const { prompt, size = "1024x1024", quality = "standard", n = 1 } = await req.json();
+    const { prompt, size = "1024x1024", quality = "standard", n = 1 }: any = await req.json();
 
     if (!prompt) {
       return NextResponse.json({ error: "Prompt is required" }, { status: 400 });

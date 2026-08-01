@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    const { domain1, domain2 } = await req.json();
+    const { domain1, domain2 }: any = await req.json();
 
     if (!domain1 || !domain2) {
       return NextResponse.json({ error: "Both domains are required" }, { status: 400 });

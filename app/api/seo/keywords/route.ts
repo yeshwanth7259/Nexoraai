@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    const { keyword } = await req.json();
+    const { keyword }: any = await req.json();
 
     if (!keyword) {
       return NextResponse.json({ error: "Seed keyword is required" }, { status: 400 });

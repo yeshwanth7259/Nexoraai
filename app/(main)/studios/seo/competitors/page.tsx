@@ -22,7 +22,7 @@ export default function CompetitorsPage() {
         body: JSON.stringify({ domain1, domain2 })
       });
       
-      const result = await res.json();
+      const result: any = await res.json();
       
       if (!res.ok) {
         throw new Error(result.error || "Failed to analyze competitors");

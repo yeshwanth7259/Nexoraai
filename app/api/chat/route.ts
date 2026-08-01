@@ -4,7 +4,7 @@ import { AIGateway } from "@/modules/ai-gateway"; // Edge-compatible or generic 
 
 export async function POST(req: Request) {
   try {
-    const { messages, userPlan } = await req.json();
+    const { messages, userPlan }: any = await req.json();
     const apiKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY || ("AQ.Ab8R" + "N6IgHg1RsJG-KZ9" + "Doplsmvwue_fCGRN" + "LSlWnkGdaTtPY7g");
 
     // 1. Basic AI Router (Intent Detection)

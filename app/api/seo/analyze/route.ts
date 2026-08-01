@@ -3,7 +3,7 @@ import * as cheerio from "cheerio";
 
 export async function POST(req: Request) {
   try {
-    const { url } = await req.json();
+    const { url }: any = await req.json();
 
     if (!url) {
       return NextResponse.json({ error: "URL is required" }, { status: 400 });
@@ -142,7 +142,7 @@ export async function POST(req: Request) {
         });
 
         if (aiRes.ok) {
-          const aiData = await aiRes.json();
+          const aiData: any = await aiRes.json();
           const content = aiData.choices[0]?.message?.content;
           if (content) {
             // More robust JSON parsing

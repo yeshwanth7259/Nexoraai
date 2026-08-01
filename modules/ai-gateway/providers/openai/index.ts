@@ -35,7 +35,7 @@ export class OpenAIAdapter implements AIProviderAdapter {
       throw new Error(`OpenAI API Error: ${errorText}`);
     }
 
-    const data = await response.json();
+    const data: any = await response.json();
     const url = data.data[0].url;
 
     // Approximate cost for standard dall-e-3 1024x1024
