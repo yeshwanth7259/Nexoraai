@@ -21,34 +21,27 @@ export async function POST(req: Request) {
       console.log("[AI Router] Image Generation Intent Detected!");
       
       // Using Pollinations.ai which is completely free and requires NO API KEY!
-      const encoder = new TextEncoder();
-      const stream = new ReadableStream({
-        async start(controller) {
-          controller.enqueue(encoder.encode("🎨 **Nexora AI Router:** I detected you want an image. Generating a high-quality poster for free...\n\n"));
-          
-          try {
-            // Encode the prompt for the URL
-            const safePrompt = encodeURIComponent(latestMessage);
-            const seed = Math.floor(Math.random() * 1000000); // Random seed for unique images
-            const imageUrl = `https://image.pollinations.ai/prompt/${safePrompt}?seed=${seed}&width=1024&height=1024&nologo=true`;
+      try {
+        const safePrompt = encodeURIComponent(latestMessage);
+        const seed = Math.floor(Math.random() * 1000000);
+        const imageUrl = `https://image.pollinations.ai/prompt/${safePrompt}?seed=${seed}&width=1024&height=1024&nologo=true`;
 
-            // We just return the image URL formatted as markdown. Pollinations generates it on the fly!
-            controller.enqueue(encoder.encode(`\n\n![Generated Image](${imageUrl})\n\n*Successfully generated for free using Pollinations.ai!*`));
-          } catch (err: any) {
-            controller.enqueue(encoder.encode(`\n\n**⚠️ Failed to generate image:**\n\`\`\`json\n${err.message}\n\`\`\``));
+        const markdownReply = `🎨 **Nexora AI Router:** I detected you want an image. Generating a high-quality poster for free...\n\n![Generated Image](${imageUrl})\n\n*Successfully generated for free using Pollinations.ai!*`;
+        
+        return new Response(markdownReply, {
+          status: 200,
+          headers: {
+            "Content-Type": "text/plain; charset=utf-8",
           }
-          await new Promise(r => setTimeout(r, 500));
-          controller.close();
-        }
-      });
-
-      return new Response(stream, {
-        headers: {
-          "Content-Type": "text/event-stream",
-          "Cache-Control": "no-cache",
-          "Connection": "keep-alive",
-        }
-      });
+        });
+      } catch (err: any) {
+        return new Response(`\n\n**⚠️ Failed to generate image:**\n\`\`\`json\n${err.message}\n\`\`\``, {
+          status: 200,
+          headers: {
+            "Content-Type": "text/plain; charset=utf-8",
+          }
+        });
+      }
     }
 
     // 2. Standard Chat Routing (Gemini)
