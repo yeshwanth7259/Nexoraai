@@ -21,6 +21,12 @@ export function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
     setIsLoading(true);
     
     try {
+      if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+        setAuthError("Missing Supabase configuration! Please check your environment variables.");
+        setIsLoading(false);
+        return;
+      }
+
       if (authMode === "signup") {
         const { error, data } = await supabase.auth.signUp({ 
           email, 
