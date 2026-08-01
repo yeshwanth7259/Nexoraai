@@ -20,50 +20,23 @@ export async function POST(req: Request) {
     if (isImageRequest) {
       console.log("[AI Router] Image Generation Intent Detected!");
       
-      // We can't easily use the full aiGateway class if it's not edge compatible,
-      // but assuming it uses fetch, it should work. Let's call OpenAI directly for speed in edge
-      // or use the gateway if it's edge-friendly. We'll use fetch directly here to ensure it works on edge.
-      const openaiKey = process.env.OPENAI_API_KEY;
-      
-      if (!openaiKey) {
-        return new Response(JSON.stringify({ error: "OpenAI API Key is missing for image generation." }), { status: 500 });
-      }
-
-      // Tell the user we are generating...
-      // (Since it's SSE, we yield an immediate message, then the image)
+      // Using Pollinations.ai which is completely free and requires NO API KEY!
       const encoder = new TextEncoder();
       const stream = new ReadableStream({
         async start(controller) {
-          controller.enqueue(encoder.encode("🎨 **Nexora AI Router:** I detected you want an image. Generating your masterpiece via Image Studio...\n\n"));
+          controller.enqueue(encoder.encode("🎨 **Nexora AI Router:** I detected you want an image. Generating a high-quality poster for free...\n\n"));
           
           try {
-            const response = await fetch("https://api.openai.com/v1/images/generations", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${openaiKey}`,
-              },
-              body: JSON.stringify({
-                model: "dall-e-3",
-                prompt: latestMessage,
-                n: 1,
-                size: "1024x1024",
-                quality: "standard",
-              }),
-            });
+            // Encode the prompt for the URL
+            const safePrompt = encodeURIComponent(latestMessage);
+            const seed = Math.floor(Math.random() * 1000000); // Random seed for unique images
+            const imageUrl = `https://image.pollinations.ai/prompt/${safePrompt}?seed=${seed}&width=1024&height=1024&nologo=true`;
 
-            if (!response.ok) {
-              throw new Error(await response.text());
-            }
-
-            const data = await response.json();
-            const imageUrl = data.data[0].url;
-
-            controller.enqueue(encoder.encode(`\n\n![Generated Image](${imageUrl})\n\n*Successfully generated using OpenAI DALL-E 3.*`));
+            // We just return the image URL formatted as markdown. Pollinations generates it on the fly!
+            controller.enqueue(encoder.encode(`\n\n![Generated Image](${imageUrl})\n\n*Successfully generated for free using Pollinations.ai!*`));
           } catch (err: any) {
-            controller.enqueue(encoder.encode(`\n\n**⚠️ Failed to generate image:**\n\`\`\`json\n${err.message}\n\`\`\`\n*Note: Your OpenAI API key may not have billing enabled or access to the DALL-E 3 model.*`));
+            controller.enqueue(encoder.encode(`\n\n**⚠️ Failed to generate image:**\n\`\`\`json\n${err.message}\n\`\`\``));
           }
-          // Small delay to ensure Edge runtime flushes the final chunks to the client
           await new Promise(r => setTimeout(r, 500));
           controller.close();
         }
