@@ -77,7 +77,8 @@ export function ChatInterface({
 
         setMessages((prev) => {
           const updated = [...prev];
-          updated[updated.length - 1].content = assistantReply;
+          const lastIndex = updated.length - 1;
+          updated[lastIndex] = { ...updated[lastIndex], content: assistantReply };
           return updated;
         });
       }
