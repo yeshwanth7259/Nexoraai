@@ -109,10 +109,8 @@ export function InlinePrompt() {
       </div>
       
       <div className="flex items-center gap-2 px-2 pb-2 overflow-x-auto mt-1 scrollbar-hide [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        <PromptPill text="Build a website" href="/studios/website" />
-        <PromptPill text="Generate SEO report" href="/studios/seo" />
-        <PromptPill text="Create CRM" href="/studios/crm" />
-        <PromptPill text="Design UI" href="/studios/ui-ux" />
+        <PromptPill text="Optimize Resume" href="/studios/resume" />
+        <PromptPill text="Analyze SEO URL" href="/studios/seo" />
         <PromptPill text="Write blog" href="/studios/content" />
       </div>
     </div>

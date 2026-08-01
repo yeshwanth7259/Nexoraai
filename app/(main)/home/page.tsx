@@ -89,30 +89,18 @@ export default async function HomePage() {
               </Link>
             </div>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 md:gap-5">
-              <StudioCard 
-                icon={Globe} title="Website Studio" desc="Build high-converting websites with AI" 
-                color="blue" href="/studios/website"
-              />
-              <StudioCard 
-                icon={Smartphone} title="Mobile App Studio" desc="Create powerful mobile apps in minutes" 
-                color="purple" href="/studios/mobile"
-              />
-              <StudioCard 
-                icon={Palette} title="UI / UX Studio" desc="Design stunning interfaces with AI magic" 
-                color="pink" href="/studios/ui-ux"
-              />
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-5">
               <StudioCard 
                 icon={LineChart} title="SEO Studio" desc="Rank higher & grow organic traffic" 
                 color="green" href="/studios/seo"
               />
               <StudioCard 
-                icon={Users} title="CRM Studio" desc="Manage leads, clients & deals effortlessly" 
-                color="orange" href="/studios/crm"
-              />
-              <StudioCard 
                 icon={Edit3} title="Content Studio" desc="Create engaging content 10x faster" 
                 color="cyan" href="/studios/content"
+              />
+              <StudioCard 
+                icon={FileText} title="Resume Maker" desc="Build ATS-friendly resumes" 
+                color="purple" href="/studios/resume"
               />
             </div>
           </div>
@@ -254,10 +242,10 @@ export default async function HomePage() {
           <div className="bg-[#0B0B14] rounded-[2rem] border border-white/5 p-6 md:p-8">
             <h2 className="text-lg font-semibold mb-4">Quick Actions</h2>
             <div className="grid grid-cols-2 gap-3">
-              <Link href="/studios/website"><ActionCard icon={Plus} label="New Project" color="text-purple-400" bgColor="bg-purple-500/10" /></Link>
+              <Link href="/studios/resume"><ActionCard icon={FileText} label="New Resume" color="text-purple-400" bgColor="bg-purple-500/10" /></Link>
               <Link href="/home"><ActionCard icon={UploadCloud} label="Upload File" color="text-blue-400" bgColor="bg-blue-500/10" /></Link>
               <Link href="/assistant"><ActionCard icon={MessageSquare} label="AI Chat" color="text-pink-400" bgColor="bg-pink-500/10" /></Link>
-              <Link href="/studios/seo"><ActionCard icon={FileText} label="Generate Report" color="text-green-400" bgColor="bg-green-500/10" /></Link>
+              <Link href="/studios/seo"><ActionCard icon={LineChart} label="SEO Report" color="text-green-400" bgColor="bg-green-500/10" /></Link>
             </div>
           </div>
 

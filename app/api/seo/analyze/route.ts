@@ -106,10 +106,61 @@ export async function POST(req: Request) {
     // Ensure score is between 0 and 100
     score = Math.max(0, Math.min(100, score));
 
+    // --- LLM AI ENHANCEMENT FOR TRAFFIC & SOLUTIONS ---
+    let aiTrafficEstimate = "0";
+    let aiSolutions = [];
+
+    try {
+      const apiKey = process.env.OPENROUTER_API_KEY;
+      if (apiKey) {
+        const payload = {
+          model: process.env.DEFAULT_FREE_MODEL || 'meta-llama/llama-3.1-8b-instruct:free',
+          messages: [
+            { 
+              role: 'system', 
+              content: 'You are an expert SEO Analyst. Given a webpage\'s metadata and issues, estimate its monthly organic traffic potential (return just a realistic number formatted with K or M, e.g., "15.2K", "1.5M", based on how well-optimized it is) and provide exactly 3 short, actionable solutions to fix the listed issues. Return strictly in JSON format: {"traffic": "10K", "solutions": ["sol 1", "sol 2", "sol 3"]}.' 
+            },
+            { 
+              role: 'user', 
+              content: `URL: ${targetUrl}\nTitle: ${title}\nDescription: ${description}\nWord Count: ${wordCount}\nScore: ${score}/100\nIssues: ${issues.map(i => i.message).join(", ")}` 
+            }
+          ],
+          response_format: { type: 'json_object' }
+        };
+
+        const aiRes = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${apiKey}`,
+          },
+          body: JSON.stringify(payload)
+        });
+
+        if (aiRes.ok) {
+          const aiData = await aiRes.json();
+          const content = aiData.choices[0]?.message?.content;
+          if (content) {
+            const cleanContent = content.replace(/^```json\s*/, '').replace(/\s*```$/, '');
+            const parsedAi = JSON.parse(cleanContent);
+            aiTrafficEstimate = parsedAi.traffic || "0";
+            aiSolutions = parsedAi.solutions || [];
+          }
+        }
+      }
+    } catch (e) {
+      console.error("AI SEO Enhancement Error:", e);
+      // Fallback
+      aiTrafficEstimate = score > 80 ? "10K+" : score > 50 ? "2.5K" : "< 500";
+      aiSolutions = issues.map(i => `Fix: ${i.message}`);
+    }
+
     return NextResponse.json({
       url: targetUrl,
       score,
       loadTimeMs: loadTime,
+      trafficEstimate: aiTrafficEstimate,
+      aiSolutions,
       metrics: {
         title,
         titleLength: title.length,

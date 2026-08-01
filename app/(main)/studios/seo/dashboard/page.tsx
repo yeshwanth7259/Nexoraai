@@ -106,9 +106,11 @@ export default function SEODashboardPage() {
               <div className="relative z-10">
                 <h2 className="text-xl font-bold text-white mb-1">SEO Health Score</h2>
                 <p className="text-sm text-slate-400 mb-3">Target URL: <span className="text-slate-200">{data.url}</span></p>
-                <div className="flex gap-2">
-                  <span className="px-2 py-1 rounded bg-green-500/10 text-green-400 text-[10px] font-bold tracking-wider uppercase">Performance</span>
-                  <span className="px-2 py-1 rounded bg-blue-500/10 text-blue-400 text-[10px] font-bold tracking-wider uppercase">Content</span>
+                <div className="flex items-center gap-3">
+                  <div className="flex flex-col">
+                    <span className="text-[10px] uppercase text-slate-500 font-bold tracking-wider">Est. Monthly Organic Clicks</span>
+                    <span className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">{data.trafficEstimate || "0"}</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -212,10 +214,22 @@ export default function SEODashboardPage() {
                 </div>
               )}
               
-              {data.issues.length > 0 && (
-                <button className="w-full mt-5 py-2.5 rounded-xl bg-primary hover:bg-accent text-white text-sm font-medium transition shadow-[0_0_15px_rgba(109,91,255,0.4)] flex items-center justify-center gap-2">
-                  <Zap size={14} /> Fix with AI
-                </button>
+              {data.issues.length > 0 && data.aiSolutions && data.aiSolutions.length > 0 && (
+                <div className="mt-6 pt-6 border-t border-white/5">
+                  <h3 className="text-sm font-semibold text-purple-400 mb-4 flex items-center gap-2">
+                    <Zap size={16} /> AI Actionable Solutions
+                  </h3>
+                  <div className="space-y-3">
+                    {data.aiSolutions.map((solution: string, i: number) => (
+                      <div key={i} className="p-3 bg-purple-500/5 border border-purple-500/10 rounded-xl flex items-start gap-3">
+                        <div className="w-5 h-5 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center shrink-0 font-bold text-[10px]">
+                          {i + 1}
+                        </div>
+                        <p className="text-xs text-slate-300 leading-relaxed mt-0.5">{solution}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               )}
             </div>
 

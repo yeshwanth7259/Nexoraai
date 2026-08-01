@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { 
   Home, Sparkles, Globe, Smartphone, Palette, LineChart, 
   Users, Edit3, Zap, BarChart3, Cloud, Blocks, Store, Settings, 
-  ChevronDown, ChevronRight, Briefcase
+  ChevronDown, ChevronRight, Briefcase, FileText
 } from "lucide-react";
 import { useAuth } from "@/components/providers/auth-provider";
 
@@ -67,13 +67,9 @@ export function Sidebar({ onOpenAuth, workspaces = [] }: { onOpenAuth?: () => vo
           
           <SectionHeader title="AI STUDIOS" />
           
-          <NavItem icon={Globe} label="Website Studio" href="/studios/website" />
-          <NavItem icon={Smartphone} label="Mobile App Studio" href="/studios/mobile" />
-          <NavItem icon={Palette} label="UI / UX Studio" href="/studios/ui-ux" />
           <NavItem icon={LineChart} label="SEO Studio" href="/studios/seo" />
-          <NavItem icon={Users} label="CRM Studio" href="/studios/crm" />
           <NavItem icon={Edit3} label="Content Studio" href="/studios/content" />
-          <NavItem icon={Zap} label="Automation Studio" href="/studios/automation" />
+          <NavItem icon={FileText} label="Resume Maker" href="/studios/resume" />
 
           <SectionHeader title="WORKSPACE" />
           
