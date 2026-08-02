@@ -7,6 +7,7 @@ import {
 import { getDashboardMetrics, getRecentProjects, getUpcomingTasks, getSessionUser } from "@/utils/supabase/queries";
 import { formatDistanceToNow } from 'date-fns';
 import { InlinePrompt } from "@/components/home/inline-prompt";
+import { QuickUploadAction } from "@/components/home/quick-upload-action";
 
 export const metadata = {
   title: "Dashboard | Nexora AI OS",
@@ -243,7 +244,7 @@ export default async function HomePage() {
             <h2 className="text-lg font-semibold mb-4">Quick Actions</h2>
             <div className="grid grid-cols-2 gap-3">
               <Link href="/studios/resume"><ActionCard icon={FileText} label="New Resume" color="text-purple-400" bgColor="bg-purple-500/10" /></Link>
-              <Link href="/home"><ActionCard icon={UploadCloud} label="Upload File" color="text-blue-400" bgColor="bg-blue-500/10" /></Link>
+              <QuickUploadAction />
               <Link href="/assistant"><ActionCard icon={MessageSquare} label="AI Chat" color="text-pink-400" bgColor="bg-pink-500/10" /></Link>
               <Link href="/studios/seo"><ActionCard icon={LineChart} label="SEO Report" color="text-green-400" bgColor="bg-green-500/10" /></Link>
             </div>
