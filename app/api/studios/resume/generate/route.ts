@@ -3,7 +3,7 @@ import { generateObject } from 'ai';
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import { z } from 'zod';
 
-export const runtime = 'edge';
+export const runtime = 'edge'; // force hot reload 2
 
 export async function POST(req: Request) {
   try {
@@ -30,7 +30,7 @@ Fill in logical gaps with professional phrasing based on the provided details, b
     const userPrompt = `Target Job Description:\n${jobDescription}\n\nUser Details/Experience:\n${userDetails}`;
 
     const { object } = await generateObject({
-      model: google('gemini-1.5-flash'),
+      model: google('gemini-1.5-flash-latest'),
       system: systemPrompt,
       prompt: userPrompt,
       schema: z.object({

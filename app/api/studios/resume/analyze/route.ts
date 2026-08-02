@@ -3,7 +3,7 @@ import { generateObject } from 'ai';
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import { z } from 'zod';
 
-export const runtime = 'edge';
+export const runtime = 'edge'; // force hot reload 2
 
 export async function POST(req: Request) {
   try {
@@ -28,7 +28,7 @@ Analyze them strictly against each other.`;
     const userPrompt = `Target Job Description:\n${jobDescription}\n\nCurrent Resume:\n${resumeText}`;
 
     const { object } = await generateObject({
-      model: google('gemini-1.5-flash'),
+      model: google('gemini-1.5-flash-latest'),
       system: systemPrompt,
       prompt: userPrompt,
       schema: z.object({
