@@ -1,11 +1,10 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { Send, Sparkles, Plus, Mic, Loader2 } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Send, Sparkles, Plus, Mic, User, Bot, Loader2 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { useChat } from "@ai-sdk/react";
 
 export default function AssistantPage() {
   const searchParams = useSearchParams();
@@ -13,16 +12,89 @@ export default function AssistantPage() {
   const hasInitialized = useRef(false);
   const formRef = useRef<HTMLFormElement>(null);
   
-  const { messages, input, handleInputChange, handleSubmit, isLoading, append } = useChat({
-    api: "/api/chat",
-  });
+  const [input, setInput] = useState("");
+  const [messages, setMessages] = useState<{role: string, content: string}[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const sendMessage = async (msg: { role: string; content: string }) => {
+    const newMessages = [...messages, msg];
+    setMessages(newMessages);
+    setIsLoading(true);
+
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ messages: newMessages, userPlan: "basic" }),
+      });
+
+      if (!res.ok) {
+        const errText = await res.text();
+        throw new Error(errText || "API Error");
+      }
+      if (!res.body) throw new Error("No response body");
+
+      const contentType = res.headers.get("content-type") || "";
+      
+      setMessages((prev) => [...prev, { role: "assistant", content: "" }]);
+      
+      if (contentType.includes("text/plain")) {
+        const text = await res.text();
+        setMessages((prev) => {
+          const updated = [...prev];
+          updated[updated.length - 1].content = text;
+          return updated;
+        });
+      } else {
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        let assistantReply = "";
+        let buffer = "";
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split('\n');
+          buffer = lines.pop() || "";
+          
+          for (const line of lines) {
+            if (line.trim() === "") continue;
+            if (line.startsWith('data: ')) {
+              const dataStr = line.substring(6).trim();
+              if (dataStr === "[DONE]") continue;
+              try {
+                const data = JSON.parse(dataStr);
+                if (data.candidates?.[0]?.content?.parts?.[0]?.text) {
+                  assistantReply += data.candidates[0].content.parts[0].text;
+                }
+              } catch (e) {
+                // Ignore partial JSON blocks across chunks
+              }
+            }
+          }
+
+          setMessages((prev) => {
+            const updated = [...prev];
+            updated[updated.length - 1].content = assistantReply;
+            return updated;
+          });
+        }
+      }
+    } catch (err) {
+      setMessages((prev) => [...prev, { role: "assistant", content: "⚠️ Connection error." }]);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (initialQuery && !hasInitialized.current) {
       hasInitialized.current = true;
-      append({ role: "user", content: initialQuery });
+      sendMessage({ role: "user", content: initialQuery });
     }
-  }, [initialQuery, append]);
+  }, [initialQuery]);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -45,10 +117,10 @@ export default function AssistantPage() {
             </p>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-2xl animate-in fade-in slide-in-from-bottom-4">
-              <SuggestionCard title="Build a CRM" desc="for my real estate agency" icon="👥" onClick={() => append({ role: 'user', content: 'Build a CRM for my real estate agency' })} />
-              <SuggestionCard title="Generate a Landing Page" desc="for a new SaaS product" icon="🌐" onClick={() => append({ role: 'user', content: 'Generate a Landing Page for a new SaaS product' })} />
-              <SuggestionCard title="Run an SEO Audit" desc="on my main competitor" icon="📈" onClick={() => append({ role: 'user', content: 'Run an SEO Audit on my main competitor' })} />
-              <SuggestionCard title="Deploy my React app" desc="to Vercel with preview URLs" icon="🚀" onClick={() => append({ role: 'user', content: 'Deploy my React app to Vercel with preview URLs' })} />
+              <SuggestionCard title="Build a CRM" desc="for my real estate agency" icon="👥" onClick={() => sendMessage({ role: 'user', content: 'Build a CRM for my real estate agency' })} />
+              <SuggestionCard title="Generate a Landing Page" desc="for a new SaaS product" icon="🌐" onClick={() => sendMessage({ role: 'user', content: 'Generate a Landing Page for a new SaaS product' })} />
+              <SuggestionCard title="Run an SEO Audit" desc="on my main competitor" icon="📈" onClick={() => sendMessage({ role: 'user', content: 'Run an SEO Audit on my main competitor' })} />
+              <SuggestionCard title="Deploy my React app" desc="to Vercel with preview URLs" icon="🚀" onClick={() => sendMessage({ role: 'user', content: 'Deploy my React app to Vercel with preview URLs' })} />
             </div>
           </div>
         ) : (
@@ -72,63 +144,40 @@ export default function AssistantPage() {
                         remarkPlugins={[remarkGfm]}
                         components={{
                           img: ({node, ...props}) => (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img className="rounded-lg max-w-full my-2 border border-white/10" alt="Generated" {...props} />
+                            <div className="relative group/image inline-block max-w-sm my-2">
+                              {/* eslint-disable-next-line @next/next/no-img-element */}
+                              <img className="rounded-lg w-full border border-slate-700 shadow-lg object-cover" alt="Generated" {...props} />
+                              <div className="absolute top-2 right-2 opacity-0 group-hover/image:opacity-100 transition-opacity">
+                                <button 
+                                  onClick={async (e) => {
+                                    e.preventDefault();
+                                    try {
+                                      const res = await fetch(props.src as string);
+                                      const blob = await res.blob();
+                                      const url = window.URL.createObjectURL(blob);
+                                      const a = document.createElement('a');
+                                      a.style.display = 'none';
+                                      a.href = url;
+                                      a.download = `nexora-image-${Date.now()}.jpg`;
+                                      document.body.appendChild(a);
+                                      a.click();
+                                      window.URL.revokeObjectURL(url);
+                                    } catch (err) {
+                                      window.open(props.src as string, '_blank');
+                                    }
+                                  }}
+                                  className="bg-black/60 hover:bg-black/80 backdrop-blur text-white px-3 py-1.5 rounded-lg transition shadow-lg flex items-center gap-1.5 text-xs font-medium border border-white/10"
+                                >
+                                  <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                                  Download
+                                </button>
+                              </div>
+                            </div>
                           )
                         }}
                       >
                         {m.content}
                       </ReactMarkdown>
-
-                      {/* Render Tool Invocations */}
-                      {m.toolInvocations?.map((toolInvocation: any) => {
-                        if (toolInvocation.toolName === 'generateImage') {
-                          if ('result' in toolInvocation) {
-                            return (
-                              <div key={toolInvocation.toolCallId} className="mt-3 flex flex-col gap-2 relative group/image max-w-sm">
-                                {/* eslint-disable-next-line @next/next/no-img-element */}
-                                <img 
-                                  src={toolInvocation.result.url} 
-                                  alt={toolInvocation.result.prompt} 
-                                  className="rounded-lg w-full border border-slate-700 shadow-lg object-cover"
-                                />
-                                <div className="absolute top-2 right-2 opacity-0 group-hover/image:opacity-100 transition-opacity">
-                                  <button 
-                                    onClick={async () => {
-                                      try {
-                                        const res = await fetch(toolInvocation.result.url);
-                                        const blob = await res.blob();
-                                        const url = window.URL.createObjectURL(blob);
-                                        const a = document.createElement('a');
-                                        a.style.display = 'none';
-                                        a.href = url;
-                                        a.download = `nexora-image-${Date.now()}.jpg`;
-                                        document.body.appendChild(a);
-                                        a.click();
-                                        window.URL.revokeObjectURL(url);
-                                      } catch (e) {
-                                        window.open(toolInvocation.result.url, '_blank');
-                                      }
-                                    }}
-                                    className="bg-black/60 hover:bg-black/80 backdrop-blur text-white px-3 py-1.5 rounded-lg transition shadow-lg flex items-center gap-1.5 text-xs font-medium border border-white/10"
-                                  >
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-                                    Download
-                                  </button>
-                                </div>
-                                <span className="text-[10px] text-slate-500 italic leading-snug">Generated based on: "{toolInvocation.result.prompt}"</span>
-                              </div>
-                            );
-                          } else {
-                            return (
-                              <div key={toolInvocation.toolCallId} className="mt-3 flex items-center gap-2 text-primary text-xs font-medium animate-pulse">
-                                <span>✨ Generating your high-quality image...</span>
-                              </div>
-                            );
-                          }
-                        }
-                      })}
-
                     </div>
                   </div>
                 )}
@@ -152,7 +201,13 @@ export default function AssistantPage() {
       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-background via-background to-transparent pt-10 pb-6 px-4">
         <form 
           ref={formRef} 
-          onSubmit={handleSubmit} 
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (input.trim() && !isLoading) {
+              sendMessage({ role: "user", content: input });
+              setInput("");
+            }
+          }} 
           className="max-w-3xl mx-auto relative group"
         >
           <div className="absolute inset-0 bg-primary/20 rounded-2xl blur-xl group-focus-within:bg-primary/30 transition-all duration-300"></div>
@@ -162,7 +217,7 @@ export default function AssistantPage() {
             </button>
             <textarea 
               value={input}
-              onChange={handleInputChange}
+              onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === "Enter" && !e.shiftKey) {
                   e.preventDefault();
