@@ -1,16 +1,14 @@
-import * as pdfjsLib from "pdfjs-dist";
-import mammoth from "mammoth";
-
-// Set worker source for pdfjs from CDN to avoid Next.js bundling issues with web workers
-if (typeof window !== "undefined") {
-  pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.mjs`;
-}
-
 export async function parseFileToText(file: File): Promise<string> {
   const extension = file.name.split('.').pop()?.toLowerCase();
 
   try {
     if (extension === "pdf") {
+      const pdfjsLib = await import("pdfjs-dist");
+      
+      if (typeof window !== "undefined") {
+        pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.mjs`;
+      }
+
       const arrayBuffer = await file.arrayBuffer();
       const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
       let fullText = "";
@@ -23,6 +21,7 @@ export async function parseFileToText(file: File): Promise<string> {
       return fullText;
     } 
     else if (extension === "docx") {
+      const mammoth = (await import("mammoth")).default;
       const arrayBuffer = await file.arrayBuffer();
       const result = await mammoth.extractRawText({ arrayBuffer });
       return result.value;
