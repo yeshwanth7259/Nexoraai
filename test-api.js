@@ -5,7 +5,7 @@ async function test() {
   formData.append('file', new Blob([fs.readFileSync('test.pdf')]), 'test.pdf');
   
   try {
-    const res = await fetch('http://localhost:3000/api/studios/resume/parse', {
+    const res = await fetch('http://localhost:3001/api/studios/resume/parse', {
       method: 'POST',
       body: formData
     });
