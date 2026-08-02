@@ -13,7 +13,7 @@ export async function POST(req: Request) {
     
     // Extract only the User Query part if a file is attached
     if (latestMessage.includes("user query:")) {
-      latestMessage = latestMessage.split("user query:")[1].trim();
+      latestMessage = latestMessage.substring(latestMessage.lastIndexOf("user query:") + 11).trim();
     }
 
     const imageKeywords = ["image", "poster", "thumbnail", "logo", "picture", "photo", "illustration", "art", "draw me", "paint me"];
