@@ -349,6 +349,17 @@ export default function AssistantPage() {
                   formRef.current?.requestSubmit();
                 }
               }}
+              onPaste={(e) => {
+                const items = Array.from(e.clipboardData.items);
+                const fileItem = items.find(item => item.kind === 'file');
+                if (fileItem) {
+                  const file = fileItem.getAsFile();
+                  if (file) {
+                    setAttachedFile(file);
+                    e.preventDefault();
+                  }
+                }
+              }}
               placeholder="Ask Nexora to build, design, or analyze anything..."
               className="flex-1 max-h-40 min-h-[44px] bg-transparent border-none text-white focus:ring-0 resize-none px-3 py-3 focus:outline-none placeholder:text-slate-500"
               rows={1}
