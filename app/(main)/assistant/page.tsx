@@ -5,7 +5,7 @@ import { Send, Sparkles, Plus, Mic, Loader2 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { useChat } from "ai/react";
+import { useChat } from "@ai-sdk/react";
 
 export default function AssistantPage() {
   const searchParams = useSearchParams();
