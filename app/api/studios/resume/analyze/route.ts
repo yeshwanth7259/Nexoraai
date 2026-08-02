@@ -21,7 +21,8 @@ export async function POST(req: Request) {
 You will be given a Target Job Description and a Current Resume.
 Analyze them strictly against each other and return a JSON object with exactly the following structure:
 {
-  "score": <number between 0 and 100 representing ATS match>,
+  "oldScore": <number between 0 and 100 representing ATS match of the current resume>,
+  "newScore": <number between 0 and 100 representing ATS match of the optimized resume (usually 90+)>,
   "issues": ["<string describing a missing keyword or weak point>", "<string 2>", "<string 3>"],
   "optimizedResume": "<string containing the fully rewritten, ATS-optimized resume in Markdown format>"
 }
