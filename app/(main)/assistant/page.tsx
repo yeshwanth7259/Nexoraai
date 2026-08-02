@@ -3,6 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Send, Sparkles, Plus, Mic, User, Bot, Loader2 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 export default function AssistantPage() {
   const searchParams = useSearchParams();
@@ -32,42 +34,53 @@ export default function AssistantPage() {
       }
       if (!res.body) throw new Error("No response body");
 
-      const reader = res.body.getReader();
-      const decoder = new TextDecoder();
-      let assistantReply = "";
-      let buffer = "";
-
+      const contentType = res.headers.get("content-type") || "";
+      
       setMessages((prev) => [...prev, { role: "assistant", content: "" }]);
-
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        
-        buffer += decoder.decode(value, { stream: true });
-        const lines = buffer.split('\n');
-        buffer = lines.pop() || "";
-        
-        for (const line of lines) {
-          if (line.trim() === "") continue;
-          if (line.startsWith('data: ')) {
-            const dataStr = line.substring(6).trim();
-            if (dataStr === "[DONE]") continue;
-            try {
-              const data = JSON.parse(dataStr);
-              if (data.candidates?.[0]?.content?.parts?.[0]?.text) {
-                assistantReply += data.candidates[0].content.parts[0].text;
-              }
-            } catch (e) {
-              // Ignore partial JSON blocks across chunks
-            }
-          }
-        }
-
+      
+      if (contentType.includes("text/plain")) {
+        const text = await res.text();
         setMessages((prev) => {
           const updated = [...prev];
-          updated[updated.length - 1].content = assistantReply;
+          updated[updated.length - 1].content = text;
           return updated;
         });
+      } else {
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        let assistantReply = "";
+        let buffer = "";
+
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          
+          buffer += decoder.decode(value, { stream: true });
+          const lines = buffer.split('\n');
+          buffer = lines.pop() || "";
+          
+          for (const line of lines) {
+            if (line.trim() === "") continue;
+            if (line.startsWith('data: ')) {
+              const dataStr = line.substring(6).trim();
+              if (dataStr === "[DONE]") continue;
+              try {
+                const data = JSON.parse(dataStr);
+                if (data.candidates?.[0]?.content?.parts?.[0]?.text) {
+                  assistantReply += data.candidates[0].content.parts[0].text;
+                }
+              } catch (e) {
+                // Ignore partial JSON blocks across chunks
+              }
+            }
+          }
+
+          setMessages((prev) => {
+            const updated = [...prev];
+            updated[updated.length - 1].content = assistantReply;
+            return updated;
+          });
+        }
       }
     } catch (err) {
       setMessages((prev) => [...prev, { role: "assistant", content: "⚠️ Connection error." }]);
@@ -127,7 +140,17 @@ export default function AssistantPage() {
                       <Sparkles size={16} className="text-white" />
                     </div>
                     <div className="flex-1 pt-1 text-[15px] text-slate-200 leading-relaxed whitespace-pre-wrap">
-                      {m.content}
+                      <ReactMarkdown 
+                        remarkPlugins={[remarkGfm]}
+                        components={{
+                          img: ({node, ...props}) => (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img className="rounded-lg max-w-full my-2 border border-white/10" alt="Generated" {...props} />
+                          )
+                        }}
+                      >
+                        {m.content}
+                      </ReactMarkdown>
                     </div>
                   </div>
                 )}
