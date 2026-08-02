@@ -24,10 +24,9 @@ export function TopHeader({ onOpenCommandPalette, onOpenAuth }: { onOpenCommandP
   return (
     <header className="absolute top-0 right-0 h-[72px] flex items-center justify-between px-4 md:px-8 z-20 w-full bg-background/50 backdrop-blur-xl pointer-events-none border-b border-white/5">
       
-      {/* Left / Search */}
-      <div className="pointer-events-auto flex-1 flex items-center gap-3">
-        {/* Mobile Logo */}
-        <Link href="/home" className="md:hidden flex items-center shrink-0 pl-1 pr-1">
+      {/* Left (Mobile Logo) */}
+      <div className="pointer-events-auto flex-1 flex items-center justify-start">
+        <Link href="/home" className="md:hidden flex items-center gap-2">
           <div className="w-6 h-6 relative flex items-center justify-center cursor-pointer">
             <svg viewBox="0 0 40 40" className="w-full h-full drop-shadow-[0_0_8px_rgba(109,91,255,0.8)]">
               <defs>
@@ -39,8 +38,12 @@ export function TopHeader({ onOpenCommandPalette, onOpenAuth }: { onOpenCommandP
               <path d="M10 30 V10 L30 30 V10" fill="none" stroke="url(#n-grad-mobile)" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </div>
+          <span className="font-bold tracking-[0.2em] text-[13px] text-white uppercase mt-0.5">NEXORA</span>
         </Link>
+      </div>
 
+      {/* Center (Search) */}
+      <div className="pointer-events-auto flex-shrink-0 flex items-center justify-center">
         <button 
           onClick={onOpenCommandPalette}
           className="flex items-center justify-between w-[180px] sm:w-[280px] md:w-[340px] text-slate-400 bg-white/5 hover:bg-white/10 px-3 md:px-4 py-2 md:py-2.5 rounded-xl border border-white/5 transition group"
@@ -56,7 +59,7 @@ export function TopHeader({ onOpenCommandPalette, onOpenAuth }: { onOpenCommandP
       </div>
 
       {/* Right Icons & Profile */}
-      <div className="pointer-events-auto flex items-center gap-3 md:gap-5">
+      <div className="pointer-events-auto flex-1 flex items-center gap-3 md:gap-5 justify-end">
         <button className="text-slate-400 hover:text-white transition hidden sm:block">
           <Gift size={20} />
         </button>
