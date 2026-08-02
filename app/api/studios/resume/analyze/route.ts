@@ -1,4 +1,7 @@
 import { NextResponse } from 'next/server';
+import { generateObject } from 'ai';
+import { createGoogleGenerativeAI } from '@ai-sdk/google';
+import { z } from 'zod';
 
 export const runtime = 'edge';
 
@@ -10,69 +13,33 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Missing jobDescription or resumeText" }, { status: 400 });
     }
 
-    const apiKey = process.env.OPENROUTER_API_KEY;
-    const defaultModel = process.env.DEFAULT_FREE_MODEL || 'meta-llama/llama-3.1-8b-instruct:free';
+    const apiKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY || process.env.GEMINI_API_KEY;
 
     if (!apiKey) {
-      return NextResponse.json({ error: "Missing OpenRouter credentials (OPENROUTER_API_KEY)." }, { status: 500 });
+      return NextResponse.json({ error: "Missing Google Gemini credentials (GOOGLE_GENERATIVE_AI_API_KEY)." }, { status: 500 });
     }
+
+    const google = createGoogleGenerativeAI({ apiKey });
 
     const systemPrompt = `You are an expert ATS (Applicant Tracking System) optimizer and professional resume writer.
 You will be given a Target Job Description and a Current Resume.
-Analyze them strictly against each other and return a JSON object with exactly the following structure:
-{
-  "oldScore": <number between 0 and 100 representing ATS match of the current resume>,
-  "newScore": <number between 0 and 100 representing ATS match of the optimized resume (usually 90+)>,
-  "issues": ["<string describing a missing keyword or weak point>", "<string 2>", "<string 3>"],
-  "optimizedResume": "<string containing the fully rewritten, ATS-optimized resume in Markdown format>"
-}
-Do not return any other text outside the JSON object.`;
+Analyze them strictly against each other.`;
 
     const userPrompt = `Target Job Description:\n${jobDescription}\n\nCurrent Resume:\n${resumeText}`;
 
-    const payload = {
-      model: defaultModel,
-      messages: [
-        { role: 'system', content: systemPrompt },
-        { role: 'user', content: userPrompt }
-      ],
-      response_format: { type: 'json_object' }
-    };
-
-    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${apiKey}`,
-        "HTTP-Referer": process.env.ALLOWED_ORIGIN || "http://localhost:3000",
-        "X-Title": "Nexora AI"
-      },
-      body: JSON.stringify(payload)
+    const { object } = await generateObject({
+      model: google('gemini-1.5-pro'),
+      system: systemPrompt,
+      prompt: userPrompt,
+      schema: z.object({
+        oldScore: z.number().describe("ATS match score of the current resume (0-100)"),
+        newScore: z.number().describe("ATS match score of the optimized resume (usually 90+)"),
+        issues: z.array(z.string()).describe("List of missing keywords or weak points addressed"),
+        optimizedResume: z.string().describe("The fully rewritten, ATS-optimized resume in Markdown format")
+      }),
     });
 
-    if (!response.ok) {
-      const err = await response.text();
-      throw new Error(`OpenRouter API error: ${response.status} ${err}`);
-    }
-
-    const data: any = await response.json();
-    const content = data.choices[0]?.message?.content;
-
-    if (!content) {
-      throw new Error("No content returned from AI");
-    }
-
-    // Try to parse the JSON response
-    let parsedContent;
-    try {
-      // In case the model wrapped it in markdown code blocks
-      const cleanContent = content.replace(/^```json\s*/, '').replace(/\s*```$/, '');
-      parsedContent = JSON.parse(cleanContent);
-    } catch (e) {
-      throw new Error("Failed to parse AI response as JSON.");
-    }
-
-    return NextResponse.json(parsedContent);
+    return NextResponse.json(object);
 
   } catch (error: any) {
     console.error("Resume Analyze Error:", error);
