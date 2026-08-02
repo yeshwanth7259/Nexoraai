@@ -42,8 +42,18 @@ export default function ResumeMakerPage() {
         body: JSON.stringify({ jobDescription, resumeText }),
       });
 
+      if (!res.ok) {
+        let errorMessage = "Failed to analyze resume";
+        try {
+          const errorData = await res.json();
+          errorMessage = errorData.error || errorMessage;
+        } catch {
+          errorMessage = await res.text();
+        }
+        throw new Error(errorMessage);
+      }
+
       const data: any = await res.json();
-      if (!res.ok) throw new Error(data.error || "Failed to analyze resume");
 
       setResult({
         type: "optimize",
@@ -76,8 +86,18 @@ export default function ResumeMakerPage() {
         body: JSON.stringify({ jobDescription, userDetails }),
       });
 
+      if (!res.ok) {
+        let errorMessage = "Failed to generate resume";
+        try {
+          const errorData = await res.json();
+          errorMessage = errorData.error || errorMessage;
+        } catch {
+          errorMessage = await res.text();
+        }
+        throw new Error(errorMessage);
+      }
+
       const data: any = await res.json();
-      if (!res.ok) throw new Error(data.error || "Failed to generate resume");
 
       setResult({
         type: "build",
