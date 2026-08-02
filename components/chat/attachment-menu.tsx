@@ -5,13 +5,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { 
   Plus, 
   Paperclip, 
-  Image as ImageIcon, 
-  Globe, 
-  Telescope, 
-  Shapes,
-  Bot,
-  Box,
-  Triangle
+  Triangle,
+  MoreHorizontal,
+  Sparkles,
+  Clapperboard,
+  Music,
+  SquarePlus,
+  Atom,
+  ChevronRight
 } from "lucide-react";
 
 interface AttachmentMenuProps {
@@ -55,10 +56,6 @@ export function AttachmentMenu({ direction = "up", onFileSelect, onAction }: Att
     }
   };
 
-  const positionClasses = direction === "up" 
-    ? "bottom-[120%] left-0" 
-    : "top-[120%] left-0";
-
   const initialY = direction === "up" ? 10 : -10;
 
   return (
@@ -86,85 +83,57 @@ export function AttachmentMenu({ direction = "up", onFileSelect, onAction }: Att
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: initialY, scale: 0.95 }}
             transition={{ duration: 0.15, ease: "easeOut" }}
-            className={`absolute ${positionClasses} w-[340px] bg-[#212121] border border-white/5 rounded-2xl shadow-2xl p-2 z-50 overflow-hidden`}
+            className={`absolute ${direction === "up" ? "bottom-[calc(100%+12px)]" : "top-[calc(100%+12px)]"} left-0 w-[240px] bg-[#212121] border border-white/10 rounded-xl shadow-[0_8px_30px_rgba(0,0,0,0.4)] p-1.5 z-50 overflow-hidden`}
           >
-            <div className="max-h-[350px] overflow-y-auto scrollbar-hide py-1">
+            <div className="flex flex-col">
               
               <MenuItem 
                 icon={Paperclip} 
-                title="Add photos & files" 
-                subtitle="Upload from computer" 
+                title="Upload files" 
                 onClick={() => fileInputRef.current?.click()}
               />
               <MenuItem 
-                icon={ImageIcon} 
-                iconColor="text-blue-400"
-                title="Create image" 
-                subtitle="Visualize anything" 
-                onClick={() => handleAction("Create Image")}
+                icon={Triangle} 
+                title="Add from Drive" 
+                onClick={() => handleAction("Add from Drive")}
               />
               <MenuItem 
-                icon={Globe} 
-                iconColor="text-cyan-400"
-                title="Web search" 
-                subtitle="Find real-time news and info" 
-                onClick={() => handleAction("Web Search")}
+                icon={MoreHorizontal} 
+                title="More uploads"
+                rightIcon={ChevronRight}
+                onClick={() => handleAction("More uploads")}
+              />
+              
+              <div className="w-full h-[1px] bg-white/10 my-1.5"></div>
+              
+              <MenuItem 
+                icon={Sparkles} 
+                title="Create image"
+                badge="New"
+                onClick={() => handleAction("Create image")}
               />
               <MenuItem 
-                icon={Telescope} 
-                iconColor="text-indigo-400"
-                title="Deep research" 
-                subtitle="Get a detailed report" 
+                icon={Clapperboard} 
+                title="Create video"
+                onClick={() => handleAction("Create video")}
+              />
+              <MenuItem 
+                icon={Music} 
+                title="Create music"
+                badge="New"
+                onClick={() => handleAction("Create music")}
+              />
+              <MenuItem 
+                icon={SquarePlus} 
+                title="Canvas"
+                onClick={() => handleAction("Canvas")}
+              />
+              <MenuItem 
+                icon={Atom} 
+                title="Deep Research"
                 onClick={() => handleAction("Deep Research")}
               />
-              <MenuItem 
-                icon={Shapes} 
-                iconColor="text-pink-400"
-                title="Visualize" 
-                subtitle="Create visualizations and interactive tools" 
-                onClick={() => handleAction("Visualize")}
-              />
-              
-              <div className="w-full h-px bg-white/10 my-2"></div>
-              
-              <MenuItem 
-                icon={Bot} 
-                iconColor="text-blue-600"
-                title="OpenAI Platform" 
-                subtitle="Create an OpenAI API key after connecting..." 
-                onClick={() => handleAction("OpenAI Platform")}
-              />
-              
-              <div onClick={() => handleAction("Atlassian Rovo")} className="flex items-center justify-between group cursor-pointer hover:bg-white/5 p-2.5 rounded-xl transition">
-                <div className="flex items-center gap-3">
-                  <Triangle size={18} className="text-blue-500 fill-blue-500 shrink-0" />
-                  <div>
-                    <h4 className="text-[13px] font-medium text-slate-200">Atlassian Rovo</h4>
-                    <p className="text-[11px] text-slate-400">Manage Jira and Confluence fast</p>
-                  </div>
-                </div>
-                <span className="text-[11px] text-slate-500 group-hover:text-white transition">Connect</span>
-              </div>
 
-              <div onClick={() => handleAction("Box")} className="flex items-center justify-between group cursor-pointer hover:bg-white/5 p-2.5 rounded-xl transition">
-                <div className="flex items-center gap-3">
-                  <Box size={18} className="text-blue-400 fill-blue-400/20 shrink-0" />
-                  <div>
-                    <h4 className="text-[13px] font-medium text-slate-200">Box</h4>
-                    <p className="text-[11px] text-slate-400">Search and reference your documents</p>
-                  </div>
-                </div>
-                <span className="text-[11px] text-slate-500 group-hover:text-white transition">Connect</span>
-              </div>
-
-            </div>
-            
-            <div className="px-3 pt-3 pb-2 mt-1 border-t border-white/5">
-              <input 
-                type="text" 
-                placeholder="Type to search plugins, files, folders & skills" 
-                className="w-full bg-transparent border-none text-[12px] text-white placeholder-slate-500 outline-none focus:ring-0"
-              />
             </div>
           </motion.div>
         )}
@@ -173,15 +142,22 @@ export function AttachmentMenu({ direction = "up", onFileSelect, onAction }: Att
   );
 }
 
-function MenuItem({ icon: Icon, iconColor = "text-slate-300", title, subtitle, onClick }: any) {
+function MenuItem({ icon: Icon, title, badge, onClick, rightIcon: RightIcon }: any) {
   return (
-    <div onClick={onClick} className="flex items-center gap-3 group cursor-pointer hover:bg-white/5 p-2.5 rounded-xl transition">
-      <Icon size={18} className={`${iconColor} shrink-0`} />
-      <div>
-        <h4 className="text-[13px] font-medium text-slate-200 flex items-center gap-2">
+    <div onClick={onClick} className="flex items-center justify-between group cursor-pointer hover:bg-white/5 py-2 px-3 rounded-lg transition">
+      <div className="flex items-center gap-3">
+        <Icon size={18} className="text-slate-300 shrink-0" />
+        <span className="text-[14px] font-medium text-slate-200">
           {title}
-        </h4>
-        <p className="text-[11px] text-slate-400">{subtitle}</p>
+        </span>
+      </div>
+      <div className="flex items-center gap-2">
+        {badge && (
+          <span className="bg-white/10 text-slate-300 text-[10px] font-medium px-2 py-0.5 rounded-full">
+            {badge}
+          </span>
+        )}
+        {RightIcon && <RightIcon size={14} className="text-slate-400" />}
       </div>
     </div>
   );

@@ -81,7 +81,7 @@ export function InlinePrompt() {
 
       <div className="flex items-center justify-between px-2 sm:px-3 pt-2">
         <AttachmentMenu 
-          direction="down" 
+          direction="up" 
           onFileSelect={handleFileSelect} 
           onAction={(action) => setInput(`[${action}] ` + input)}
         />
