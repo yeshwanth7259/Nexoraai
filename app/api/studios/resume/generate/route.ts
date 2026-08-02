@@ -30,7 +30,7 @@ Fill in logical gaps with professional phrasing based on the provided details, b
     const userPrompt = `Target Job Description:\n${jobDescription}\n\nUser Details/Experience:\n${userDetails}`;
 
     const { object } = await generateObject({
-      model: google('gemini-2.5-flash'),
+      model: google('gemini-3.5-flash'),
       system: systemPrompt,
       prompt: userPrompt,
       schema: z.object({

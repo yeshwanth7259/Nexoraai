@@ -28,7 +28,7 @@ Analyze them strictly against each other.`;
     const userPrompt = `Target Job Description:\n${jobDescription}\n\nCurrent Resume:\n${resumeText}`;
 
     const { object } = await generateObject({
-      model: google('gemini-2.5-flash'),
+      model: google('gemini-3.5-flash'),
       system: systemPrompt,
       prompt: userPrompt,
       schema: z.object({
