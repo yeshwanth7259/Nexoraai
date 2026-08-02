@@ -25,10 +25,25 @@ export function TopHeader({ onOpenCommandPalette, onOpenAuth }: { onOpenCommandP
     <header className="absolute top-0 right-0 h-[72px] flex items-center justify-between px-4 md:px-8 z-20 w-full bg-background/50 backdrop-blur-xl pointer-events-none border-b border-white/5">
       
       {/* Left / Search */}
-      <div className="pointer-events-auto flex-1 flex items-center">
+      <div className="pointer-events-auto flex-1 flex items-center gap-3">
+        {/* Mobile Logo */}
+        <Link href="/home" className="md:hidden flex items-center shrink-0 pl-1 pr-1">
+          <div className="w-6 h-6 relative flex items-center justify-center cursor-pointer">
+            <svg viewBox="0 0 40 40" className="w-full h-full drop-shadow-[0_0_8px_rgba(109,91,255,0.8)]">
+              <defs>
+                <linearGradient id="n-grad-mobile" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor="#8B5CF6" />
+                  <stop offset="100%" stopColor="#3B82F6" />
+                </linearGradient>
+              </defs>
+              <path d="M10 30 V10 L30 30 V10" fill="none" stroke="url(#n-grad-mobile)" strokeWidth="6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </div>
+        </Link>
+
         <button 
           onClick={onOpenCommandPalette}
-          className="flex items-center justify-between w-[200px] sm:w-[280px] md:w-[340px] text-slate-400 bg-white/5 hover:bg-white/10 px-3 md:px-4 py-2 md:py-2.5 rounded-xl border border-white/5 transition group"
+          className="flex items-center justify-between w-[180px] sm:w-[280px] md:w-[340px] text-slate-400 bg-white/5 hover:bg-white/10 px-3 md:px-4 py-2 md:py-2.5 rounded-xl border border-white/5 transition group"
         >
           <div className="flex items-center gap-2 md:gap-3 overflow-hidden">
             <Search size={16} className="text-slate-500 group-hover:text-white transition shrink-0" />
