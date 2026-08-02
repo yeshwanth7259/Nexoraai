@@ -20,7 +20,7 @@ export async function POST(req: Request) {
     let text = "";
 
     if (extension === "pdf" || mimeType === "application/pdf") {
-      const pdfParse = require('pdf-parse');
+      const pdfParse = require('pdf-parse/lib/pdf-parse.js');
       const data = await pdfParse(buffer);
       text = data.text;
     } 
