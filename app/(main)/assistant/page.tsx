@@ -144,10 +144,10 @@ export default function AssistantPage() {
                         remarkPlugins={[remarkGfm]}
                         components={{
                           img: ({node, ...props}) => (
-                            <div className="relative group/image inline-block max-w-sm my-2">
+                            <span className="relative group/image inline-block max-w-sm my-2">
                               {/* eslint-disable-next-line @next/next/no-img-element */}
                               <img className="rounded-lg w-full border border-slate-700 shadow-lg object-cover" alt="Generated" {...props} />
-                              <div className="absolute top-2 right-2 opacity-0 group-hover/image:opacity-100 transition-opacity">
+                              <span className="absolute top-2 right-2 opacity-0 group-hover/image:opacity-100 transition-opacity">
                                 <button 
                                   onClick={async (e) => {
                                     e.preventDefault();
@@ -171,8 +171,8 @@ export default function AssistantPage() {
                                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
                                   Download
                                 </button>
-                              </div>
-                            </div>
+                              </span>
+                            </span>
                           )
                         }}
                       >
