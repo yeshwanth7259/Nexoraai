@@ -38,9 +38,9 @@ export default async function HomePage() {
         <div className="lg:col-span-9 flex flex-col gap-6">
           
           {/* HERO SECTION */}
-          <div className="relative w-full min-h-[300px] md:min-h-[360px] rounded-[2rem] border border-white/10 bg-gradient-to-br from-[#0B0B14] to-[#12121A] p-6 sm:p-8 md:p-10 flex flex-col justify-between overflow-hidden shadow-2xl">
+          <div className="relative w-full min-h-[300px] md:min-h-[360px] rounded-[2rem] border border-white/10 bg-gradient-to-br from-[#0B0B14] to-[#12121A] p-6 sm:p-8 md:p-10 flex flex-col justify-between shadow-2xl">
             {/* Background Glows & Graphics */}
-            <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-[2rem]">
               <div className="absolute top-0 right-0 w-[600px] h-full transform translate-x-10 md:translate-x-0">
                 <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] bg-blue-600/20 rounded-full blur-[80px]"></div>
                 <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[160px] h-[160px] bg-purple-600/30 rounded-full blur-[60px]"></div>
