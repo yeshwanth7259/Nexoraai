@@ -35,7 +35,37 @@ Analyze them strictly against each other.`;
         oldScore: z.number().describe("ATS match score of the current resume (0-100)"),
         newScore: z.number().describe("ATS match score of the optimized resume (usually 90+)"),
         issues: z.array(z.string()).describe("List of missing keywords or weak points addressed"),
-        optimizedResume: z.string().describe("The fully rewritten, ATS-optimized resume in Markdown format")
+        resumeData: z.object({
+          personalInfo: z.object({
+            name: z.string(),
+            title: z.string(),
+            email: z.string(),
+            phone: z.string(),
+            location: z.string(),
+            links: z.array(z.string())
+          }),
+          summary: z.string(),
+          experience: z.array(z.object({
+            role: z.string(),
+            company: z.string(),
+            duration: z.string(),
+            description: z.array(z.string())
+          })),
+          education: z.array(z.object({
+            degree: z.string(),
+            school: z.string(),
+            year: z.string()
+          })),
+          skills: z.array(z.object({
+            category: z.string(),
+            items: z.array(z.string())
+          })),
+          projects: z.array(z.object({
+            name: z.string(),
+            description: z.string(),
+            technologies: z.array(z.string())
+          })).optional()
+        }).describe("The fully rewritten, ATS-optimized resume in structured JSON format")
       }),
     });
 

@@ -34,8 +34,38 @@ Fill in logical gaps with professional phrasing based on the provided details, b
       system: systemPrompt,
       prompt: userPrompt,
       schema: z.object({
-        score: z.number().describe("ATS match score of the generated resume (90-100)"),
-        optimizedResume: z.string().describe("The fully written, ATS-optimized resume in Markdown format")
+        score: z.number().describe("ATS match score of the generated resume (usually 90+)"),
+        resumeData: z.object({
+          personalInfo: z.object({
+            name: z.string(),
+            title: z.string(),
+            email: z.string(),
+            phone: z.string(),
+            location: z.string(),
+            links: z.array(z.string())
+          }),
+          summary: z.string(),
+          experience: z.array(z.object({
+            role: z.string(),
+            company: z.string(),
+            duration: z.string(),
+            description: z.array(z.string())
+          })),
+          education: z.array(z.object({
+            degree: z.string(),
+            school: z.string(),
+            year: z.string()
+          })),
+          skills: z.array(z.object({
+            category: z.string(),
+            items: z.array(z.string())
+          })),
+          projects: z.array(z.object({
+            name: z.string(),
+            description: z.string(),
+            technologies: z.array(z.string())
+          })).optional()
+        }).describe("The fully generated, ATS-optimized resume in structured JSON format")
       }),
     });
 

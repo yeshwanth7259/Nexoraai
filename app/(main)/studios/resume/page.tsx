@@ -2,12 +2,15 @@
 
 import { useState, useRef } from "react";
 import { FileText, Sparkles, CheckCircle2, AlertTriangle, ChevronRight, Briefcase, Upload, PenTool, Layout } from "lucide-react";
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
 import { parseFileToText } from "@/utils/file-parser";
+import dynamic from "next/dynamic";
+import { ResumeData } from "@/modules/resume/types";
+
+const ResumeViewer = dynamic(() => import("@/modules/resume/components/ResumeViewer"), { ssr: false });
 
 export default function ResumeMakerPage() {
   const [activeTab, setActiveTab] = useState<"optimize" | "build">("optimize");
+  const [selectedTemplate, setSelectedTemplate] = useState<"professional" | "modern" | "minimal">("professional");
   const [jobDescription, setJobDescription] = useState("");
   const [resumeText, setResumeText] = useState("");
   const [userDetails, setUserDetails] = useState("");
@@ -20,7 +23,7 @@ export default function ResumeMakerPage() {
     oldScore?: number;
     newScore: number;
     issues?: string[];
-    optimizedResume: string;
+    resumeData: ResumeData;
   } | null>(null);
   
   const [error, setError] = useState<string | null>(null);
@@ -60,7 +63,7 @@ export default function ResumeMakerPage() {
         oldScore: data.oldScore || data.score || 0,
         newScore: data.newScore || 95,
         issues: data.issues || [],
-        optimizedResume: data.optimizedResume,
+        resumeData: data.resumeData,
       });
     } catch (err: any) {
       setError(err.message);
@@ -102,7 +105,7 @@ export default function ResumeMakerPage() {
       setResult({
         type: "build",
         newScore: data.score || 95,
-        optimizedResume: data.optimizedResume,
+        resumeData: data.resumeData,
       });
     } catch (err: any) {
       setError(err.message);
@@ -174,6 +177,27 @@ export default function ResumeMakerPage() {
             >
               <PenTool size={16} /> Build from Scratch
             </button>
+          </div>
+
+          <div className="bg-[#0B0B14] rounded-2xl border border-white/5 p-6">
+            <h2 className="text-lg font-semibold flex items-center gap-2 mb-4">
+              <Layout size={18} className="text-purple-400" /> Choose Template
+            </h2>
+            <div className="grid grid-cols-3 gap-3">
+              {(["professional", "modern", "minimal"] as const).map((tpl) => (
+                <button
+                  key={tpl}
+                  onClick={() => setSelectedTemplate(tpl)}
+                  className={`py-3 px-2 rounded-xl text-xs font-bold uppercase tracking-wider transition ${
+                    selectedTemplate === tpl
+                      ? "bg-white text-black shadow-lg"
+                      : "bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10"
+                  }`}
+                >
+                  {tpl}
+                </button>
+              ))}
+            </div>
           </div>
 
           <div className="bg-[#0B0B14] rounded-2xl border border-white/5 p-6">
@@ -346,21 +370,8 @@ export default function ResumeMakerPage() {
               )}
 
               {/* Optimized Resume Section */}
-              <div className="flex-1 flex flex-col">
-                <h3 className={`text-sm font-semibold mb-3 flex items-center gap-2 ${result.type === "optimize" ? "text-purple-400" : "text-blue-400"}`}>
-                  <Sparkles size={16} /> {result.type === "optimize" ? "Your Optimized Resume" : "Your Generated Resume"}
-                </h3>
-                <div className="flex-1 bg-white/5 border border-white/10 rounded-xl p-6 overflow-y-auto max-h-[600px] markdown-body prose prose-invert prose-sm">
-                  <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                    {result.optimizedResume}
-                  </ReactMarkdown>
-                </div>
-                <button
-                  onClick={() => navigator.clipboard.writeText(result.optimizedResume)}
-                  className="mt-4 py-2.5 w-full rounded-xl bg-white/10 hover:bg-white/20 text-white text-sm font-medium transition"
-                >
-                  Copy to Clipboard
-                </button>
+              <div className="flex-1 flex flex-col h-[800px]">
+                <ResumeViewer data={result.resumeData} template={selectedTemplate} />
               </div>
             </div>
           )}
