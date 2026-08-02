@@ -20,9 +20,18 @@ export function InlinePrompt() {
     setAttachedFile(null);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (input.trim() || attachedFile) {
-      router.push(`/assistant?q=${encodeURIComponent(input.trim())}`);
+      if (attachedFile) {
+        try {
+          const text = await attachedFile.text();
+          sessionStorage.setItem('nexora_pending_file_text', text);
+          sessionStorage.setItem('nexora_pending_file_name', attachedFile.name);
+        } catch (err) {
+          console.error("Could not read file", err);
+        }
+      }
+      router.push(`/assistant?q=${encodeURIComponent(input.trim() || "Please analyze the attached file.")}`);
     }
   };
 
@@ -81,7 +90,7 @@ export function InlinePrompt() {
 
       <div className="flex items-center justify-between px-2 sm:px-3 pt-2">
         <AttachmentMenu 
-          direction="up" 
+          direction="down" 
           onFileSelect={handleFileSelect} 
           onAction={(action) => setInput(`[${action}] ` + input)}
         />

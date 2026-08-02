@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Send, Sparkles, Plus, Mic, User, Bot, Loader2 } from "lucide-react";
+import { Send, Sparkles, Plus, Mic, User, Bot, Loader2, X, File as FileIcon } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { AttachmentMenu } from "@/components/chat/attachment-menu";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function AssistantPage() {
   const searchParams = useSearchParams();
@@ -15,6 +17,7 @@ export default function AssistantPage() {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<{role: string, content: string}[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [attachedFile, setAttachedFile] = useState<File | null>(null);
 
   const sendMessage = async (msg: { role: string; content: string }) => {
     const newMessages = [...messages, msg];
@@ -90,9 +93,22 @@ export default function AssistantPage() {
   };
 
   useEffect(() => {
-    if (initialQuery && !hasInitialized.current) {
-      hasInitialized.current = true;
-      sendMessage({ role: "user", content: initialQuery });
+    if (!hasInitialized.current) {
+      const pendingFileText = sessionStorage.getItem('nexora_pending_file_text');
+      const pendingFileName = sessionStorage.getItem('nexora_pending_file_name');
+      
+      if (pendingFileText || initialQuery) {
+        hasInitialized.current = true;
+        let queryContent = initialQuery || "Please analyze the attached file.";
+        
+        if (pendingFileText && pendingFileName) {
+          queryContent = `[Attached File: ${pendingFileName}]\n\n${pendingFileText}\n\nUser Query: ${queryContent}`;
+          sessionStorage.removeItem('nexora_pending_file_text');
+          sessionStorage.removeItem('nexora_pending_file_name');
+        }
+        
+        sendMessage({ role: "user", content: queryContent });
+      }
     }
   }, [initialQuery]);
 
@@ -100,6 +116,26 @@ export default function AssistantPage() {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isLoading]);
+
+  const handleFormSubmit = async () => {
+    if (!input.trim() && !attachedFile) return;
+    if (isLoading) return;
+
+    let finalQuery = input.trim() || "Please analyze the attached file.";
+    
+    if (attachedFile) {
+      try {
+        const text = await attachedFile.text();
+        finalQuery = `[Attached File: ${attachedFile.name}]\n\n${text}\n\nUser Query: ${finalQuery}`;
+      } catch (err) {
+        console.error("Failed to read file", err);
+      }
+      setAttachedFile(null);
+    }
+    
+    sendMessage({ role: "user", content: finalQuery });
+    setInput("");
+  };
 
   return (
     <div className="flex flex-col h-full max-w-5xl mx-auto w-full relative">
@@ -203,18 +239,64 @@ export default function AssistantPage() {
           ref={formRef} 
           onSubmit={(e) => {
             e.preventDefault();
-            if (input.trim() && !isLoading) {
-              sendMessage({ role: "user", content: input });
-              setInput("");
-            }
+            handleFormSubmit();
           }} 
-          className="max-w-3xl mx-auto relative group"
+          className="max-w-3xl mx-auto relative group flex flex-col gap-2"
         >
-          <div className="absolute inset-0 bg-primary/20 rounded-2xl blur-xl group-focus-within:bg-primary/30 transition-all duration-300"></div>
+          {/* File Preview Area for Assistant */}
+          <AnimatePresence>
+            {attachedFile && (
+              <motion.div 
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                className="px-2"
+              >
+                <div className="relative inline-flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl p-2 pr-4 backdrop-blur-md">
+                  <button 
+                    type="button"
+                    onClick={() => setAttachedFile(null)}
+                    className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-slate-700 hover:bg-red-500 text-white flex items-center justify-center transition z-10"
+                  >
+                    <X size={12} />
+                  </button>
+                  
+                  {attachedFile.type.startsWith("image/") ? (
+                    <div className="w-10 h-10 rounded-lg overflow-hidden shrink-0 bg-black/50">
+                      <img 
+                        src={URL.createObjectURL(attachedFile)} 
+                        alt="Preview" 
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  ) : (
+                    <div className="w-10 h-10 rounded-lg bg-blue-500/20 text-blue-400 flex items-center justify-center shrink-0">
+                      <FileIcon size={20} />
+                    </div>
+                  )}
+                  
+                  <div className="flex flex-col">
+                    <span className="text-[12px] font-medium text-white max-w-[150px] truncate">
+                      {attachedFile.name}
+                    </span>
+                    <span className="text-[10px] text-slate-400">
+                      {(attachedFile.size / 1024 / 1024).toFixed(2)} MB
+                    </span>
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          <div className="absolute inset-0 bg-primary/20 rounded-2xl blur-xl group-focus-within:bg-primary/30 transition-all duration-300 pointer-events-none mt-[auto]"></div>
           <div className="relative glass-panel rounded-2xl border border-white/10 flex items-end p-2 bg-background/80 shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
-            <button type="button" className="p-3 text-slate-400 hover:text-white hover:bg-white/5 rounded-xl transition">
-              <Plus size={20} />
-            </button>
+            <div className="mb-0.5 ml-1">
+              <AttachmentMenu 
+                direction="up" 
+                onFileSelect={(file) => setAttachedFile(file)} 
+                onAction={(action) => setInput(`[${action}] ` + input)}
+              />
+            </div>
             <textarea 
               value={input}
               onChange={(e) => setInput(e.target.value)}
@@ -225,7 +307,7 @@ export default function AssistantPage() {
                 }
               }}
               placeholder="Ask Nexora to build, design, or analyze anything..."
-              className="flex-1 max-h-40 min-h-[44px] bg-transparent border-none text-white focus:ring-0 resize-none px-2 py-3 focus:outline-none placeholder:text-slate-500"
+              className="flex-1 max-h-40 min-h-[44px] bg-transparent border-none text-white focus:ring-0 resize-none px-3 py-3 focus:outline-none placeholder:text-slate-500"
               rows={1}
             />
             <button type="button" className="p-3 text-slate-400 hover:text-white hover:bg-white/5 rounded-xl transition mb-0.5">
@@ -233,9 +315,9 @@ export default function AssistantPage() {
             </button>
             <button 
               type="submit"
-              disabled={!input.trim() || isLoading}
+              disabled={(!input.trim() && !attachedFile) || isLoading}
               className={`p-3 rounded-xl transition mb-0.5 ml-1 ${
-                input.trim().length > 0 && !isLoading
+                (input.trim().length > 0 || attachedFile) && !isLoading
                   ? "bg-primary text-white shadow-[0_0_15px_rgba(109,91,255,0.4)]" 
                   : "bg-white/5 text-slate-500"
               }`}
