@@ -6,6 +6,7 @@ import { AttachmentMenu } from "@/components/chat/attachment-menu";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
+import { parseFileToText } from "@/utils/file-parser";
 
 export function InlinePrompt() {
   const [input, setInput] = useState("");
@@ -24,7 +25,7 @@ export function InlinePrompt() {
     if (input.trim() || attachedFile) {
       if (attachedFile) {
         try {
-          const text = await attachedFile.text();
+          const text = await parseFileToText(attachedFile);
           sessionStorage.setItem('nexora_pending_file_text', text);
           sessionStorage.setItem('nexora_pending_file_name', attachedFile.name);
         } catch (err) {

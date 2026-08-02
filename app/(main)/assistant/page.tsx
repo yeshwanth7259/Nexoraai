@@ -7,6 +7,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { AttachmentMenu } from "@/components/chat/attachment-menu";
 import { motion, AnimatePresence } from "framer-motion";
+import { parseFileToText } from "@/utils/file-parser";
 
 export default function AssistantPage() {
   const searchParams = useSearchParams();
@@ -125,7 +126,7 @@ export default function AssistantPage() {
     
     if (attachedFile) {
       try {
-        const text = await attachedFile.text();
+        const text = await parseFileToText(attachedFile);
         finalQuery = `[Attached File: ${attachedFile.name}]\n\n${text}\n\nUser Query: ${finalQuery}`;
       } catch (err) {
         console.error("Failed to read file", err);

@@ -3,6 +3,7 @@
 import { UploadCloud } from "lucide-react";
 import { useRef } from "react";
 import { useRouter } from "next/navigation";
+import { parseFileToText } from "@/utils/file-parser";
 
 export function QuickUploadAction() {
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -12,7 +13,7 @@ export function QuickUploadAction() {
     const file = e.target.files?.[0];
     if (file) {
       try {
-        const text = await file.text();
+        const text = await parseFileToText(file);
         sessionStorage.setItem('nexora_pending_file_text', text);
         sessionStorage.setItem('nexora_pending_file_name', file.name);
         router.push(`/assistant?q=${encodeURIComponent("Please analyze the attached file.")}`);
