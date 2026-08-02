@@ -85,20 +85,44 @@ export default function AssistantPage() {
                         if (toolInvocation.toolName === 'generateImage') {
                           if ('result' in toolInvocation) {
                             return (
-                              <div key={toolInvocation.toolCallId} className="mt-3 flex flex-col gap-2">
+                              <div key={toolInvocation.toolCallId} className="mt-3 flex flex-col gap-2 relative group/image max-w-sm">
                                 {/* eslint-disable-next-line @next/next/no-img-element */}
                                 <img 
                                   src={toolInvocation.result.url} 
                                   alt={toolInvocation.result.prompt} 
-                                  className="rounded-lg max-w-sm border border-slate-700 shadow-lg"
+                                  className="rounded-lg w-full border border-slate-700 shadow-lg object-cover"
                                 />
-                                <span className="text-[10px] text-slate-500 italic">Generated based on: "{toolInvocation.result.prompt}"</span>
+                                <div className="absolute top-2 right-2 opacity-0 group-hover/image:opacity-100 transition-opacity">
+                                  <button 
+                                    onClick={async () => {
+                                      try {
+                                        const res = await fetch(toolInvocation.result.url);
+                                        const blob = await res.blob();
+                                        const url = window.URL.createObjectURL(blob);
+                                        const a = document.createElement('a');
+                                        a.style.display = 'none';
+                                        a.href = url;
+                                        a.download = `nexora-image-${Date.now()}.jpg`;
+                                        document.body.appendChild(a);
+                                        a.click();
+                                        window.URL.revokeObjectURL(url);
+                                      } catch (e) {
+                                        window.open(toolInvocation.result.url, '_blank');
+                                      }
+                                    }}
+                                    className="bg-black/60 hover:bg-black/80 backdrop-blur text-white px-3 py-1.5 rounded-lg transition shadow-lg flex items-center gap-1.5 text-xs font-medium border border-white/10"
+                                  >
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                                    Download
+                                  </button>
+                                </div>
+                                <span className="text-[10px] text-slate-500 italic leading-snug">Generated based on: "{toolInvocation.result.prompt}"</span>
                               </div>
                             );
                           } else {
                             return (
                               <div key={toolInvocation.toolCallId} className="mt-3 flex items-center gap-2 text-primary text-xs font-medium animate-pulse">
-                                <span>✨ Generating your image...</span>
+                                <span>✨ Generating your high-quality image...</span>
                               </div>
                             );
                           }

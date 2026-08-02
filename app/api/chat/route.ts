@@ -38,7 +38,7 @@ export async function POST(req: Request) {
         execute: async ({ prompt }) => {
           const encodedPrompt = encodeURIComponent(prompt);
           const seed = Math.floor(Math.random() * 1000000);
-          const imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?seed=${seed}&width=1024&height=1024&nologo=true`;
+          const imageUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?seed=${seed}&width=1024&height=1024&nologo=true&enhance=true&model=flux`;
           
           return { url: imageUrl, prompt };
         },
