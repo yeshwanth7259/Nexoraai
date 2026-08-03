@@ -113,7 +113,7 @@ export default async function HomePage() {
               />
               <StudioCard 
                 icon={Video} title="Video Generation" desc="Create cinematic videos" 
-                color="red" href="/studios/video"
+                color="orange" href="/studios/video"
               />
             </div>
           </div>
