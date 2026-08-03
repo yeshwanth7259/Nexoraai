@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-export const maxDuration = 60;
+export const runtime = 'edge';
 
 export async function POST(req: Request) {
   try {
@@ -49,11 +49,14 @@ Output ONLY valid JSON. Do not include markdown formatting like \`\`\`json or \`
     let text = data.candidates?.[0]?.content?.parts?.[0]?.text || "{}";
     
     try {
-      // Sometimes Gemini still includes markdown ticks
-      text = text.replace(/^```json/i, '').replace(/```$/i, '').trim();
-      return NextResponse.json({ files: JSON.parse(text) });
+      // Strip any possible markdown formatting from the response
+      text = text.replace(/```json/gi, '').replace(/```/gi, '').trim();
+      
+      // Parse the cleaned text
+      const parsedFiles = JSON.parse(text);
+      return NextResponse.json({ files: parsedFiles });
     } catch (parseError) {
-      console.error("Failed to parse Gemini JSON:", text);
+      console.error("Failed to parse Gemini JSON. Raw text:", text);
       throw new Error("Invalid JSON returned by Gemini.");
     }
 
