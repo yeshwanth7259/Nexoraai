@@ -41,6 +41,7 @@ export default function ResumeViewer({ data, template }: Props) {
       <div className="flex justify-between items-center bg-[#12121A] p-4 rounded-xl border border-white/10">
         <div className="text-sm font-semibold text-white">Live PDF Preview</div>
         <PDFDownloadLink 
+          key={template}
           document={DocumentComponent} 
           fileName={`${data.personalInfo.name.replace(/\s+/g, '_')}_Resume.pdf`}
           className="flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white px-4 py-2 rounded-lg text-sm font-medium transition"
@@ -54,7 +55,7 @@ export default function ResumeViewer({ data, template }: Props) {
       </div>
       
       <div className="flex-1 rounded-xl overflow-hidden border border-white/10 bg-white min-h-[600px]">
-        <PDFViewer width="100%" height="100%" showToolbar={false} className="border-none">
+        <PDFViewer key={template} width="100%" height="100%" showToolbar={false} className="border-none">
           {DocumentComponent}
         </PDFViewer>
       </div>
