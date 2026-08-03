@@ -52,7 +52,7 @@ export default function VideoStudioPage() {
       let finalVideoUri = "";
       
       while (!isDone) {
-        await new Promise(resolve => setTimeout(resolve, 10000)); // wait 10s between checks
+        await new Promise(resolve => setTimeout(resolve, 3000)); 
         
         const statusRes = await fetch(`/api/studios/video/status?operationName=${encodeURIComponent(operationName)}`);
         const statusData = await statusRes.json();
@@ -68,7 +68,10 @@ export default function VideoStudioPage() {
         }
       }
 
-      setVideoUrl(`/api/studios/video/stream?uri=${encodeURIComponent(finalVideoUri)}`);
+      clearInterval(progressInterval);
+      setGenerationStep(3);
+
+      setVideoUrl(finalVideoUri);
       setTimeout(() => setAppState('result'), 1000);
     } catch (error: any) {
       console.error(error);
