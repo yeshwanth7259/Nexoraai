@@ -53,7 +53,7 @@ export async function POST(req: Request) {
 
     // Return a sample placeholder video along with the Gemini-generated description of the scene
     return NextResponse.json({ 
-      videoUrl: "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+      videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
       description: description.trim()
     });
 

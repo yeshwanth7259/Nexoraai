@@ -46,7 +46,7 @@ export default function VideoStudioPage() {
         throw new Error(data.error || "Failed to generate video");
       }
 
-      setVideoUrl(data.videoUrl || "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4");
+      setVideoUrl(data.videoUrl || "https://www.w3schools.com/html/mov_bbb.mp4");
       setVideoDescription(data.description || prompt);
       setTimeout(() => setAppState('result'), 1000);
     } catch (error) {
