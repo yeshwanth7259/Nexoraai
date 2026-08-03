@@ -44,7 +44,10 @@ export async function POST(req: Request) {
     // 4. If React + Tailwind, convert HTML to React using Gemini REST API directly
     console.log("Converting Stitch HTML to React component...");
     
-    const apiKey = process.env.UI_UX_GOOGLE_API_KEY || ("AQ.Ab8" + "RN6KF9DSqXAC5" + "Z9nfEBOMqTd" + "qcT1PbcTEvXvOK" + "OrVbfgPLA");
+    const apiKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY || process.env.OPENAI_API_KEY;
+    if (!apiKey) {
+      throw new Error("No Gemini or OpenAI API Key available for conversion.");
+    }
     const geminiPayload = {
       contents: [{
         role: "user",
