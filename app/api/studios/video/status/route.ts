@@ -11,11 +11,32 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: "operationName is required" }, { status: 400 });
     }
 
-    // Return the locally hosted mock video from the Next.js public directory
-    // This absolutely guarantees no 403 Forbidden or CORS issues, ensuring 100% reliable playback.
-    const videoUri = "/mock-video.mp4";
+    const apiKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY;
+    if (!apiKey) {
+      return NextResponse.json({ error: "Google API key is missing" }, { status: 500 });
+    }
+
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/${operationName}?key=${apiKey}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Veo Status API Error: ${errorText}`);
+    }
+
+    const data = await response.json();
     
-    return NextResponse.json({ done: true, videoUri });
+    if (data.done) {
+      const videoUri = data.response?.generateVideoResponse?.generatedSamples?.[0]?.video?.uri;
+      if (!videoUri) {
+        throw new Error("Video completed but no video URI found in response");
+      }
+      return NextResponse.json({ done: true, videoUri });
+    }
+
+    return NextResponse.json({ done: false });
   } catch (error: any) {
     console.error("Error polling Video Status:", error);
     return NextResponse.json({ error: error?.message || "Failed to poll video status" }, { status: 500 });

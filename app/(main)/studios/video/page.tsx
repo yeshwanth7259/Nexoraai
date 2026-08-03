@@ -68,16 +68,13 @@ export default function VideoStudioPage() {
         }
       }
 
-      clearInterval(progressInterval);
-      setGenerationStep(3);
-
-      setVideoUrl(finalVideoUri);
+      setVideoUrl(`/api/studios/video/stream?uri=${encodeURIComponent(finalVideoUri)}`);
       setTimeout(() => setAppState('result'), 1000);
-    } catch (error) {
+    } catch (error: any) {
       console.error(error);
       clearInterval(progressInterval);
       setAppState('input');
-      alert("Error generating video. Check console for details.");
+      alert(error.message || "Error generating video. Check console for details.");
     }
   };
 
