@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-export const dynamic = 'force-dynamic';
+export const runtime = 'edge';
 
 export async function GET(req: Request) {
   try {
@@ -11,18 +11,11 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: "uri is required" }, { status: 400 });
     }
 
-    const apiKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY;
-
-    if (!apiKey) {
-      return NextResponse.json({ error: "Google Generative AI API key is missing" }, { status: 500 });
-    }
-
-    const response = await fetch(`${uri}?key=${apiKey}`, {
-      method: "GET",
-    });
+    // Proxy the public video safely
+    const response = await fetch(uri, { method: "GET" });
 
     if (!response.ok) {
-      throw new Error(`Failed to fetch video stream: ${response.statusText}`);
+      throw new Error(`Failed to fetch mock video stream: ${response.statusText}`);
     }
 
     return new Response(response.body, {
