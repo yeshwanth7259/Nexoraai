@@ -8,6 +8,7 @@ import { createClient } from "@/utils/supabase/client";
 import { AttachmentMenu } from "@/components/chat/attachment-menu";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { CodeBlock } from "@/components/chat/code-block";
 
 export function ChatInterface({ 
   chatId, 
@@ -125,7 +126,30 @@ export function ChatInterface({
               {m.role === "user" ? (
                 <div className="max-w-[85%] bg-primary/20 border border-primary/30 rounded-2xl px-5 py-3.5 text-[15px] text-white leading-relaxed shadow-sm backdrop-blur-md">
                   <div className="prose prose-invert max-w-none">
-                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                    <ReactMarkdown 
+                      remarkPlugins={[remarkGfm]}
+                      components={{
+                        pre({ children }) {
+                          return <div className="not-prose">{children}</div>;
+                        },
+                        code({ node, inline, className, children, ...props }: any) {
+                          const match = /language-(\w+)/.exec(className || "");
+                          if (!inline && match) {
+                            return (
+                              <CodeBlock 
+                                language={match[1]} 
+                                value={String(children).replace(/\n$/, "")} 
+                              />
+                            );
+                          }
+                          return (
+                            <code className={className} {...props}>
+                              {children}
+                            </code>
+                          );
+                        }
+                      }}
+                    >
                       {m.content}
                     </ReactMarkdown>
                   </div>
@@ -137,7 +161,30 @@ export function ChatInterface({
                   </div>
                   <div className="flex-1 min-w-0 pt-1 text-[15px] text-slate-200 leading-relaxed">
                     <div className="prose prose-invert max-w-none prose-p:leading-relaxed prose-pre:max-w-full prose-img:rounded-xl prose-img:shadow-lg break-words">
-                      <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                      <ReactMarkdown 
+                        remarkPlugins={[remarkGfm]}
+                        components={{
+                          pre({ children }) {
+                            return <div className="not-prose">{children}</div>;
+                          },
+                          code({ node, inline, className, children, ...props }: any) {
+                            const match = /language-(\w+)/.exec(className || "");
+                            if (!inline && match) {
+                              return (
+                                <CodeBlock 
+                                  language={match[1]} 
+                                  value={String(children).replace(/\n$/, "")} 
+                                />
+                              );
+                            }
+                            return (
+                              <code className={className} {...props}>
+                                {children}
+                              </code>
+                            );
+                          }
+                        }}
+                      >
                         {m.content}
                       </ReactMarkdown>
                     </div>
