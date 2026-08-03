@@ -16,45 +16,35 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "Google Generative AI API key is missing" }, { status: 500 });
     }
 
-    // Since Gemini doesn't currently generate MP4s directly via standard public REST endpoints (usually it's for Gemini Pro text/vision),
-    // we use Gemini to "direct" a video and provide a descriptive output, and we simulate the video URL for demonstration.
-    // If the user's gemini instance has Veo enabled, this is where that API call would go.
-    
-    const systemPrompt = `You are an expert AI video director.
-    The user will provide a prompt for a video they want to generate.
-    Write a brief, vivid description (1-2 sentences) of what the final video looks like, as if you just generated it.
-    Focus on lighting, camera movement, and subject matter.`;
-
-    const geminiPayload = {
-      contents: [{
-        role: "user",
-        parts: [{
-          text: `${systemPrompt}\n\nUser Prompt: ${prompt}`
-        }]
-      }],
-      generationConfig: {
-        temperature: 0.7,
-      }
+    const veoPayload = {
+      instances: [{
+        prompt: prompt
+      }]
     };
 
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${apiKey}`, {
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/veo-3.1-generate-preview:predictLongRunning?key=${apiKey}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(geminiPayload)
+      body: JSON.stringify(veoPayload)
     });
 
     if (!response.ok) {
       const errorText = await response.text();
-      throw new Error(`Gemini API Error: ${errorText}`);
+      throw new Error(`Veo API Error: ${errorText}`);
     }
 
     const data = await response.json();
-    const description = data.candidates?.[0]?.content?.parts?.[0]?.text || prompt;
+    
+    // Veo returns { "name": "operations/..." }
+    const operationName = data.name;
 
-    // Return a sample placeholder video along with the Gemini-generated description of the scene
+    if (!operationName) {
+      throw new Error("Failed to get operation name from Veo API");
+    }
+
     return NextResponse.json({ 
-      videoUrl: "https://www.w3schools.com/html/mov_bbb.mp4",
-      description: description.trim()
+      operationName,
+      description: prompt
     });
 
   } catch (error: any) {

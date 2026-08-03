@@ -74,28 +74,6 @@ export function Sidebar({ onOpenAuth, workspaces = [] }: { onOpenAuth?: () => vo
           <NavItem icon={Smartphone} label="App Dev Studio" href="/studios/app-dev" />
           <NavItem icon={Video} label="Video Generation" href="/studios/video" />
 
-          <SectionHeader title="WORKSPACE" />
-          
-          {/* Workspace Selector Mockup as per image */}
-          <div className="px-2 mb-4">
-            <div className="flex items-center justify-between p-3 rounded-xl bg-white/5 border border-white/5 cursor-pointer hover:bg-white/10 transition">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
-                  <Briefcase size={16} />
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-[13px] font-semibold text-white leading-tight">Digital Agency Pro</span>
-                  <span className="text-[10px] text-slate-400">Team Workspace</span>
-                </div>
-              </div>
-              <ChevronDown size={14} className="text-slate-500" />
-            </div>
-          </div>
-
-          <NavItem icon={BarChart3} label="Analytics" href="/analytics" />
-          <NavItem icon={Cloud} label="Deployments" href="/deployments" />
-          <NavItem icon={Blocks} label="Integrations" href="/integrations" />
-          <NavItem icon={Store} label="Marketplace" href="/marketplace" />
         </nav>
       </div>
 

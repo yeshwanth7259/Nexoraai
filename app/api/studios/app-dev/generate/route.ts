@@ -16,12 +16,14 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "OpenAI API key is missing" }, { status: 500 });
     }
 
-    const systemPrompt = `You are an expert React Native and Expo developer.
+    const systemPrompt = `You are an expert React Native and Expo Android app developer.
     The user will provide an app idea or requirement.
-    Generate the complete, functional code for a single-file 'App.js' using React Native and Expo.
-    Use standard React Native components (View, Text, StyleSheet, TouchableOpacity, ScrollView, etc.).
-    Include some modern styling, preferably with a dark mode theme if requested.
-    Do NOT output markdown formatting like \`\`\`javascript or \`\`\`. Output ONLY the raw code.`;
+    Generate a complete, functional Expo Android app project.
+    Return ONLY a raw JSON object containing three keys: "App.js", "package.json", and "app.json".
+    The values should be the raw string content of these files.
+    Use standard React Native components. Include modern styling and dark mode.
+    Make sure package.json includes standard expo dependencies.
+    Output ONLY valid JSON. Do not include markdown formatting like \`\`\`json or \`\`\`.`;
 
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
@@ -31,6 +33,7 @@ export async function POST(req: Request) {
       },
       body: JSON.stringify({
         model: "gpt-4o",
+        response_format: { type: "json_object" },
         messages: [
           { role: "system", content: systemPrompt },
           { role: "user", content: prompt }
@@ -45,18 +48,9 @@ export async function POST(req: Request) {
     }
 
     const data = await response.json();
-    let text = data.choices?.[0]?.message?.content || "";
+    let text = data.choices?.[0]?.message?.content || "{}";
 
-    // Cleanup markdown if present
-    if (text.startsWith('```')) {
-      const firstNewline = text.indexOf('\n');
-      text = text.substring(firstNewline + 1);
-    }
-    if (text.endsWith('```')) {
-      text = text.substring(0, text.lastIndexOf('```'));
-    }
-
-    return NextResponse.json({ code: text.trim() });
+    return NextResponse.json({ files: JSON.parse(text) });
   } catch (error: any) {
     console.error("Error generating App Dev code:", error);
     return NextResponse.json({ error: error?.message || "Failed to generate app" }, { status: 500 });

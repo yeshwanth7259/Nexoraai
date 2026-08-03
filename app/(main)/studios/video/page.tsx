@@ -25,11 +25,11 @@ export default function VideoStudioPage() {
 
     let currentStep = 0;
     const progressInterval = setInterval(() => {
-      if (currentStep < 3) {
+      if (currentStep < 2) {
         currentStep++;
         setGenerationStep(currentStep);
       }
-    }, 2000);
+    }, 8000);
 
     try {
       const response = await fetch('/api/studios/video/generate', {
@@ -39,15 +39,39 @@ export default function VideoStudioPage() {
       });
 
       const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to start video generation");
+      }
+
+      setVideoDescription(data.description || prompt);
+      const operationName = data.operationName;
+
+      // Start polling
+      let isDone = false;
+      let finalVideoUri = "";
+      
+      while (!isDone) {
+        await new Promise(resolve => setTimeout(resolve, 10000)); // wait 10s between checks
+        
+        const statusRes = await fetch(`/api/studios/video/status?operationName=${encodeURIComponent(operationName)}`);
+        const statusData = await statusRes.json();
+        
+        if (!statusRes.ok) {
+          console.error("Status error:", statusData);
+          throw new Error(statusData.error || "Polling failed");
+        }
+        
+        if (statusData.done) {
+          isDone = true;
+          finalVideoUri = statusData.videoUri;
+        }
+      }
+
       clearInterval(progressInterval);
       setGenerationStep(3);
 
-      if (!response.ok) {
-        throw new Error(data.error || "Failed to generate video");
-      }
-
-      setVideoUrl(data.videoUrl || "https://www.w3schools.com/html/mov_bbb.mp4");
-      setVideoDescription(data.description || prompt);
+      setVideoUrl(`/api/studios/video/stream?uri=${encodeURIComponent(finalVideoUri)}`);
       setTimeout(() => setAppState('result'), 1000);
     } catch (error) {
       console.error(error);
