@@ -71,7 +71,7 @@ export default function VideoStudioPage() {
       clearInterval(progressInterval);
       setGenerationStep(3);
 
-      setVideoUrl(`/api/studios/video/stream?uri=${encodeURIComponent(finalVideoUri)}`);
+      setVideoUrl(finalVideoUri);
       setTimeout(() => setAppState('result'), 1000);
     } catch (error) {
       console.error(error);
