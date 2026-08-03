@@ -63,7 +63,7 @@ export function AttachmentMenu({ direction = "up", onFileSelect, onAction }: Att
       <button 
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className={`w-10 h-10 rounded-full flex items-center justify-center transition shrink-0 ${isOpen ? 'bg-white/10 text-white' : 'text-slate-400 hover:text-white hover:bg-white/10 outline-none focus:ring-2 focus:ring-white/20'}`}
+        className={`w-10 h-10 rounded-full flex items-center justify-center transition shrink-0 ${isOpen ? 'bg-white/10 text-white' : 'text-textMuted hover:text-white hover:bg-white/10 outline-none focus:ring-2 focus:ring-white/20'}`}
       >
         <Plus size={22} className={`transition-transform duration-200 ${isOpen ? 'rotate-45' : ''}`} />
       </button>
@@ -83,7 +83,7 @@ export function AttachmentMenu({ direction = "up", onFileSelect, onAction }: Att
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: initialY, scale: 0.95 }}
               transition={{ duration: 0.15, ease: "easeOut" }}
-              className={`absolute ${direction === "up" ? "bottom-[calc(100%+12px)]" : "top-[calc(100%+12px)]"} left-0 w-[240px] bg-[#212121] border border-[#333] rounded-xl shadow-[0_8px_30px_rgba(0,0,0,0.6)] p-1.5 z-50 overflow-hidden`}
+              className={`absolute ${direction === "up" ? "bottom-[calc(100%+12px)]" : "top-[calc(100%+12px)]"} left-0 w-[240px] bg-bgDarker border border-borders rounded-xl shadow-[0_8px_30px_rgba(0,0,0,0.6)] p-1.5 z-50 overflow-hidden`}
             >
             <div className="flex flex-col">
               
@@ -146,8 +146,8 @@ function MenuItem({ icon: Icon, title, badge, onClick, rightIcon: RightIcon }: a
   return (
     <div onClick={onClick} className="flex items-center justify-between group cursor-pointer hover:bg-white/10 py-2.5 px-2.5 rounded-lg transition-colors">
       <div className="flex items-center gap-3">
-        <Icon size={18} className="text-slate-300 group-hover:text-white transition-colors shrink-0" strokeWidth={1.75} />
-        <span className="text-[14px] text-slate-200 group-hover:text-white transition-colors">
+        <Icon size={18} className="text-textMuted group-hover:text-white transition-colors shrink-0" strokeWidth={1.75} />
+        <span className="text-[14px] text-foreground group-hover:text-white transition-colors">
           {title}
         </span>
       </div>
@@ -157,7 +157,7 @@ function MenuItem({ icon: Icon, title, badge, onClick, rightIcon: RightIcon }: a
             {badge}
           </span>
         )}
-        {RightIcon && <RightIcon size={16} className="text-slate-400 group-hover:text-white transition-colors" />}
+        {RightIcon && <RightIcon size={16} className="text-textMuted group-hover:text-white transition-colors" />}
       </div>
     </div>
   );

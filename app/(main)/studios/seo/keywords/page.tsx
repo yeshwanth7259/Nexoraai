@@ -45,7 +45,7 @@ export default function KeywordResearchPage() {
       case 'commercial': return 'text-purple-400 bg-purple-500/10 border-purple-500/20';
       case 'transactional': return 'text-green-400 bg-green-500/10 border-green-500/20';
       case 'navigational': return 'text-orange-400 bg-orange-500/10 border-orange-500/20';
-      default: return 'text-slate-400 bg-white/5 border-white/10';
+      default: return 'text-textMuted bg-white/5 border-borders';
     }
   };
 
@@ -53,14 +53,14 @@ export default function KeywordResearchPage() {
     <div className="w-full flex flex-col gap-6">
       
       {/* SEARCH BAR */}
-      <div className="w-full bg-[#0B0B14] border border-white/5 rounded-2xl p-4 flex items-center gap-4">
-        <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 shrink-0">
+      <div className="w-full bg-background border border-borders rounded-2xl p-4 flex items-center gap-4">
+        <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-textMuted shrink-0">
           <Hash size={18} />
         </div>
         <input 
           type="text" 
           placeholder="Enter a seed keyword (e.g., 'crm software')..." 
-          className="flex-1 bg-transparent border-none text-[15px] outline-none text-white placeholder:text-slate-500"
+          className="flex-1 bg-transparent border-none text-[15px] outline-none text-white placeholder:text-textMuted"
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleAnalyze()}
@@ -90,22 +90,22 @@ export default function KeywordResearchPage() {
           
           {/* OVERVIEW CARDS */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-[#0B0B14] border border-white/5 rounded-2xl p-5 flex flex-col justify-center">
-              <div className="flex items-center gap-3 mb-2 text-slate-400">
+            <div className="bg-background border border-borders rounded-2xl p-5 flex flex-col justify-center">
+              <div className="flex items-center gap-3 mb-2 text-textMuted">
                 <Search size={16} /> <span className="text-sm font-medium">Seed Keyword</span>
               </div>
               <p className="text-2xl font-bold text-white capitalize">{data.seedKeyword}</p>
             </div>
             
-            <div className="bg-[#0B0B14] border border-white/5 rounded-2xl p-5 flex flex-col justify-center">
-              <div className="flex items-center gap-3 mb-2 text-slate-400">
+            <div className="bg-background border border-borders rounded-2xl p-5 flex flex-col justify-center">
+              <div className="flex items-center gap-3 mb-2 text-textMuted">
                 <BarChart2 size={16} /> <span className="text-sm font-medium">Total Volume (Group)</span>
               </div>
               <p className="text-2xl font-bold text-white">{formatNumber(data.totalVolume)}</p>
             </div>
             
-            <div className="bg-[#0B0B14] border border-white/5 rounded-2xl p-5 flex flex-col justify-center relative overflow-hidden">
-              <div className="flex items-center gap-3 mb-2 text-slate-400">
+            <div className="bg-background border border-borders rounded-2xl p-5 flex flex-col justify-center relative overflow-hidden">
+              <div className="flex items-center gap-3 mb-2 text-textMuted">
                 <TrendingUp size={16} /> <span className="text-sm font-medium">Average Difficulty</span>
               </div>
               <div className="flex items-center gap-3">
@@ -118,14 +118,14 @@ export default function KeywordResearchPage() {
           </div>
 
           {/* RESULTS TABLE */}
-          <div className="bg-[#0B0B14] border border-white/5 rounded-3xl p-6">
+          <div className="bg-background border border-borders rounded-3xl p-6">
              <div className="flex items-center justify-between mb-6">
                <h2 className="text-lg font-semibold">Generated Keyword Clusters</h2>
                <div className="flex gap-2">
-                 <button className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 transition">
+                 <button className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-textMuted transition">
                    <Filter size={16} />
                  </button>
-                 <button className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-slate-300 transition">
+                 <button className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-textMuted transition">
                    <Download size={16} />
                  </button>
                </div>
@@ -134,7 +134,7 @@ export default function KeywordResearchPage() {
              <div className="w-full overflow-x-auto">
               <table className="w-full text-left text-sm">
                 <thead>
-                  <tr className="border-b border-white/5 text-slate-400">
+                  <tr className="border-b border-borders text-textMuted">
                     <th className="pb-4 font-medium px-4">Keyword</th>
                     <th className="pb-4 font-medium px-4 text-center">Intent</th>
                     <th className="pb-4 font-medium px-4 text-right">Volume</th>
@@ -145,16 +145,16 @@ export default function KeywordResearchPage() {
                 <tbody className="divide-y divide-white/5">
                   {data.results.map((row: any, i: number) => (
                     <tr key={i} className="hover:bg-white/[0.02] transition">
-                      <td className="py-4 px-4 font-medium text-slate-200">{row.keyword}</td>
+                      <td className="py-4 px-4 font-medium text-foreground">{row.keyword}</td>
                       <td className="py-4 px-4 text-center">
                          <span className={`text-[10px] uppercase font-bold tracking-wider px-2 py-1 rounded-md border ${getIntentColor(row.intent)}`}>
                            {row.intent}
                          </span>
                       </td>
-                      <td className="py-4 px-4 text-right text-slate-300">{formatNumber(row.volume)}</td>
+                      <td className="py-4 px-4 text-right text-textMuted">{formatNumber(row.volume)}</td>
                       <td className="py-4 px-4">
                         <div className="flex items-center gap-3">
-                          <span className="text-slate-300 w-6">{row.difficulty}</span>
+                          <span className="text-textMuted w-6">{row.difficulty}</span>
                           <div className="w-24 h-1.5 bg-white/10 rounded-full overflow-hidden">
                             <div 
                               className={`h-full ${row.difficulty > 70 ? 'bg-red-500' : row.difficulty > 30 ? 'bg-orange-500' : 'bg-green-500'}`} 
@@ -163,7 +163,7 @@ export default function KeywordResearchPage() {
                           </div>
                         </div>
                       </td>
-                      <td className="py-4 px-4 text-right font-medium text-slate-400 flex items-center justify-end gap-1">
+                      <td className="py-4 px-4 text-right font-medium text-textMuted flex items-center justify-end gap-1">
                          <DollarSign size={12} /> {row.cpc}
                       </td>
                     </tr>

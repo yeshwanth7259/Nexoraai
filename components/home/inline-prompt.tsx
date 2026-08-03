@@ -130,7 +130,7 @@ export function InlinePrompt() {
 function PromptPill({ text, href }: { text: string, href: string }) {
   return (
     <Link href={href}>
-      <button className="px-3 py-1.5 rounded-full bg-hoverBg border border-borders text-[11px] font-medium text-foreground hover:text-foreground hover:bg-hoverBg hover:border-white/20 transition whitespace-nowrap cursor-pointer">
+      <button className="px-3 py-1.5 rounded-full bg-hoverBg border border-borders text-[11px] font-medium text-foreground hover:text-foreground hover:bg-hoverBg hover:border-borders transition whitespace-nowrap cursor-pointer">
         {text}
       </button>
     </Link>

@@ -26,8 +26,8 @@ export const CodeBlock = ({ language, value }: CodeBlockProps) => {
   };
 
   return (
-    <div className="relative my-4 rounded-xl overflow-hidden border border-white/10 bg-[#1e1e1e]">
-      <div className="flex items-center justify-between px-4 py-2 bg-[#2d2d2d] text-xs text-slate-300">
+    <div className="relative my-4 rounded-xl overflow-hidden border border-borders bg-bgDarker">
+      <div className="flex items-center justify-between px-4 py-2 bg-hoverBg text-xs text-textMuted">
         <span className="font-mono uppercase tracking-wider">{language || 'text'}</span>
         <button
           onClick={handleCopy}

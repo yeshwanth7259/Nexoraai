@@ -44,9 +44,9 @@ export default function CompetitorsPage() {
     <div className="w-full flex flex-col gap-6">
       
       {/* VS SEARCH BAR */}
-      <div className="w-full bg-[#0B0B14] border border-white/5 rounded-2xl p-4 flex flex-col md:flex-row items-center gap-4 relative overflow-hidden">
+      <div className="w-full bg-background border border-borders rounded-2xl p-4 flex flex-col md:flex-row items-center gap-4 relative overflow-hidden">
         
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-[#12121A] rounded-full border border-white/10 flex items-center justify-center text-xs font-bold text-slate-400 z-10 hidden md:flex">
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-8 h-8 bg-bgDarker rounded-full border border-borders flex items-center justify-center text-xs font-bold text-textMuted z-10 hidden md:flex">
           VS
         </div>
 
@@ -55,7 +55,7 @@ export default function CompetitorsPage() {
           <input 
             type="text" 
             placeholder="Your Domain (e.g., nexora.ai)" 
-            className="w-full bg-[#12121A] border border-blue-500/20 rounded-xl py-2.5 pl-11 pr-4 text-sm text-white outline-none focus:border-blue-500/50 transition"
+            className="w-full bg-bgDarker border border-blue-500/20 rounded-xl py-2.5 pl-11 pr-4 text-sm text-white outline-none focus:border-blue-500/50 transition"
             value={domain1}
             onChange={(e) => setDomain1(e.target.value)}
           />
@@ -66,7 +66,7 @@ export default function CompetitorsPage() {
           <input 
             type="text" 
             placeholder="Competitor Domain (e.g., competitorsite.com)" 
-            className="w-full bg-[#12121A] border border-purple-500/20 rounded-xl py-2.5 pl-11 pr-4 text-sm text-white outline-none focus:border-purple-500/50 transition"
+            className="w-full bg-bgDarker border border-purple-500/20 rounded-xl py-2.5 pl-11 pr-4 text-sm text-white outline-none focus:border-purple-500/50 transition"
             value={domain2}
             onChange={(e) => setDomain2(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleAnalyze()}
@@ -100,51 +100,51 @@ export default function CompetitorsPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
              
              {/* DOMAIN 1 */}
-             <div className="bg-[#0B0B14] border border-blue-500/20 rounded-3xl p-6 relative overflow-hidden">
+             <div className="bg-background border border-blue-500/20 rounded-3xl p-6 relative overflow-hidden">
                <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 blur-3xl rounded-full"></div>
                <h2 className="text-xl font-bold text-white mb-6 relative z-10">{data.domains.d1}</h2>
                
                <div className="grid grid-cols-2 gap-4 relative z-10">
-                 <div className="bg-[#12121A] p-4 rounded-2xl border border-white/5">
-                    <p className="text-xs text-slate-400 mb-1 flex items-center gap-1"><BarChart3 size={12}/> Domain Authority</p>
+                 <div className="bg-bgDarker p-4 rounded-2xl border border-borders">
+                    <p className="text-xs text-textMuted mb-1 flex items-center gap-1"><BarChart3 size={12}/> Domain Authority</p>
                     <p className="text-2xl font-bold text-white">{data.metrics.d1.authority}</p>
                  </div>
-                 <div className="bg-[#12121A] p-4 rounded-2xl border border-white/5">
-                    <p className="text-xs text-slate-400 mb-1 flex items-center gap-1"><Users size={12}/> Est. Traffic</p>
+                 <div className="bg-bgDarker p-4 rounded-2xl border border-borders">
+                    <p className="text-xs text-textMuted mb-1 flex items-center gap-1"><Users size={12}/> Est. Traffic</p>
                     <p className="text-2xl font-bold text-blue-400">{formatNumber(data.metrics.d1.organicTraffic)}</p>
                  </div>
-                 <div className="bg-[#12121A] p-4 rounded-2xl border border-white/5">
-                    <p className="text-xs text-slate-400 mb-1 flex items-center gap-1"><Search size={12}/> Keywords</p>
-                    <p className="text-xl font-bold text-slate-200">{formatNumber(data.metrics.d1.organicKeywords)}</p>
+                 <div className="bg-bgDarker p-4 rounded-2xl border border-borders">
+                    <p className="text-xs text-textMuted mb-1 flex items-center gap-1"><Search size={12}/> Keywords</p>
+                    <p className="text-xl font-bold text-foreground">{formatNumber(data.metrics.d1.organicKeywords)}</p>
                  </div>
-                 <div className="bg-[#12121A] p-4 rounded-2xl border border-white/5">
-                    <p className="text-xs text-slate-400 mb-1 flex items-center gap-1"><LinkIcon size={12}/> Backlinks</p>
-                    <p className="text-xl font-bold text-slate-200">{formatNumber(data.metrics.d1.backlinks)}</p>
+                 <div className="bg-bgDarker p-4 rounded-2xl border border-borders">
+                    <p className="text-xs text-textMuted mb-1 flex items-center gap-1"><LinkIcon size={12}/> Backlinks</p>
+                    <p className="text-xl font-bold text-foreground">{formatNumber(data.metrics.d1.backlinks)}</p>
                  </div>
                </div>
              </div>
 
              {/* DOMAIN 2 */}
-             <div className="bg-[#0B0B14] border border-purple-500/20 rounded-3xl p-6 relative overflow-hidden">
+             <div className="bg-background border border-purple-500/20 rounded-3xl p-6 relative overflow-hidden">
                <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/5 blur-3xl rounded-full"></div>
                <h2 className="text-xl font-bold text-white mb-6 relative z-10">{data.domains.d2}</h2>
                
                <div className="grid grid-cols-2 gap-4 relative z-10">
-                 <div className="bg-[#12121A] p-4 rounded-2xl border border-white/5">
-                    <p className="text-xs text-slate-400 mb-1 flex items-center gap-1"><BarChart3 size={12}/> Domain Authority</p>
+                 <div className="bg-bgDarker p-4 rounded-2xl border border-borders">
+                    <p className="text-xs text-textMuted mb-1 flex items-center gap-1"><BarChart3 size={12}/> Domain Authority</p>
                     <p className="text-2xl font-bold text-white">{data.metrics.d2.authority}</p>
                  </div>
-                 <div className="bg-[#12121A] p-4 rounded-2xl border border-white/5">
-                    <p className="text-xs text-slate-400 mb-1 flex items-center gap-1"><Users size={12}/> Est. Traffic</p>
+                 <div className="bg-bgDarker p-4 rounded-2xl border border-borders">
+                    <p className="text-xs text-textMuted mb-1 flex items-center gap-1"><Users size={12}/> Est. Traffic</p>
                     <p className="text-2xl font-bold text-purple-400">{formatNumber(data.metrics.d2.organicTraffic)}</p>
                  </div>
-                 <div className="bg-[#12121A] p-4 rounded-2xl border border-white/5">
-                    <p className="text-xs text-slate-400 mb-1 flex items-center gap-1"><Search size={12}/> Keywords</p>
-                    <p className="text-xl font-bold text-slate-200">{formatNumber(data.metrics.d2.organicKeywords)}</p>
+                 <div className="bg-bgDarker p-4 rounded-2xl border border-borders">
+                    <p className="text-xs text-textMuted mb-1 flex items-center gap-1"><Search size={12}/> Keywords</p>
+                    <p className="text-xl font-bold text-foreground">{formatNumber(data.metrics.d2.organicKeywords)}</p>
                  </div>
-                 <div className="bg-[#12121A] p-4 rounded-2xl border border-white/5">
-                    <p className="text-xs text-slate-400 mb-1 flex items-center gap-1"><LinkIcon size={12}/> Backlinks</p>
-                    <p className="text-xl font-bold text-slate-200">{formatNumber(data.metrics.d2.backlinks)}</p>
+                 <div className="bg-bgDarker p-4 rounded-2xl border border-borders">
+                    <p className="text-xs text-textMuted mb-1 flex items-center gap-1"><LinkIcon size={12}/> Backlinks</p>
+                    <p className="text-xl font-bold text-foreground">{formatNumber(data.metrics.d2.backlinks)}</p>
                  </div>
                </div>
              </div>
@@ -155,7 +155,7 @@ export default function CompetitorsPage() {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             
             {/* OVERLAP CHART */}
-            <div className="bg-[#0B0B14] border border-white/5 rounded-3xl p-6 flex flex-col items-center justify-center text-center">
+            <div className="bg-background border border-borders rounded-3xl p-6 flex flex-col items-center justify-center text-center">
                <h3 className="text-sm font-semibold mb-6">Keyword Overlap</h3>
                
                {/* CSS Venn Diagram Mock */}
@@ -167,23 +167,23 @@ export default function CompetitorsPage() {
                  </div>
                </div>
 
-               <p className="text-sm text-slate-300">
+               <p className="text-sm text-textMuted">
                  You share <span className="font-bold text-white">{formatNumber(data.overlap.shared)}</span> keywords with this competitor.
                </p>
             </div>
 
             {/* CONTENT GAPS TABLE */}
-            <div className="lg:col-span-2 bg-[#0B0B14] border border-white/5 rounded-3xl p-6">
+            <div className="lg:col-span-2 bg-background border border-borders rounded-3xl p-6">
               <div className="flex items-center justify-between mb-6">
                <h3 className="text-lg font-semibold flex items-center gap-2"><TrendingDown size={18} className="text-orange-400"/> Content Gaps</h3>
                <button className="text-xs font-medium text-primary hover:text-white transition">View All Gaps</button>
               </div>
-              <p className="text-xs text-slate-400 mb-4">Keywords they rank for, but you don't. (Opportunities for new content)</p>
+              <p className="text-xs text-textMuted mb-4">Keywords they rank for, but you don't. (Opportunities for new content)</p>
 
               <div className="w-full overflow-x-auto">
                 <table className="w-full text-left text-sm">
                   <thead>
-                    <tr className="border-b border-white/5 text-slate-400">
+                    <tr className="border-b border-borders text-textMuted">
                       <th className="pb-3 font-medium">Keyword</th>
                       <th className="pb-3 font-medium text-center">Their Pos.</th>
                       <th className="pb-3 font-medium text-center">Your Pos.</th>
@@ -194,10 +194,10 @@ export default function CompetitorsPage() {
                   <tbody className="divide-y divide-white/5">
                     {data.contentGaps.map((row: any, i: number) => (
                       <tr key={i} className="hover:bg-white/[0.02] transition">
-                        <td className="py-3 font-medium text-slate-200">{row.keyword}</td>
+                        <td className="py-3 font-medium text-foreground">{row.keyword}</td>
                         <td className="py-3 text-center text-purple-400 font-bold">{row.d2Position}</td>
-                        <td className="py-3 text-center text-slate-500">{row.d1Position}</td>
-                        <td className="py-3 text-right text-slate-300">{formatNumber(row.volume)}</td>
+                        <td className="py-3 text-center text-textMuted">{row.d1Position}</td>
+                        <td className="py-3 text-right text-textMuted">{formatNumber(row.volume)}</td>
                         <td className="py-3 text-right">
                            <button className="px-3 py-1 bg-white/5 hover:bg-white/10 rounded-md text-xs font-medium transition flex items-center gap-1 ml-auto">
                              <Plus size={12} /> Add to Plan

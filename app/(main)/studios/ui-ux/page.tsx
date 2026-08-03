@@ -135,19 +135,19 @@ export default function UIUXStudioPage() {
                       
                       {/* Left: Upload Buttons */}
                       <div className="flex items-center gap-2 flex-wrap">
-                        <button className="w-10 h-10 rounded-xl bg-bgDarker hover:bg-[#1A1A24] flex items-center justify-center text-textMuted hover:text-foreground transition border border-borders">
+                        <button className="w-10 h-10 rounded-xl bg-bgDarker hover:bg-hoverBg flex items-center justify-center text-textMuted hover:text-foreground transition border border-borders">
                           <Plus size={18} />
                         </button>
-                        <button className="px-3 h-10 rounded-xl bg-bgDarker hover:bg-[#1A1A24] flex items-center gap-2 text-xs font-semibold text-foreground transition border border-borders">
+                        <button className="px-3 h-10 rounded-xl bg-bgDarker hover:bg-hoverBg flex items-center gap-2 text-xs font-semibold text-foreground transition border border-borders">
                           <ImageIcon size={14} className="text-blue-400"/> Upload Image
                         </button>
-                        <button className="px-3 h-10 rounded-xl bg-bgDarker hover:bg-[#1A1A24] flex items-center gap-2 text-xs font-semibold text-foreground transition border border-borders">
+                        <button className="px-3 h-10 rounded-xl bg-bgDarker hover:bg-hoverBg flex items-center gap-2 text-xs font-semibold text-foreground transition border border-borders">
                           <Link2 size={14} className="text-green-400"/> Website URL
                         </button>
-                        <button className="px-3 h-10 rounded-xl bg-bgDarker hover:bg-[#1A1A24] flex items-center gap-2 text-xs font-semibold text-foreground transition border border-borders">
+                        <button className="px-3 h-10 rounded-xl bg-bgDarker hover:bg-hoverBg flex items-center gap-2 text-xs font-semibold text-foreground transition border border-borders">
                           <Figma size={14} className="text-pink-400"/> Figma File
                         </button>
-                        <button className="px-3 h-10 rounded-xl bg-bgDarker hover:bg-[#1A1A24] flex items-center gap-2 text-xs font-semibold text-foreground transition border border-borders">
+                        <button className="px-3 h-10 rounded-xl bg-bgDarker hover:bg-hoverBg flex items-center gap-2 text-xs font-semibold text-foreground transition border border-borders">
                           <Palette size={14} className="text-orange-400"/> Brand Kit
                         </button>
                       </div>
@@ -157,7 +157,7 @@ export default function UIUXStudioPage() {
                         <select 
                           value={framework}
                           onChange={(e) => setFramework(e.target.value)}
-                          className="bg-bgDarker border border-borders rounded-xl px-4 h-10 text-xs font-semibold text-foreground outline-none cursor-pointer appearance-none pr-9 relative hover:bg-[#1A1A24] transition"
+                          className="bg-bgDarker border border-borders rounded-xl px-4 h-10 text-xs font-semibold text-foreground outline-none cursor-pointer appearance-none pr-9 relative hover:bg-hoverBg transition"
                           style={{ backgroundImage: 'url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%2394a3b8%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.4-12.8z%22%2F%3E%3C%2Fsvg%3E")', backgroundRepeat: 'no-repeat', backgroundPosition: 'right 0.8rem top 50%', backgroundSize: '0.65rem auto' }}
                         >
                           <option className="bg-bgDarker">React + Tailwind</option>
@@ -180,13 +180,13 @@ export default function UIUXStudioPage() {
               {/* Template Suggestions */}
               <div className="flex items-center gap-4 mb-16 text-sm shrink-0">
                 <span className="text-textMuted font-medium">Try these examples</span>
-                <button onClick={() => setPrompt("A modern SaaS landing page with dark mode, glowing accents, and an animated hero section.")} className="px-4 py-2 rounded-full border border-borders bg-bgDarker hover:bg-[#1A1A24] text-foreground hover:text-foreground transition flex items-center gap-2 font-medium shadow-sm">
+                <button onClick={() => setPrompt("A modern SaaS landing page with dark mode, glowing accents, and an animated hero section.")} className="px-4 py-2 rounded-full border border-borders bg-bgDarker hover:bg-hoverBg text-foreground hover:text-foreground transition flex items-center gap-2 font-medium shadow-sm">
                   <Rocket size={14} className="text-pink-400"/> SaaS Landing Page
                 </button>
-                <button onClick={() => setPrompt("A complex e-commerce dashboard with sales charts, recent orders table, and a sidebar navigation.")} className="px-4 py-2 rounded-full border border-borders bg-bgDarker hover:bg-[#1A1A24] text-foreground hover:text-foreground transition flex items-center gap-2 font-medium shadow-sm">
+                <button onClick={() => setPrompt("A complex e-commerce dashboard with sales charts, recent orders table, and a sidebar navigation.")} className="px-4 py-2 rounded-full border border-borders bg-bgDarker hover:bg-hoverBg text-foreground hover:text-foreground transition flex items-center gap-2 font-medium shadow-sm">
                   <ShoppingCart size={14} className="text-green-400"/> E-commerce Dashboard
                 </button>
-                <button onClick={() => setPrompt("A minimalistic blog layout with large typography and plenty of whitespace.")} className="px-4 py-2 rounded-full border border-borders bg-bgDarker hover:bg-[#1A1A24] text-foreground hover:text-foreground transition flex items-center gap-2 font-medium shadow-sm">
+                <button onClick={() => setPrompt("A minimalistic blog layout with large typography and plenty of whitespace.")} className="px-4 py-2 rounded-full border border-borders bg-bgDarker hover:bg-hoverBg text-foreground hover:text-foreground transition flex items-center gap-2 font-medium shadow-sm">
                   <Paperclip size={14} className="text-textMuted"/> Minimal Blog
                 </button>
               </div>
@@ -307,7 +307,7 @@ export default function UIUXStudioPage() {
                 </div>
 
                 <div className="flex items-center gap-2 shrink-0">
-                  <div className="flex bg-[#1A1A24] rounded-lg p-1 mr-2 sm:mr-4">
+                  <div className="flex bg-hoverBg rounded-lg p-1 mr-2 sm:mr-4">
                     <button onClick={() => setResponsiveMode('desktop')} className={`p-1.5 rounded-md transition ${responsiveMode === 'desktop' ? 'bg-hoverBg text-foreground' : 'text-textMuted hover:text-foreground'}`}><Monitor size={14}/></button>
                     <button onClick={() => setResponsiveMode('tablet')} className={`p-1.5 rounded-md transition ${responsiveMode === 'tablet' ? 'bg-hoverBg text-foreground' : 'text-textMuted hover:text-foreground'}`}><rect x="4" y="2" width="16" height="20" rx="2" ry="2" stroke="currentColor" strokeWidth="2" fill="none" viewBox="0 0 24 24" style={{width: 14, height: 14}}/></button>
                     <button onClick={() => setResponsiveMode('mobile')} className={`p-1.5 rounded-md transition ${responsiveMode === 'mobile' ? 'bg-hoverBg text-foreground' : 'text-textMuted hover:text-foreground'}`}><Smartphone size={14}/></button>
@@ -393,7 +393,7 @@ export default function UIUXStudioPage() {
               </div>
               
               <div className="flex-1 p-4 flex flex-col overflow-hidden">
-                <div className="bg-[#1A1A24] rounded-xl p-4 border border-borders flex-1 overflow-auto custom-scrollbar">
+                <div className="bg-hoverBg rounded-xl p-4 border border-borders flex-1 overflow-auto custom-scrollbar">
                   <pre className="text-xs text-foreground font-mono leading-relaxed whitespace-pre-wrap">
                     {generatedCode || "Generating code..."}
                   </pre>

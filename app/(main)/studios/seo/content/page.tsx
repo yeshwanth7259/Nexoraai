@@ -40,13 +40,13 @@ export default function ContentOptimizerPage() {
     <div className="w-full flex flex-col gap-6 h-[calc(100vh-250px)]">
       
       {/* HEADER CONTROLS */}
-      <div className="w-full bg-[#0B0B14] border border-white/5 rounded-2xl p-4 flex flex-col md:flex-row items-center gap-4">
+      <div className="w-full bg-background border border-borders rounded-2xl p-4 flex flex-col md:flex-row items-center gap-4">
         <div className="flex-1 w-full relative">
-          <Target size={16} className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-500" />
+          <Target size={16} className="absolute left-4 top-1/2 transform -translate-y-1/2 text-textMuted" />
           <input 
             type="text" 
             placeholder="Target Keyword (e.g., 'nextjs seo guide')..." 
-            className="w-full bg-[#12121A] border border-white/10 rounded-xl py-2.5 pl-11 pr-4 text-sm text-white outline-none focus:border-green-500/50 transition"
+            className="w-full bg-bgDarker border border-borders rounded-xl py-2.5 pl-11 pr-4 text-sm text-white outline-none focus:border-green-500/50 transition"
             value={keyword}
             onChange={(e) => setKeyword(e.target.value)}
           />
@@ -75,7 +75,7 @@ export default function ContentOptimizerPage() {
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-3 gap-6 min-h-0">
         
         {/* LEFT: EDITOR */}
-        <div className="lg:col-span-2 bg-[#0B0B14] border border-white/5 rounded-3xl p-6 flex flex-col min-h-[500px]">
+        <div className="lg:col-span-2 bg-background border border-borders rounded-3xl p-6 flex flex-col min-h-[500px]">
           <div className="flex items-center justify-between mb-4">
              <h2 className="text-lg font-semibold flex items-center gap-2">
                <FileText size={18} className="text-blue-400" /> Editor
@@ -85,7 +85,7 @@ export default function ContentOptimizerPage() {
              </button>
           </div>
           <textarea
-            className="flex-1 w-full bg-transparent border-none outline-none resize-none text-slate-300 leading-relaxed font-sans"
+            className="flex-1 w-full bg-transparent border-none outline-none resize-none text-textMuted leading-relaxed font-sans"
             placeholder="Paste your article content here to get real-time SEO scoring..."
             value={content}
             onChange={(e) => setContent(e.target.value)}
@@ -93,9 +93,9 @@ export default function ContentOptimizerPage() {
         </div>
 
         {/* RIGHT: SCORING & RECOMMENDATIONS */}
-        <div className="bg-[#0B0B14] border border-white/5 rounded-3xl p-6 flex flex-col gap-6 overflow-y-auto custom-scrollbar">
+        <div className="bg-background border border-borders rounded-3xl p-6 flex flex-col gap-6 overflow-y-auto custom-scrollbar">
           {!data ? (
-             <div className="flex flex-col items-center justify-center h-full text-slate-500 opacity-50">
+             <div className="flex flex-col items-center justify-center h-full text-textMuted opacity-50">
                 <Zap size={48} className="mb-4" />
                 <p className="text-center text-sm px-4">Enter a target keyword and content, then click Analyze to see your SEO score.</p>
              </div>
@@ -103,24 +103,24 @@ export default function ContentOptimizerPage() {
              <div className="animate-in fade-in zoom-in-95 duration-300 flex flex-col gap-6">
                 
                 {/* SCORE */}
-                <div className="flex items-center gap-4 bg-[#12121A] p-4 rounded-2xl border border-white/5">
+                <div className="flex items-center gap-4 bg-bgDarker p-4 rounded-2xl border border-borders">
                   <div className={`w-16 h-16 rounded-full border-4 flex items-center justify-center ${data.score >= 80 ? 'border-green-500 text-green-400' : data.score >= 50 ? 'border-orange-500 text-orange-400' : 'border-red-500 text-red-400'}`}>
                     <span className="text-xl font-bold">{data.score}</span>
                   </div>
                   <div>
                     <h3 className="text-lg font-bold text-white">Content Score</h3>
-                    <p className="text-xs text-slate-400">Aim for 80+ to rank.</p>
+                    <p className="text-xs text-textMuted">Aim for 80+ to rank.</p>
                   </div>
                 </div>
 
                 {/* METRICS */}
                 <div className="grid grid-cols-2 gap-3">
-                   <div className="bg-[#12121A] p-3 rounded-xl border border-white/5">
-                     <p className="text-[10px] text-slate-500 uppercase tracking-wider mb-1">Words</p>
-                     <p className="text-lg font-bold text-slate-200">{data.metrics.wordCount}</p>
+                   <div className="bg-bgDarker p-3 rounded-xl border border-borders">
+                     <p className="text-[10px] text-textMuted uppercase tracking-wider mb-1">Words</p>
+                     <p className="text-lg font-bold text-foreground">{data.metrics.wordCount}</p>
                    </div>
-                   <div className="bg-[#12121A] p-3 rounded-xl border border-white/5">
-                     <p className="text-[10px] text-slate-500 uppercase tracking-wider mb-1">Density</p>
+                   <div className="bg-bgDarker p-3 rounded-xl border border-borders">
+                     <p className="text-[10px] text-textMuted uppercase tracking-wider mb-1">Density</p>
                      <p className={`text-lg font-bold ${data.metrics.keywordDensity > 3 ? 'text-red-400' : 'text-green-400'}`}>{data.metrics.keywordDensity}%</p>
                    </div>
                 </div>
@@ -161,10 +161,10 @@ export default function ContentOptimizerPage() {
                   {/* Missing LSI */}
                   {data.metrics.lsiMissing.length > 0 && (
                     <div>
-                      <p className="text-[10px] text-slate-500 uppercase tracking-wider mb-2 font-bold">Missing (Add these)</p>
+                      <p className="text-[10px] text-textMuted uppercase tracking-wider mb-2 font-bold">Missing (Add these)</p>
                       <div className="flex flex-wrap gap-2">
                         {data.metrics.lsiMissing.map((k: string, i: number) => (
-                          <span key={i} className="px-2 py-1 bg-white/5 text-slate-400 border border-white/10 rounded-md text-[11px] cursor-pointer hover:bg-white/10 transition">
+                          <span key={i} className="px-2 py-1 bg-white/5 text-textMuted border border-borders rounded-md text-[11px] cursor-pointer hover:bg-white/10 transition">
                              + {k}
                           </span>
                         ))}

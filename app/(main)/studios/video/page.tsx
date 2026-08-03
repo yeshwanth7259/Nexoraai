@@ -149,7 +149,7 @@ export default function VideoStudioPage() {
                   <button 
                     key={p}
                     onClick={() => setPrompt(p)} 
-                    className="px-4 py-2 rounded-full border border-borders bg-bgDarker hover:bg-[#1A1A24] text-foreground hover:text-foreground transition flex items-center gap-2 font-medium"
+                    className="px-4 py-2 rounded-full border border-borders bg-bgDarker hover:bg-hoverBg text-foreground hover:text-foreground transition flex items-center gap-2 font-medium"
                   >
                     {p}
                   </button>
@@ -242,7 +242,7 @@ export default function VideoStudioPage() {
               <button className="px-5 py-2.5 bg-red-600 hover:bg-red-700 text-foreground rounded-xl font-medium transition flex items-center gap-2">
                 <Download size={18} /> Download HD
               </button>
-              <button className="px-5 py-2.5 bg-bgDarker border border-borders hover:bg-[#1A1A24] text-foreground rounded-xl font-medium transition flex items-center gap-2">
+              <button className="px-5 py-2.5 bg-bgDarker border border-borders hover:bg-hoverBg text-foreground rounded-xl font-medium transition flex items-center gap-2">
                 <Share2 size={18} /> Share
               </button>
             </div>

@@ -152,7 +152,7 @@ export default function AssistantPage() {
             <h1 className="text-3xl md:text-4xl font-bold text-white mb-4 animate-in fade-in slide-in-from-bottom-2">
               How can I help you build today?
             </h1>
-            <p className="text-slate-400 max-w-lg mb-10 text-lg animate-in fade-in slide-in-from-bottom-3">
+            <p className="text-textMuted max-w-lg mb-10 text-lg animate-in fade-in slide-in-from-bottom-3">
               I'm your universal AI assistant. I can design websites, optimize SEO, manage your CRM, and deploy apps. 
             </p>
             
@@ -179,15 +179,15 @@ export default function AssistantPage() {
                     <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center shrink-0 mt-1 shadow-[0_0_10px_rgba(109,91,255,0.5)]">
                       <Sparkles size={16} className="text-white" />
                     </div>
-                    <div className="flex-1 pt-1 text-[15px] text-slate-200 leading-relaxed whitespace-pre-wrap">
+                    <div className="flex-1 pt-1 text-[15px] text-foreground leading-relaxed whitespace-pre-wrap">
                       <ReactMarkdown 
                         remarkPlugins={[remarkGfm]}
                         components={{
                           code({node, inline, className, children, ...props}: any) {
                             const match = /language-(\w+)/.exec(className || '');
                             return !inline && match ? (
-                              <div className="rounded-lg overflow-hidden my-4 border border-white/10 shadow-lg">
-                                <div className="bg-[#1e1e1e] px-4 py-2 text-xs text-slate-400 border-b border-white/5 flex items-center justify-between">
+                              <div className="rounded-lg overflow-hidden my-4 border border-borders shadow-lg">
+                                <div className="bg-bgDarker px-4 py-2 text-xs text-textMuted border-b border-borders flex items-center justify-between">
                                   <span>{match[1]}</span>
                                   <button 
                                     onClick={() => navigator.clipboard.writeText(String(children).replace(/\n$/, ''))}
@@ -213,15 +213,15 @@ export default function AssistantPage() {
                               </code>
                             )
                           },
-                          p: ({children}) => <p className="mb-4 last:mb-0 leading-relaxed text-slate-200">{children}</p>,
+                          p: ({children}) => <p className="mb-4 last:mb-0 leading-relaxed text-foreground">{children}</p>,
                           h1: ({children}) => <h1 className="text-2xl font-bold mb-4 mt-6 text-white">{children}</h1>,
                           h2: ({children}) => <h2 className="text-xl font-bold mb-3 mt-5 text-white">{children}</h2>,
                           h3: ({children}) => <h3 className="text-lg font-bold mb-3 mt-4 text-white">{children}</h3>,
-                          ul: ({children}) => <ul className="list-disc pl-6 mb-4 space-y-2 text-slate-200">{children}</ul>,
-                          ol: ({children}) => <ol className="list-decimal pl-6 mb-4 space-y-2 text-slate-200">{children}</ol>,
+                          ul: ({children}) => <ul className="list-disc pl-6 mb-4 space-y-2 text-foreground">{children}</ul>,
+                          ol: ({children}) => <ol className="list-decimal pl-6 mb-4 space-y-2 text-foreground">{children}</ol>,
                           li: ({children}) => <li className="leading-relaxed">{children}</li>,
                           a: ({children, href}) => <a href={href} className="text-primary hover:underline" target="_blank" rel="noreferrer">{children}</a>,
-                          blockquote: ({children}) => <blockquote className="border-l-4 border-primary/50 pl-4 py-1 my-4 bg-primary/5 rounded-r-lg italic text-slate-300">{children}</blockquote>,
+                          blockquote: ({children}) => <blockquote className="border-l-4 border-primary/50 pl-4 py-1 my-4 bg-primary/5 rounded-r-lg italic text-textMuted">{children}</blockquote>,
                           img: ({node, ...props}) => (
                             <span className="relative group/image inline-block max-w-sm my-2">
                               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -245,7 +245,7 @@ export default function AssistantPage() {
                                       window.open(props.src as string, '_blank');
                                     }
                                   }}
-                                  className="bg-black/60 hover:bg-black/80 backdrop-blur text-white px-3 py-1.5 rounded-lg transition shadow-lg flex items-center gap-1.5 text-xs font-medium border border-white/10"
+                                  className="bg-black/60 hover:bg-black/80 backdrop-blur text-white px-3 py-1.5 rounded-lg transition shadow-lg flex items-center gap-1.5 text-xs font-medium border border-borders"
                                 >
                                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
                                   Download
@@ -295,7 +295,7 @@ export default function AssistantPage() {
                 exit={{ opacity: 0, height: 0 }}
                 className="px-2"
               >
-                <div className="relative inline-flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl p-2 pr-4 backdrop-blur-md">
+                <div className="relative inline-flex items-center gap-3 bg-white/5 border border-borders rounded-xl p-2 pr-4 backdrop-blur-md">
                   <button 
                     type="button"
                     onClick={() => setAttachedFile(null)}
@@ -322,7 +322,7 @@ export default function AssistantPage() {
                     <span className="text-[12px] font-medium text-white max-w-[150px] truncate">
                       {attachedFile.name}
                     </span>
-                    <span className="text-[10px] text-slate-400">
+                    <span className="text-[10px] text-textMuted">
                       {(attachedFile.size / 1024 / 1024).toFixed(2)} MB
                     </span>
                   </div>
@@ -332,7 +332,7 @@ export default function AssistantPage() {
           </AnimatePresence>
 
           <div className="absolute inset-0 bg-primary/20 rounded-2xl blur-xl group-focus-within:bg-primary/30 transition-all duration-300 pointer-events-none mt-[auto]"></div>
-          <div className="relative glass-panel rounded-2xl border border-white/10 flex items-end p-2 bg-background/80 shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
+          <div className="relative glass-panel rounded-2xl border border-borders flex items-end p-2 bg-background/80 shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
             <div className="mb-0.5 ml-1">
               <AttachmentMenu 
                 direction="up" 
@@ -361,10 +361,10 @@ export default function AssistantPage() {
                 }
               }}
               placeholder="Ask Nexora to build, design, or analyze anything..."
-              className="flex-1 max-h-40 min-h-[44px] bg-transparent border-none text-white focus:ring-0 resize-none px-3 py-3 focus:outline-none placeholder:text-slate-500"
+              className="flex-1 max-h-40 min-h-[44px] bg-transparent border-none text-white focus:ring-0 resize-none px-3 py-3 focus:outline-none placeholder:text-textMuted"
               rows={1}
             />
-            <button type="button" className="p-3 text-slate-400 hover:text-white hover:bg-white/5 rounded-xl transition mb-0.5">
+            <button type="button" className="p-3 text-textMuted hover:text-white hover:bg-white/5 rounded-xl transition mb-0.5">
               <Mic size={20} />
             </button>
             <button 
@@ -373,13 +373,13 @@ export default function AssistantPage() {
               className={`p-3 rounded-xl transition mb-0.5 ml-1 ${
                 (input.trim().length > 0 || attachedFile) && !isLoading
                   ? "bg-primary text-white shadow-[0_0_15px_rgba(109,91,255,0.4)]" 
-                  : "bg-white/5 text-slate-500"
+                  : "bg-white/5 text-textMuted"
               }`}
             >
               <Send size={18} />
             </button>
           </div>
-          <p className="text-center text-xs text-slate-500 mt-3 font-medium">
+          <p className="text-center text-xs text-textMuted mt-3 font-medium">
             Nexora AI can make mistakes. Consider verifying important information.
           </p>
         </form>
@@ -390,10 +390,10 @@ export default function AssistantPage() {
 
 function SuggestionCard({ title, desc, icon, onClick }: { title: string, desc: string, icon: string, onClick?: () => void }) {
   return (
-    <div onClick={onClick} className="glass-panel p-4 rounded-xl border border-white/5 hover:border-primary/40 hover:bg-white/5 transition text-left cursor-pointer group">
+    <div onClick={onClick} className="glass-panel p-4 rounded-xl border border-borders hover:border-primary/40 hover:bg-white/5 transition text-left cursor-pointer group">
       <div className="text-2xl mb-2">{icon}</div>
       <h3 className="text-white font-medium group-hover:text-primary transition">{title}</h3>
-      <p className="text-sm text-slate-400">{desc}</p>
+      <p className="text-sm text-textMuted">{desc}</p>
     </div>
   );
 }

@@ -42,7 +42,7 @@ export function WorkspaceList({ initialWorkspaces }: { initialWorkspaces: any[] 
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-white/60 mb-2">Your Workspaces</h1>
-          <p className="text-slate-400">Manage your distinct AI environments, contexts, and agents.</p>
+          <p className="text-textMuted">Manage your distinct AI environments, contexts, and agents.</p>
         </div>
         <button 
           onClick={() => setIsModalOpen(true)}
@@ -54,15 +54,15 @@ export function WorkspaceList({ initialWorkspaces }: { initialWorkspaces: any[] 
       </div>
 
       {initialWorkspaces.length === 0 ? (
-        <div className="glass-panel p-12 rounded-3xl flex flex-col items-center justify-center text-center border border-white/5">
+        <div className="glass-panel p-12 rounded-3xl flex flex-col items-center justify-center text-center border border-borders">
           <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mb-6 shadow-[inset_0_0_20px_rgba(255,255,255,0.05)]">
-            <Rocket className="text-slate-400" size={32} />
+            <Rocket className="text-textMuted" size={32} />
           </div>
           <h3 className="text-xl font-bold text-white mb-2">No workspaces found</h3>
-          <p className="text-slate-400 mb-6 max-w-md">Create your first workspace to start organizing your AI agents, knowledge bases, and team context.</p>
+          <p className="text-textMuted mb-6 max-w-md">Create your first workspace to start organizing your AI agents, knowledge bases, and team context.</p>
           <button 
             onClick={() => setIsModalOpen(true)}
-            className="px-6 py-3 rounded-xl bg-white/10 hover:bg-white/15 text-white font-medium transition border border-white/10"
+            className="px-6 py-3 rounded-xl bg-white/10 hover:bg-white/15 text-white font-medium transition border border-borders"
           >
             Create Workspace
           </button>
@@ -71,27 +71,27 @@ export function WorkspaceList({ initialWorkspaces }: { initialWorkspaces: any[] 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {initialWorkspaces.map((ws) => (
             <Link key={ws.id} href={`/workspaces/${ws.id}`} className="group block">
-              <div className="glass-panel h-full p-6 rounded-2xl border border-white/5 hover:border-primary/30 transition-all duration-300 hover:shadow-[0_8px_32px_rgba(109,91,255,0.1)] hover:-translate-y-1 relative overflow-hidden">
+              <div className="glass-panel h-full p-6 rounded-2xl border border-borders hover:border-primary/30 transition-all duration-300 hover:shadow-[0_8px_32px_rgba(109,91,255,0.1)] hover:-translate-y-1 relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 rounded-full blur-3xl -mr-10 -mt-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                 
                 <div className="flex items-start justify-between mb-4 relative z-10">
-                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-white/10 to-white/5 border border-white/10 flex items-center justify-center shadow-[inset_0_0_12px_rgba(255,255,255,0.05)]">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-white/10 to-white/5 border border-borders flex items-center justify-center shadow-[inset_0_0_12px_rgba(255,255,255,0.05)]">
                     <Rocket className="text-primary group-hover:text-accent transition-colors" size={24} />
                   </div>
                   <button 
                     onClick={(e) => handleDelete(e, ws.id)}
-                    className="p-2 rounded-lg text-slate-500 hover:text-red-400 hover:bg-red-400/10 transition opacity-0 group-hover:opacity-100"
+                    className="p-2 rounded-lg text-textMuted hover:text-red-400 hover:bg-red-400/10 transition opacity-0 group-hover:opacity-100"
                   >
                     <Trash2 size={16} />
                   </button>
                 </div>
                 
                 <h3 className="text-xl font-bold text-white mb-2 relative z-10 group-hover:text-primary transition-colors">{ws.name}</h3>
-                <p className="text-slate-400 text-sm mb-6 line-clamp-2 min-h-[40px] relative z-10">
+                <p className="text-textMuted text-sm mb-6 line-clamp-2 min-h-[40px] relative z-10">
                   {ws.description || "No description provided for this workspace."}
                 </p>
                 
-                <div className="flex items-center gap-4 text-xs font-medium text-slate-500 relative z-10 pt-4 border-t border-white/5">
+                <div className="flex items-center gap-4 text-xs font-medium text-textMuted relative z-10 pt-4 border-t border-borders">
                   <div className="flex items-center gap-1.5"><Bot size={14} /> <span>0 Agents</span></div>
                   <div className="flex items-center gap-1.5"><FileText size={14} /> <span>0 Docs</span></div>
                   <div className="ml-auto text-primary opacity-0 group-hover:opacity-100 transition-all flex items-center gap-1 transform translate-x-2 group-hover:translate-x-0">
@@ -112,7 +112,7 @@ export function WorkspaceList({ initialWorkspaces }: { initialWorkspaces: any[] 
               <h2 className="text-xl font-bold">Create New Workspace</h2>
               <button 
                 onClick={() => setIsModalOpen(false)}
-                className="p-2 rounded-full hover:bg-white/10 text-slate-400 hover:text-white transition"
+                className="p-2 rounded-full hover:bg-white/10 text-textMuted hover:text-white transition"
               >
                 <X size={18} />
               </button>
@@ -120,7 +120,7 @@ export function WorkspaceList({ initialWorkspaces }: { initialWorkspaces: any[] 
             <form onSubmit={handleCreate} className="p-6">
               <div className="space-y-5">
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">Workspace Name</label>
+                  <label className="block text-sm font-medium text-textMuted mb-2">Workspace Name</label>
                   <input 
                     type="text" 
                     required
@@ -131,7 +131,7 @@ export function WorkspaceList({ initialWorkspaces }: { initialWorkspaces: any[] 
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-300 mb-2">Description <span className="text-slate-600 font-normal">(Optional)</span></label>
+                  <label className="block text-sm font-medium text-textMuted mb-2">Description <span className="text-slate-600 font-normal">(Optional)</span></label>
                   <textarea 
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
@@ -144,7 +144,7 @@ export function WorkspaceList({ initialWorkspaces }: { initialWorkspaces: any[] 
                 <button 
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="flex-1 py-3 px-4 rounded-xl font-medium text-white bg-white/5 hover:bg-white/10 border border-white/10 transition-colors"
+                  className="flex-1 py-3 px-4 rounded-xl font-medium text-white bg-white/5 hover:bg-white/10 border border-borders transition-colors"
                 >
                   Cancel
                 </button>

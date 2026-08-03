@@ -33,12 +33,12 @@ export default function SEOLayout({ children }: { children: React.ReactNode }) {
               </div>
               Nexora SEO Intelligence
             </h1>
-            <p className="text-slate-400">Enterprise-grade AI auditing, content optimization, and rank tracking.</p>
+            <p className="text-textMuted">Enterprise-grade AI auditing, content optimization, and rank tracking.</p>
           </div>
         </div>
 
         {/* SUB-NAVIGATION BAR */}
-        <div className="flex items-center gap-1 overflow-x-auto hide-scrollbar bg-[#0B0B14] border border-white/5 p-1.5 rounded-2xl">
+        <div className="flex items-center gap-1 overflow-x-auto hide-scrollbar bg-background border border-borders p-1.5 rounded-2xl">
           {SEO_MODULES.map((mod) => {
             const isActive = pathname === mod.href || pathname?.startsWith(mod.href + "/");
             return (
@@ -46,7 +46,7 @@ export default function SEOLayout({ children }: { children: React.ReactNode }) {
                 <div className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition whitespace-nowrap cursor-pointer ${
                   isActive 
                     ? "bg-white/10 text-white shadow-sm" 
-                    : "text-slate-400 hover:text-slate-200 hover:bg-white/5"
+                    : "text-textMuted hover:text-foreground hover:bg-white/5"
                 }`}>
                   <mod.icon size={16} className={isActive ? "text-green-400" : ""} />
                   {mod.name}

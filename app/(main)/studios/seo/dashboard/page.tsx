@@ -43,14 +43,14 @@ export default function SEODashboardPage() {
     <div className="w-full flex flex-col gap-6">
       
       {/* ON-PAGE ANALYZER TOOL */}
-      <div className="w-full bg-[#0B0B14] border border-white/5 rounded-2xl p-4 flex items-center gap-4">
-        <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 shrink-0">
+      <div className="w-full bg-background border border-borders rounded-2xl p-4 flex items-center gap-4">
+        <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-textMuted shrink-0">
           <Search size={18} />
         </div>
         <input 
           type="text" 
           placeholder="Enter a URL to run an instant AI Audit (e.g., https://nexora.ai)..." 
-          className="flex-1 bg-transparent border-none text-[15px] outline-none text-white placeholder:text-slate-500"
+          className="flex-1 bg-transparent border-none text-[15px] outline-none text-white placeholder:text-textMuted"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleAnalyze()}
@@ -86,7 +86,7 @@ export default function SEODashboardPage() {
             <PremiumMetricCard title="Keyword Positions" value="-" desc="Requires Premium Integration" icon={Search} color="orange" />
           </div>
           
-          <div className="lg:col-span-4 h-[300px] bg-[#0B0B14] border border-white/5 rounded-3xl flex flex-col items-center justify-center text-slate-500">
+          <div className="lg:col-span-4 h-[300px] bg-background border border-borders rounded-3xl flex flex-col items-center justify-center text-textMuted">
              <Activity size={48} className="mb-4 opacity-20" />
              <p>Enter a URL above to run a comprehensive AI SEO Audit</p>
           </div>
@@ -98,17 +98,17 @@ export default function SEODashboardPage() {
           <div className="lg:col-span-4 grid grid-cols-1 md:grid-cols-3 gap-6">
             
             {/* OVERALL SCORE */}
-            <div className="bg-[#0B0B14] border border-white/5 rounded-3xl p-6 flex items-center gap-6 relative overflow-hidden">
+            <div className="bg-background border border-borders rounded-3xl p-6 flex items-center gap-6 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-green-500/10 blur-3xl rounded-full"></div>
               <div className="relative z-10 w-24 h-24 rounded-full border-8 border-green-500 flex items-center justify-center bg-black/20 shadow-[0_0_30px_rgba(34,197,94,0.2)]">
                 <span className="text-3xl font-bold text-white">{data.score}</span>
               </div>
               <div className="relative z-10">
                 <h2 className="text-xl font-bold text-white mb-1">SEO Health Score</h2>
-                <p className="text-sm text-slate-400 mb-3">Target URL: <span className="text-slate-200">{data.url}</span></p>
+                <p className="text-sm text-textMuted mb-3">Target URL: <span className="text-foreground">{data.url}</span></p>
                 <div className="flex items-center gap-3">
                   <div className="flex flex-col">
-                    <span className="text-[10px] uppercase text-slate-500 font-bold tracking-wider">Est. Monthly Organic Clicks</span>
+                    <span className="text-[10px] uppercase text-textMuted font-bold tracking-wider">Est. Monthly Organic Clicks</span>
                     <span className="text-xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">{data.trafficEstimate || "0"}</span>
                   </div>
                 </div>
@@ -134,7 +134,7 @@ export default function SEODashboardPage() {
           <div className="lg:col-span-3 flex flex-col gap-6">
             
             {/* ON-PAGE TECHNICAL DETAILS */}
-            <div className="bg-[#0B0B14] border border-white/5 rounded-3xl p-6">
+            <div className="bg-background border border-borders rounded-3xl p-6">
               <h2 className="text-lg font-semibold mb-6 flex items-center gap-2">
                 <Activity size={18} className="text-blue-400" /> On-Page SEO Details
               </h2>
@@ -143,43 +143,43 @@ export default function SEODashboardPage() {
                 
                 <div>
                   <div className="flex justify-between items-end mb-2">
-                    <h3 className="text-sm font-medium text-slate-300">Title Tag</h3>
+                    <h3 className="text-sm font-medium text-textMuted">Title Tag</h3>
                     <span className={`text-xs ${data.metrics.titleLength >= 30 && data.metrics.titleLength <= 60 ? 'text-green-400' : 'text-orange-400'}`}>
                       {data.metrics.titleLength} chars
                     </span>
                   </div>
-                  <div className="p-3 bg-white/5 rounded-xl text-sm border border-white/10 break-all">
+                  <div className="p-3 bg-white/5 rounded-xl text-sm border border-borders break-all">
                     {data.metrics.title || <span className="text-red-400 italic">Missing</span>}
                   </div>
                 </div>
 
                 <div>
                   <div className="flex justify-between items-end mb-2">
-                    <h3 className="text-sm font-medium text-slate-300">Meta Description</h3>
+                    <h3 className="text-sm font-medium text-textMuted">Meta Description</h3>
                     <span className={`text-xs ${data.metrics.descriptionLength >= 120 && data.metrics.descriptionLength <= 160 ? 'text-green-400' : 'text-orange-400'}`}>
                       {data.metrics.descriptionLength} chars
                     </span>
                   </div>
-                  <div className="p-3 bg-white/5 rounded-xl text-sm border border-white/10 text-slate-300 break-all">
+                  <div className="p-3 bg-white/5 rounded-xl text-sm border border-borders text-textMuted break-all">
                     {data.metrics.description || <span className="text-red-400 italic">Missing</span>}
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4 border-t border-white/5">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-4 border-t border-borders">
                    <div>
-                     <p className="text-xs text-slate-500 mb-1">H1 Tags</p>
+                     <p className="text-xs text-textMuted mb-1">H1 Tags</p>
                      <p className={`text-lg font-bold ${data.metrics.h1Count === 1 ? 'text-green-400' : 'text-red-400'}`}>{data.metrics.h1Count}</p>
                    </div>
                    <div>
-                     <p className="text-xs text-slate-500 mb-1">H2 Tags</p>
-                     <p className="text-lg font-bold text-slate-200">{data.metrics.h2Count}</p>
+                     <p className="text-xs text-textMuted mb-1">H2 Tags</p>
+                     <p className="text-lg font-bold text-foreground">{data.metrics.h2Count}</p>
                    </div>
                    <div>
-                     <p className="text-xs text-slate-500 mb-1">External Links</p>
-                     <p className="text-lg font-bold text-slate-200">{data.metrics.externalLinks}</p>
+                     <p className="text-xs text-textMuted mb-1">External Links</p>
+                     <p className="text-lg font-bold text-foreground">{data.metrics.externalLinks}</p>
                    </div>
                    <div>
-                     <p className="text-xs text-slate-500 mb-1">Missing Image Alt</p>
+                     <p className="text-xs text-textMuted mb-1">Missing Image Alt</p>
                      <p className={`text-lg font-bold ${data.metrics.imagesWithoutAlt === 0 ? 'text-green-400' : 'text-orange-400'}`}>{data.metrics.imagesWithoutAlt}</p>
                    </div>
                 </div>
@@ -193,7 +193,7 @@ export default function SEODashboardPage() {
           <div className="flex flex-col gap-6">
             
             {/* TECHNICAL ISSUES */}
-            <div className="bg-[#0B0B14] border border-white/5 rounded-3xl p-6">
+            <div className="bg-background border border-borders rounded-3xl p-6">
               <h2 className="text-base font-semibold mb-5 flex items-center gap-2">
                 <AlertCircle size={16} className="text-red-400" /> Discovered Issues
               </h2>
@@ -203,8 +203,8 @@ export default function SEODashboardPage() {
                    <div className="w-12 h-12 rounded-full bg-green-500/10 flex items-center justify-center text-green-400 mb-3">
                      <CheckCircle size={24} />
                    </div>
-                   <p className="text-sm font-medium text-slate-200">Perfect Score!</p>
-                   <p className="text-xs text-slate-400 mt-1">No technical issues found.</p>
+                   <p className="text-sm font-medium text-foreground">Perfect Score!</p>
+                   <p className="text-xs text-textMuted mt-1">No technical issues found.</p>
                 </div>
               ) : (
                 <div className="space-y-4">
@@ -220,7 +220,7 @@ export default function SEODashboardPage() {
               )}
               
               {data.issues.length > 0 && data.aiSolutions && data.aiSolutions.length > 0 && (
-                <div className="mt-6 pt-6 border-t border-white/5">
+                <div className="mt-6 pt-6 border-t border-borders">
                   <h3 className="text-sm font-semibold text-purple-400 mb-4 flex items-center gap-2">
                     <Zap size={16} /> AI Actionable Solutions
                   </h3>
@@ -230,7 +230,7 @@ export default function SEODashboardPage() {
                         <div className="w-5 h-5 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center shrink-0 font-bold text-[10px]">
                           {i + 1}
                         </div>
-                        <p className="text-xs text-slate-300 leading-relaxed mt-0.5">{solution}</p>
+                        <p className="text-xs text-textMuted leading-relaxed mt-0.5">{solution}</p>
                       </div>
                     ))}
                   </div>
@@ -257,13 +257,13 @@ function MetricCard({ title, value, icon: Icon, color }: any) {
   };
   
   return (
-    <div className="bg-[#0B0B14] border border-white/5 rounded-2xl p-4 flex flex-col justify-center h-[120px]">
+    <div className="bg-background border border-borders rounded-2xl p-4 flex flex-col justify-center h-[120px]">
       <div className={`w-8 h-8 rounded-lg flex items-center justify-center mb-3 ${colorMap[color]}`}>
         <Icon size={16} />
       </div>
       <div>
         <span className="block text-xl font-bold text-white mb-0.5">{value}</span>
-        <span className="text-[11px] text-slate-400">{title}</span>
+        <span className="text-[11px] text-textMuted">{title}</span>
       </div>
     </div>
   );
@@ -301,11 +301,11 @@ function IssueCard({ type, title, color }: any) {
   };
   
   return (
-    <div className="flex items-start gap-3 p-3 bg-[#12121A] border border-white/5 rounded-xl">
+    <div className="flex items-start gap-3 p-3 bg-bgDarker border border-borders rounded-xl">
       <div className={`text-[9px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded border mt-0.5 shrink-0 ${colorMap[color]}`}>
         {type}
       </div>
-      <p className="text-xs font-medium text-slate-300 leading-snug">{title}</p>
+      <p className="text-xs font-medium text-textMuted leading-snug">{title}</p>
     </div>
   );
 }
@@ -329,7 +329,7 @@ function OrganicTrafficView({ data }: { data: any }) {
       {/* Top Header */}
       <h2 className="text-3xl font-normal mb-1">Organic traffic of</h2>
       <h2 className="text-3xl font-medium truncate mb-2">{data.url}</h2>
-      <p className="text-sm text-slate-500 mb-6 border-b pb-4">Domain including subdomains</p>
+      <p className="text-sm text-textMuted mb-6 border-b pb-4">Domain including subdomains</p>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
         {/* Left Side: Stats */}
@@ -338,14 +338,14 @@ function OrganicTrafficView({ data }: { data: any }) {
             <div>
               <div className="flex items-center gap-1 text-slate-600 mb-1">
                 <span className="font-medium text-[13px]">Organic traffic</span>
-                <span className="text-[9px] bg-slate-200 text-slate-500 rounded-full w-3 h-3 flex items-center justify-center cursor-help">i</span>
+                <span className="text-[9px] bg-slate-200 text-textMuted rounded-full w-3 h-3 flex items-center justify-center cursor-help">i</span>
               </div>
               <div className="text-2xl sm:text-[28px] leading-none font-medium">{data.trafficEstimate}</div>
             </div>
             <div>
               <div className="flex items-center gap-1 text-slate-600 mb-1">
                 <span className="font-medium text-[13px]">Traffic value</span>
-                <span className="text-[9px] bg-slate-200 text-slate-500 rounded-full w-3 h-3 flex items-center justify-center cursor-help">i</span>
+                <span className="text-[9px] bg-slate-200 text-textMuted rounded-full w-3 h-3 flex items-center justify-center cursor-help">i</span>
               </div>
               <div className="text-2xl sm:text-[28px] leading-none font-medium">{data.trafficValue}</div>
             </div>
@@ -362,7 +362,7 @@ function OrganicTrafficView({ data }: { data: any }) {
               </div>
               <div className="flex flex-col">
                 <span className="font-medium text-[12px] sm:text-[13px] text-slate-700">Domain</span>
-                <span className="font-medium text-[12px] sm:text-[13px] text-slate-700 flex items-center gap-1">Rating <span className="text-[9px] bg-slate-200 text-slate-500 rounded-full w-3 h-3 flex items-center justify-center">i</span></span>
+                <span className="font-medium text-[12px] sm:text-[13px] text-slate-700 flex items-center gap-1">Rating <span className="text-[9px] bg-slate-200 text-textMuted rounded-full w-3 h-3 flex items-center justify-center">i</span></span>
               </div>
             </div>
             
@@ -376,7 +376,7 @@ function OrganicTrafficView({ data }: { data: any }) {
               </div>
               <div className="flex flex-col">
                 <span className="font-medium text-[12px] sm:text-[13px] text-slate-700">URL</span>
-                <span className="font-medium text-[12px] sm:text-[13px] text-slate-700 flex items-center gap-1">Rating <span className="text-[9px] bg-slate-200 text-slate-500 rounded-full w-3 h-3 flex items-center justify-center">i</span></span>
+                <span className="font-medium text-[12px] sm:text-[13px] text-slate-700 flex items-center gap-1">Rating <span className="text-[9px] bg-slate-200 text-textMuted rounded-full w-3 h-3 flex items-center justify-center">i</span></span>
               </div>
             </div>
           </div>
@@ -389,7 +389,7 @@ function OrganicTrafficView({ data }: { data: any }) {
         {/* Right Side: Chart */}
         <div className="flex flex-col w-full h-full relative pl-2 pt-6 md:pt-2 mt-4 md:mt-0">
           {/* Y Axis labels */}
-          <div className="absolute right-0 top-0 bottom-6 flex flex-col justify-between text-[11px] text-slate-400 text-right pr-1 font-mono">
+          <div className="absolute right-0 top-0 bottom-6 flex flex-col justify-between text-[11px] text-textMuted text-right pr-1 font-mono">
             <span>{max >= 1000 ? (max/1000).toFixed(1) + 'K' : max}</span>
             <span>{Math.round(max/2) >= 1000 ? (Math.round(max/2)/1000).toFixed(1) + 'K' : Math.round(max/2)}</span>
             <span>0</span>
@@ -421,7 +421,7 @@ function OrganicTrafficView({ data }: { data: any }) {
           </div>
           
           {/* X Axis labels */}
-          <div className="flex justify-between text-[11px] text-slate-400 mt-2 px-1 font-mono">
+          <div className="flex justify-between text-[11px] text-textMuted mt-2 px-1 font-mono">
             <span>Mar</span>
             <span>Apr</span>
             <span>May</span>

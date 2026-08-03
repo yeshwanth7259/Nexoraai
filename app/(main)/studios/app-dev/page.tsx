@@ -138,7 +138,7 @@ export default function AppDevStudioPage() {
                   <button 
                     key={p}
                     onClick={() => setPrompt(`Build an Android ${p} with a modern UI, dark mode, and bottom navigation using Expo.`)} 
-                    className="px-4 py-2 rounded-full border border-borders bg-bgDarker hover:bg-[#1A1A24] text-foreground hover:text-foreground transition flex items-center gap-2 font-medium"
+                    className="px-4 py-2 rounded-full border border-borders bg-bgDarker hover:bg-hoverBg text-foreground hover:text-foreground transition flex items-center gap-2 font-medium"
                   >
                     {p} <ArrowRight size={14} />
                   </button>

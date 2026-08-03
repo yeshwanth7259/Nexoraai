@@ -159,7 +159,7 @@ export function ChatInterface({
                   <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center shrink-0 mt-1 shadow-[0_0_10px_rgba(109,91,255,0.5)]">
                     <Sparkles size={16} className="text-white" />
                   </div>
-                  <div className="flex-1 min-w-0 pt-1 text-[15px] text-slate-200 leading-relaxed">
+                  <div className="flex-1 min-w-0 pt-1 text-[15px] text-foreground leading-relaxed">
                     <div className="prose prose-invert max-w-none prose-p:leading-relaxed prose-pre:max-w-full prose-img:rounded-xl prose-img:shadow-lg break-words">
                       <ReactMarkdown 
                         remarkPlugins={[remarkGfm]}
@@ -213,7 +213,7 @@ export function ChatInterface({
         animate={{ y: 0, opacity: 1 }}
         className="absolute bottom-4 md:bottom-10 left-0 right-0 flex justify-center px-4 z-40"
       >
-        <div className="w-full max-w-3xl glass-panel rounded-[2rem] p-2 flex flex-col gap-2 shadow-[0_20px_60px_-15px_rgba(109,91,255,0.3)] focus-within:border-highlight/50 bg-[#060816]/60 backdrop-blur-xl">
+        <div className="w-full max-w-3xl glass-panel rounded-[2rem] p-2 flex flex-col gap-2 shadow-[0_20px_60px_-15px_rgba(109,91,255,0.3)] focus-within:border-highlight/50 bg-background backdrop-blur-xl">
           
           {/* File Preview Area */}
           <AnimatePresence>
@@ -224,7 +224,7 @@ export function ChatInterface({
                 exit={{ opacity: 0, height: 0 }}
                 className="px-4 pt-2"
               >
-                <div className="relative inline-flex items-center gap-3 bg-white/5 border border-white/10 rounded-xl p-2 pr-4">
+                <div className="relative inline-flex items-center gap-3 bg-white/5 border border-borders rounded-xl p-2 pr-4">
                   <button 
                     onClick={() => setAttachedFile(null)}
                     className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-slate-700 hover:bg-red-500 text-white flex items-center justify-center transition z-10"
@@ -250,7 +250,7 @@ export function ChatInterface({
                     <span className="text-[12px] font-medium text-white max-w-[150px] truncate">
                       {attachedFile.name}
                     </span>
-                    <span className="text-[10px] text-slate-400">
+                    <span className="text-[10px] text-textMuted">
                       {(attachedFile.size / 1024 / 1024).toFixed(2)} MB
                     </span>
                   </div>
@@ -280,7 +280,7 @@ export function ChatInterface({
               className="flex-1 bg-transparent border-none outline-none text-white placeholder-slate-500 text-[15px] py-3 px-2"
             />
             
-            <button className="w-10 h-10 rounded-full flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 transition shrink-0">
+            <button className="w-10 h-10 rounded-full flex items-center justify-center text-textMuted hover:text-white hover:bg-white/10 transition shrink-0">
               <Mic size={18} />
             </button>
             

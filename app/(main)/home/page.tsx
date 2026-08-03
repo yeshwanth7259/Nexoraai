@@ -323,7 +323,7 @@ function ProjectRow({ title, category, time, progress, color, iconColor }: any) 
   return (
     <div className="flex items-center justify-between text-sm group cursor-pointer border-b border-borders pb-3 last:border-0 last:pb-0">
       <div className="flex items-center gap-3">
-        <div className="w-8 h-8 rounded-lg bg-hoverBg border border-borders flex items-center justify-center group-hover:border-white/20 transition shrink-0">
+        <div className="w-8 h-8 rounded-lg bg-hoverBg border border-borders flex items-center justify-center group-hover:border-borders transition shrink-0">
            <Folder size={14} className={iconColor} />
         </div>
         <div>

@@ -56,10 +56,10 @@ export function CommandPalette({ isOpen, onClose }: { isOpen: boolean; onClose: 
             initial={{ scale: 0.95, opacity: 0, y: -20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.95, opacity: 0, y: -20 }}
-            className="relative w-full max-w-2xl bg-[#0b0f24]/95 border border-white/10 rounded-2xl shadow-2xl overflow-hidden glass-panel"
+            className="relative w-full max-w-2xl bg-background border border-borders rounded-2xl shadow-2xl overflow-hidden glass-panel"
           >
-            <div className="flex items-center px-4 py-3 border-b border-white/10">
-              <Search className="text-slate-400 mr-3" size={20} />
+            <div className="flex items-center px-4 py-3 border-b border-borders">
+              <Search className="text-textMuted mr-3" size={20} />
               <input
                 autoFocus
                 type="text"
@@ -69,12 +69,12 @@ export function CommandPalette({ isOpen, onClose }: { isOpen: boolean; onClose: 
                 className="flex-1 bg-transparent border-none outline-none text-white text-lg placeholder-slate-500"
               />
               <div className="flex items-center gap-1">
-                 <kbd className="bg-white/5 border border-white/10 rounded px-1.5 py-0.5 text-xs text-slate-400">ESC</kbd>
+                 <kbd className="bg-white/5 border border-borders rounded px-1.5 py-0.5 text-xs text-textMuted">ESC</kbd>
               </div>
             </div>
             
             <div className="max-h-[60vh] overflow-y-auto p-2">
-              <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider px-3 py-2">
+              <div className="text-xs font-semibold text-textMuted uppercase tracking-wider px-3 py-2">
                 Suggestions
               </div>
               {filteredActions.map((action, idx) => (
@@ -84,7 +84,7 @@ export function CommandPalette({ isOpen, onClose }: { isOpen: boolean; onClose: 
                     action.action();
                     onClose();
                   }}
-                  className="w-full flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-white/5 text-slate-300 hover:text-white transition group text-left"
+                  className="w-full flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-white/5 text-textMuted hover:text-white transition group text-left"
                 >
                   <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center group-hover:bg-primary/20 group-hover:text-primary transition">
                     <action.icon size={16} />
@@ -93,7 +93,7 @@ export function CommandPalette({ isOpen, onClose }: { isOpen: boolean; onClose: 
                 </button>
               ))}
               {filteredActions.length === 0 && (
-                <div className="px-3 py-8 text-center text-slate-500 text-sm">
+                <div className="px-3 py-8 text-center text-textMuted text-sm">
                   No results found for "{search}"
                 </div>
               )}

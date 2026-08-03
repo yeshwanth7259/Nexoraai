@@ -47,14 +47,14 @@ export default function TechnicalSEOPage() {
     <div className="w-full flex flex-col gap-6">
       
       {/* ANALYZER TOOL */}
-      <div className="w-full bg-[#0B0B14] border border-white/5 rounded-2xl p-4 flex items-center gap-4">
-        <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-slate-400 shrink-0">
+      <div className="w-full bg-background border border-borders rounded-2xl p-4 flex items-center gap-4">
+        <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-textMuted shrink-0">
           <Terminal size={18} />
         </div>
         <input 
           type="text" 
           placeholder="Enter a URL for a Deep Technical Audit (e.g., https://nexora.ai)..." 
-          className="flex-1 bg-transparent border-none text-[15px] outline-none text-white placeholder:text-slate-500"
+          className="flex-1 bg-transparent border-none text-[15px] outline-none text-white placeholder:text-textMuted"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleAnalyze()}
@@ -83,40 +83,40 @@ export default function TechnicalSEOPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 animate-in fade-in zoom-in-95 duration-500">
           
           {/* CRAWLABILITY & INDEXING */}
-          <div className="bg-[#0B0B14] border border-white/5 rounded-3xl p-6">
+          <div className="bg-background border border-borders rounded-3xl p-6">
             <h2 className="text-lg font-semibold mb-6 flex items-center gap-2">
               <Globe size={18} className="text-blue-400" /> Crawlability & Indexing
             </h2>
             <div className="space-y-4">
               
-              <div className="flex items-start justify-between p-4 bg-[#12121A] border border-white/5 rounded-2xl">
+              <div className="flex items-start justify-between p-4 bg-bgDarker border border-borders rounded-2xl">
                 <div>
-                  <p className="text-sm font-medium text-slate-200 mb-1">Canonical Tag</p>
-                  <p className="text-xs text-slate-400 max-w-[250px] truncate">{data.canonical || "No canonical tag found"}</p>
+                  <p className="text-sm font-medium text-foreground mb-1">Canonical Tag</p>
+                  <p className="text-xs text-textMuted max-w-[250px] truncate">{data.canonical || "No canonical tag found"}</p>
                 </div>
                 <StatusIcon value={data.canonical} />
               </div>
 
-              <div className="flex items-start justify-between p-4 bg-[#12121A] border border-white/5 rounded-2xl">
+              <div className="flex items-start justify-between p-4 bg-bgDarker border border-borders rounded-2xl">
                 <div>
-                  <p className="text-sm font-medium text-slate-200 mb-1">Robots Meta</p>
-                  <p className="text-xs text-slate-400 max-w-[250px] truncate">{data.robots || "Not explicitly set (defaults to index, follow)"}</p>
+                  <p className="text-sm font-medium text-foreground mb-1">Robots Meta</p>
+                  <p className="text-xs text-textMuted max-w-[250px] truncate">{data.robots || "Not explicitly set (defaults to index, follow)"}</p>
                 </div>
                 <StatusIcon value={data.robots !== "noindex, nofollow"} />
               </div>
               
-              <div className="flex items-start justify-between p-4 bg-[#12121A] border border-white/5 rounded-2xl">
+              <div className="flex items-start justify-between p-4 bg-bgDarker border border-borders rounded-2xl">
                 <div>
-                  <p className="text-sm font-medium text-slate-200 mb-1">SSL (HTTPS)</p>
-                  <p className="text-xs text-slate-400">Secure connection established</p>
+                  <p className="text-sm font-medium text-foreground mb-1">SSL (HTTPS)</p>
+                  <p className="text-xs text-textMuted">Secure connection established</p>
                 </div>
                 <StatusIcon value={data.hasSSL} />
               </div>
               
-              <div className="flex items-start justify-between p-4 bg-[#12121A] border border-white/5 rounded-2xl">
+              <div className="flex items-start justify-between p-4 bg-bgDarker border border-borders rounded-2xl">
                 <div>
-                  <p className="text-sm font-medium text-slate-200 mb-1">Language Declaration</p>
-                  <p className="text-xs text-slate-400">lang="{data.language || "Not set"}"</p>
+                  <p className="text-sm font-medium text-foreground mb-1">Language Declaration</p>
+                  <p className="text-xs text-textMuted">lang="{data.language || "Not set"}"</p>
                 </div>
                 <StatusIcon value={data.language} />
               </div>
@@ -125,40 +125,40 @@ export default function TechnicalSEOPage() {
           </div>
 
           {/* SOCIAL & STRUCTURED DATA */}
-          <div className="bg-[#0B0B14] border border-white/5 rounded-3xl p-6">
+          <div className="bg-background border border-borders rounded-3xl p-6">
             <h2 className="text-lg font-semibold mb-6 flex items-center gap-2">
               <Code size={18} className="text-purple-400" /> Social & Structured Data
             </h2>
             <div className="space-y-4">
               
-              <div className="flex items-start justify-between p-4 bg-[#12121A] border border-white/5 rounded-2xl">
+              <div className="flex items-start justify-between p-4 bg-bgDarker border border-borders rounded-2xl">
                 <div>
-                  <p className="text-sm font-medium text-slate-200 mb-1">OpenGraph Title</p>
-                  <p className="text-xs text-slate-400 max-w-[250px] truncate">{data.ogTitle || "Missing OG Title"}</p>
+                  <p className="text-sm font-medium text-foreground mb-1">OpenGraph Title</p>
+                  <p className="text-xs text-textMuted max-w-[250px] truncate">{data.ogTitle || "Missing OG Title"}</p>
                 </div>
                 <StatusIcon value={data.ogTitle} />
               </div>
 
-              <div className="flex items-start justify-between p-4 bg-[#12121A] border border-white/5 rounded-2xl">
+              <div className="flex items-start justify-between p-4 bg-bgDarker border border-borders rounded-2xl">
                 <div>
-                  <p className="text-sm font-medium text-slate-200 mb-1">Twitter Card</p>
-                  <p className="text-xs text-slate-400 max-w-[250px] truncate">{data.twitterCard || "Missing Twitter Card"}</p>
+                  <p className="text-sm font-medium text-foreground mb-1">Twitter Card</p>
+                  <p className="text-xs text-textMuted max-w-[250px] truncate">{data.twitterCard || "Missing Twitter Card"}</p>
                 </div>
                 <StatusIcon value={data.twitterCard} />
               </div>
               
-              <div className="flex items-start justify-between p-4 bg-[#12121A] border border-white/5 rounded-2xl">
+              <div className="flex items-start justify-between p-4 bg-bgDarker border border-borders rounded-2xl">
                 <div>
-                  <p className="text-sm font-medium text-slate-200 mb-1">Schema Markup (JSON-LD)</p>
-                  <p className="text-xs text-slate-400">{data.schemaMarkupFound ? "Found structured data" : "No JSON-LD structured data found"}</p>
+                  <p className="text-sm font-medium text-foreground mb-1">Schema Markup (JSON-LD)</p>
+                  <p className="text-xs text-textMuted">{data.schemaMarkupFound ? "Found structured data" : "No JSON-LD structured data found"}</p>
                 </div>
                 <StatusIcon value={data.schemaMarkupFound} />
               </div>
 
-              <div className="flex items-start justify-between p-4 bg-[#12121A] border border-white/5 rounded-2xl">
+              <div className="flex items-start justify-between p-4 bg-bgDarker border border-borders rounded-2xl">
                 <div>
-                  <p className="text-sm font-medium text-slate-200 mb-1">Mobile Viewport</p>
-                  <p className="text-xs text-slate-400 max-w-[250px] truncate">{data.viewport || "Missing Viewport Meta"}</p>
+                  <p className="text-sm font-medium text-foreground mb-1">Mobile Viewport</p>
+                  <p className="text-xs text-textMuted max-w-[250px] truncate">{data.viewport || "Missing Viewport Meta"}</p>
                 </div>
                 <StatusIcon value={data.viewport} />
               </div>

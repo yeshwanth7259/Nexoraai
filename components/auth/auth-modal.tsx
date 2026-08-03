@@ -87,7 +87,7 @@ export function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
             initial={{ scale: 0.95, y: 20 }}
             animate={{ scale: 1, y: 0 }}
             exit={{ scale: 0.95, y: 20 }}
-            className="glass-panel bg-[#0b0f24]/90 rounded-3xl shadow-2xl max-w-[400px] w-full p-8 relative border border-borders"
+            className="glass-panel bg-background rounded-3xl shadow-2xl max-w-[400px] w-full p-8 relative border border-borders"
           >
             <button onClick={onClose} className="absolute top-5 right-5 text-textMuted hover:text-foreground p-1 transition-colors">
               <X size={20} strokeWidth={2} />
