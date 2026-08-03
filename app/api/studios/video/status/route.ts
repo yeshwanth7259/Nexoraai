@@ -12,10 +12,10 @@ export async function GET(req: Request) {
     }
 
     // Return a high quality cinematic tech placeholder for all prompts to look highly professional
+    // Note: Using universally accessible CDNs to avoid 403 Forbidden issues
     const mockVideos = [
-      "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-      "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
-      "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4"
+      "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/1080/Big_Buck_Bunny_1080_10s_1MB.mp4",
+      "https://www.w3schools.com/html/mov_bbb.mp4"
     ];
     
     // Pick a deterministic video based on the operationName so it doesn't change on retry
