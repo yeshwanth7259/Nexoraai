@@ -82,7 +82,7 @@ export default function VideoStudioPage() {
   };
 
   return (
-    <div className="w-full h-[calc(100vh-4rem)] text-white overflow-hidden flex flex-col bg-[#05050A]">
+    <div className="w-full h-[calc(100vh-4rem)] text-foreground overflow-hidden flex flex-col bg-background">
       <AnimatePresence mode="wait">
         
         {/* INPUT VIEW */}
@@ -99,18 +99,18 @@ export default function VideoStudioPage() {
                 <div className="mb-6 relative w-[72px] h-[72px] rounded-2xl bg-gradient-to-br from-red-500/20 via-orange-500/20 to-yellow-500/20 flex items-center justify-center border border-red-500/30 shadow-[0_0_50px_rgba(239,68,68,0.2)]">
                   <Film className="w-8 h-8 text-red-400" />
                 </div>
-                <h1 className="text-4xl sm:text-[3.5rem] leading-tight font-bold mb-4 tracking-tight text-white">
+                <h1 className="text-4xl sm:text-[3.5rem] leading-tight font-bold mb-4 tracking-tight text-foreground">
                   Nexora <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-orange-500">Video</span> <span className="text-yellow-500">Gen</span>
                 </h1>
-                <p className="text-slate-400 max-w-2xl mx-auto text-base">
+                <p className="text-textMuted max-w-2xl mx-auto text-base">
                   Describe the video you want to create, and let Nexora's AI model generate stunning cinematic visuals instantly.
                 </p>
               </div>
 
               <div className="w-full max-w-3xl relative group mb-10 shrink-0">
                 <div className="rounded-[24px] p-[1px] bg-gradient-to-r from-red-500/40 via-orange-500/40 to-yellow-500/40 group-hover:from-red-500/70 group-hover:via-orange-500/70 group-hover:to-yellow-500/70 transition-all duration-500 relative shadow-[0_0_40px_-15px_rgba(239,68,68,0.3)]">
-                  <div className="relative bg-[#09090E] rounded-[23px] flex flex-col pt-2">
-                    <div className="px-5 pt-4 pb-2 flex items-center gap-2 text-sm text-slate-400 font-medium">
+                  <div className="relative bg-bgDarker rounded-[23px] flex flex-col pt-2">
+                    <div className="px-5 pt-4 pb-2 flex items-center gap-2 text-sm text-textMuted font-medium">
                       <Sparkles size={16} className="text-red-400" /> Describe your scene...
                     </div>
                     
@@ -118,19 +118,19 @@ export default function VideoStudioPage() {
                       value={prompt}
                       onChange={(e) => setPrompt(e.target.value)}
                       placeholder="e.g., A cinematic drone shot flying over a futuristic neon city during a rainy night, 4k, photorealistic."
-                      className="w-full bg-transparent border-none outline-none text-lg text-white px-5 pb-6 pt-2 min-h-[120px] resize-none focus:ring-0 placeholder:text-slate-600"
+                      className="w-full bg-transparent border-none outline-none text-lg text-foreground px-5 pb-6 pt-2 min-h-[120px] resize-none focus:ring-0 placeholder:text-slate-600"
                     />
 
-                    <div className="px-3 pb-3 flex items-center justify-between flex-wrap gap-4 mt-auto border-t border-white/5 pt-3">
+                    <div className="px-3 pb-3 flex items-center justify-between flex-wrap gap-4 mt-auto border-t border-borders pt-3">
                       <div className="flex items-center gap-2">
-                        <button className="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 text-xs text-slate-300 flex items-center gap-2 transition">
+                        <button className="px-3 py-1.5 rounded-lg bg-hoverBg hover:bg-hoverBg text-xs text-foreground flex items-center gap-2 transition">
                           <Settings size={14} /> Advanced Settings
                         </button>
                       </div>
                       <button 
                         onClick={handleGenerate}
                         disabled={!prompt.trim()}
-                        className="px-6 h-10 bg-gradient-to-r from-red-500 to-orange-600 hover:opacity-90 text-white rounded-xl font-bold transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_20px_rgba(239,68,68,0.4)]"
+                        className="px-6 h-10 bg-gradient-to-r from-red-500 to-orange-600 hover:opacity-90 text-foreground rounded-xl font-bold transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_20px_rgba(239,68,68,0.4)]"
                       >
                         Generate <Zap size={16} className="fill-white" />
                       </button>
@@ -140,7 +140,7 @@ export default function VideoStudioPage() {
               </div>
 
               <div className="flex items-center gap-4 text-sm shrink-0 flex-wrap justify-center">
-                <span className="text-slate-400 font-medium">Try these prompts:</span>
+                <span className="text-textMuted font-medium">Try these prompts:</span>
                 {[
                   'Cinematic space nebula', 
                   'Cyberpunk street market', 
@@ -149,7 +149,7 @@ export default function VideoStudioPage() {
                   <button 
                     key={p}
                     onClick={() => setPrompt(p)} 
-                    className="px-4 py-2 rounded-full border border-white/5 bg-[#12121A] hover:bg-[#1A1A24] text-slate-300 hover:text-white transition flex items-center gap-2 font-medium"
+                    className="px-4 py-2 rounded-full border border-borders bg-bgDarker hover:bg-[#1A1A24] text-foreground hover:text-foreground transition flex items-center gap-2 font-medium"
                   >
                     {p}
                   </button>
@@ -171,7 +171,7 @@ export default function VideoStudioPage() {
             <div className="mb-12 relative w-32 h-32 flex items-center justify-center">
               <div className="absolute inset-0 border-4 border-red-500/20 rounded-full animate-ping duration-1000"></div>
               <div className="w-16 h-16 bg-gradient-to-tr from-red-500 to-orange-500 rounded-full flex items-center justify-center shadow-[0_0_40px_rgba(239,68,68,0.5)] z-10">
-                <Video className="text-white w-8 h-8" />
+                <Video className="text-foreground w-8 h-8" />
               </div>
             </div>
             <h2 className="text-2xl font-bold mb-8">Generating Video</h2>
@@ -179,12 +179,12 @@ export default function VideoStudioPage() {
               {steps.map((step, index) => (
                 <div key={index} className="flex flex-col gap-2">
                   <div className="flex items-center justify-between text-sm">
-                    <span className={`font-medium ${index <= generationStep ? 'text-white' : 'text-slate-600'}`}>
+                    <span className={`font-medium ${index <= generationStep ? 'text-foreground' : 'text-slate-600'}`}>
                       {step}
                     </span>
                     {index === generationStep && <Loader2 size={16} className="text-red-400 animate-spin" />}
                   </div>
-                  <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden">
+                  <div className="w-full h-1.5 bg-hoverBg rounded-full overflow-hidden">
                     <motion.div 
                       className={`h-full ${index < generationStep ? 'bg-red-500' : index === generationStep ? 'bg-gradient-to-r from-red-500 to-orange-500' : 'bg-transparent'}`}
                       initial={{ width: "0%" }}
@@ -211,17 +211,17 @@ export default function VideoStudioPage() {
                 <h2 className="text-2xl font-bold flex items-center gap-2 mb-1">
                   <Sparkles className="text-red-400" /> Generated Video
                 </h2>
-                <p className="text-slate-400 text-sm max-w-xl truncate">{videoDescription}</p>
+                <p className="text-textMuted text-sm max-w-xl truncate">{videoDescription}</p>
               </div>
               <button 
                 onClick={() => setAppState('input')}
-                className="px-4 py-2 bg-white/10 hover:bg-white/20 rounded-lg text-sm font-medium transition"
+                className="px-4 py-2 bg-hoverBg hover:bg-white/20 rounded-lg text-sm font-medium transition"
               >
                 Create New Video
               </button>
             </div>
             
-            <div className="w-full aspect-video bg-black rounded-2xl border border-white/10 overflow-hidden shadow-2xl relative flex flex-col justify-center items-center group">
+            <div className="w-full aspect-video bg-black rounded-2xl border border-borders overflow-hidden shadow-2xl relative flex flex-col justify-center items-center group">
               {videoUrl ? (
                 <video 
                   src={videoUrl} 
@@ -231,7 +231,7 @@ export default function VideoStudioPage() {
                   className="w-full h-full object-cover"
                 />
               ) : (
-                <div className="flex flex-col items-center justify-center text-slate-500">
+                <div className="flex flex-col items-center justify-center text-textMuted">
                   <Film size={48} className="mb-4 opacity-50" />
                   <p>Video rendering failed</p>
                 </div>
@@ -239,10 +239,10 @@ export default function VideoStudioPage() {
             </div>
 
             <div className="flex items-center gap-4 mt-6">
-              <button className="px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white rounded-xl font-medium transition flex items-center gap-2">
+              <button className="px-5 py-2.5 bg-red-600 hover:bg-red-700 text-foreground rounded-xl font-medium transition flex items-center gap-2">
                 <Download size={18} /> Download HD
               </button>
-              <button className="px-5 py-2.5 bg-[#12121A] border border-white/10 hover:bg-[#1A1A24] text-white rounded-xl font-medium transition flex items-center gap-2">
+              <button className="px-5 py-2.5 bg-bgDarker border border-borders hover:bg-[#1A1A24] text-foreground rounded-xl font-medium transition flex items-center gap-2">
                 <Share2 size={18} /> Share
               </button>
             </div>

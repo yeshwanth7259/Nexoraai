@@ -1,16 +1,22 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { User, Key, Monitor, Shield, Bell, Check, Save } from "lucide-react";
 import { useAuth } from "@/components/providers/auth-provider";
+import { useTheme } from "next-themes";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function SettingsPage() {
   const { user } = useAuth();
   const [activeTab, setActiveTab] = useState("general");
   const [apiKeys, setApiKeys] = useState({ gemini: "", openai: "" });
-  const [theme, setTheme] = useState("dark");
+  const { theme, setTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
   const [saved, setSaved] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const tabs = [
     { id: "general", label: "General", icon: Monitor },
@@ -25,12 +31,12 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="flex-1 w-full h-[calc(100vh-4rem)] overflow-hidden flex flex-col bg-[#05050A]">
+    <div className="flex-1 w-full h-[calc(100vh-4rem)] overflow-hidden flex flex-col bg-background">
       <div className="max-w-6xl w-full mx-auto h-full p-6 md:p-10 flex flex-col md:flex-row gap-8">
         
         {/* Settings Sidebar */}
-        <div className="w-full md:w-[240px] shrink-0 flex flex-col h-auto md:h-full border-b md:border-b-0 md:border-r border-white/5 pb-6 md:pb-0 md:pr-6">
-          <h1 className="text-2xl font-bold mb-6 md:mb-8 text-white">Settings</h1>
+        <div className="w-full md:w-[240px] shrink-0 flex flex-col h-auto md:h-full border-b md:border-b-0 md:border-r border-borders pb-6 md:pb-0 md:pr-6">
+          <h1 className="text-2xl font-bold mb-6 md:mb-8 text-foreground">Settings</h1>
           <nav className="flex flex-row md:flex-col gap-2 overflow-x-auto hide-scrollbar">
             {tabs.map((tab) => {
               const Icon = tab.icon;
@@ -41,8 +47,8 @@ export default function SettingsPage() {
                   onClick={() => setActiveTab(tab.id)}
                   className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all text-sm font-medium whitespace-nowrap ${
                     isActive
-                      ? "bg-white/10 text-white"
-                      : "text-slate-400 hover:text-slate-200 hover:bg-white/5"
+                      ? "bg-hoverBg text-foreground"
+                      : "text-textMuted hover:text-foreground hover:bg-hoverBg"
                   }`}
                 >
                   <Icon size={16} /> {tab.label}
@@ -68,33 +74,35 @@ export default function SettingsPage() {
               {activeTab === "general" && (
                 <div className="space-y-8">
                   <div>
-                    <h2 className="text-xl font-bold text-white mb-6 pb-4 border-b border-white/5">General Settings</h2>
+                    <h2 className="text-xl font-bold text-foreground mb-6 pb-4 border-b border-borders">General Settings</h2>
                     
                     <div className="space-y-6">
                       <div className="flex items-center justify-between">
                         <div>
-                          <div className="text-sm font-medium text-white mb-1">Theme</div>
-                          <div className="text-xs text-slate-400">Customize the appearance of Nexora AI</div>
+                          <div className="text-sm font-medium text-foreground mb-1">Theme</div>
+                          <div className="text-xs text-textMuted">Customize the appearance of Nexora AI</div>
                         </div>
-                        <select 
-                          value={theme}
-                          onChange={(e) => setTheme(e.target.value)}
-                          className="bg-[#12121A] border border-white/10 text-sm text-white rounded-lg px-4 py-2 outline-none focus:border-primary"
-                        >
-                          <option value="system">System Default</option>
-                          <option value="dark">Dark Mode</option>
-                          <option value="light">Light Mode</option>
-                        </select>
+                        {mounted && (
+                          <select 
+                            value={theme}
+                            onChange={(e) => setTheme(e.target.value)}
+                            className="bg-bgDarker border border-borders text-sm text-foreground rounded-lg px-4 py-2 outline-none focus:border-primary"
+                          >
+                            <option value="system">System Default</option>
+                            <option value="dark">Dark Mode</option>
+                            <option value="light">Light Mode</option>
+                          </select>
+                        )}
                       </div>
 
                       <div className="flex items-center justify-between">
                         <div>
-                          <div className="text-sm font-medium text-white mb-1">App Notifications</div>
-                          <div className="text-xs text-slate-400">Receive alerts when long-running generation jobs complete</div>
+                          <div className="text-sm font-medium text-foreground mb-1">App Notifications</div>
+                          <div className="text-xs text-textMuted">Receive alerts when long-running generation jobs complete</div>
                         </div>
                         <label className="relative inline-flex items-center cursor-pointer">
                           <input type="checkbox" className="sr-only peer" defaultChecked />
-                          <div className="w-11 h-6 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                          <div className="w-11 h-6 bg-borders peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
                         </label>
                       </div>
                     </div>
@@ -106,12 +114,12 @@ export default function SettingsPage() {
               {activeTab === "models" && (
                 <div className="space-y-8">
                   <div>
-                    <h2 className="text-xl font-bold text-white mb-6 pb-4 border-b border-white/5">Models & API Keys</h2>
-                    <p className="text-sm text-slate-400 mb-6">Connect your own API keys to bypass rate limits and use custom models. Keys are stored securely and never shared.</p>
+                    <h2 className="text-xl font-bold text-foreground mb-6 pb-4 border-b border-borders">Models & API Keys</h2>
+                    <p className="text-sm text-textMuted mb-6">Connect your own API keys to bypass rate limits and use custom models. Keys are stored securely and never shared.</p>
                     
                     <div className="space-y-6">
                       <div>
-                        <label className="text-sm font-medium text-white mb-2 flex items-center gap-2">
+                        <label className="text-sm font-medium text-foreground mb-2 flex items-center gap-2">
                           Google Gemini API Key
                         </label>
                         <input 
@@ -119,13 +127,13 @@ export default function SettingsPage() {
                           value={apiKeys.gemini}
                           onChange={(e) => setApiKeys({...apiKeys, gemini: e.target.value})}
                           placeholder="AIzaSy..."
-                          className="w-full bg-[#12121A] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-slate-600 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition"
+                          className="w-full bg-bgDarker border border-borders rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-textMuted focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition"
                         />
-                        <p className="text-[11px] text-slate-500 mt-2">Required for Veo Video generation and Gemini Flash assistance.</p>
+                        <p className="text-[11px] text-textMuted mt-2">Required for Veo Video generation and Gemini Flash assistance.</p>
                       </div>
 
                       <div>
-                        <label className="text-sm font-medium text-white mb-2 flex items-center gap-2">
+                        <label className="text-sm font-medium text-foreground mb-2 flex items-center gap-2">
                           OpenAI API Key
                         </label>
                         <input 
@@ -133,9 +141,9 @@ export default function SettingsPage() {
                           value={apiKeys.openai}
                           onChange={(e) => setApiKeys({...apiKeys, openai: e.target.value})}
                           placeholder="sk-..."
-                          className="w-full bg-[#12121A] border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-slate-600 focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition"
+                          className="w-full bg-bgDarker border border-borders rounded-xl px-4 py-3 text-sm text-foreground placeholder:text-textMuted focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition"
                         />
-                        <p className="text-[11px] text-slate-500 mt-2">Required for ChatGPT generation and App Dev Studio.</p>
+                        <p className="text-[11px] text-textMuted mt-2">Required for ChatGPT generation and App Dev Studio.</p>
                       </div>
 
                       <div className="pt-4">
@@ -155,34 +163,34 @@ export default function SettingsPage() {
               {activeTab === "account" && (
                 <div className="space-y-8">
                   <div>
-                    <h2 className="text-xl font-bold text-white mb-6 pb-4 border-b border-white/5">Your Account</h2>
+                    <h2 className="text-xl font-bold text-foreground mb-6 pb-4 border-b border-borders">Your Account</h2>
                     
                     <div className="space-y-6">
-                      <div className="flex items-center gap-6 pb-6 border-b border-white/5">
+                      <div className="flex items-center gap-6 pb-6 border-b border-borders">
                         <img 
                           src={`https://api.dicebear.com/7.x/notionists/svg?seed=${user?.email || 'guest'}`}
                           alt="Avatar"
-                          className="w-20 h-20 rounded-full bg-white/5"
+                          className="w-20 h-20 rounded-full bg-hoverBg"
                         />
                         <div>
-                          <div className="text-lg font-bold text-white mb-1">{user?.email?.split('@')[0] || "Guest User"}</div>
-                          <div className="text-sm text-slate-400 mb-3">{user?.email || "Not signed in"}</div>
-                          <button className="px-4 py-1.5 bg-white/10 hover:bg-white/20 text-white text-xs font-medium rounded-lg transition">
+                          <div className="text-lg font-bold text-foreground mb-1">{user?.email?.split('@')[0] || "Guest User"}</div>
+                          <div className="text-sm text-textMuted mb-3">{user?.email || "Not signed in"}</div>
+                          <button className="px-4 py-1.5 bg-hoverBg hover:bg-borders text-foreground text-xs font-medium rounded-lg transition">
                             Change Avatar
                           </button>
                         </div>
                       </div>
 
                       <div>
-                        <h3 className="text-sm font-semibold text-white mb-4">Subscription Plan</h3>
+                        <h3 className="text-sm font-semibold text-foreground mb-4">Subscription Plan</h3>
                         <div className="p-4 rounded-xl border border-primary/30 bg-primary/5 flex items-center justify-between">
                           <div>
-                            <div className="text-sm font-bold text-white mb-1 flex items-center gap-2">
+                            <div className="text-sm font-bold text-foreground mb-1 flex items-center gap-2">
                               Nexora Pro <span className="px-2 py-0.5 rounded-full bg-primary/20 text-primary text-[10px] uppercase">Active</span>
                             </div>
-                            <div className="text-xs text-slate-400">Unlimited generations, priority support.</div>
+                            <div className="text-xs text-textMuted">Unlimited generations, priority support.</div>
                           </div>
-                          <button className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white text-xs font-medium rounded-lg transition">
+                          <button className="px-4 py-2 bg-hoverBg hover:bg-borders text-foreground text-xs font-medium rounded-lg transition">
                             Manage Plan
                           </button>
                         </div>
@@ -196,17 +204,17 @@ export default function SettingsPage() {
               {activeTab === "privacy" && (
                 <div className="space-y-8">
                   <div>
-                    <h2 className="text-xl font-bold text-white mb-6 pb-4 border-b border-white/5">Data Controls</h2>
+                    <h2 className="text-xl font-bold text-foreground mb-6 pb-4 border-b border-borders">Data Controls</h2>
                     
                     <div className="space-y-6">
                       <div className="flex items-center justify-between">
                         <div>
-                          <div className="text-sm font-medium text-white mb-1">Chat History & Training</div>
-                          <div className="text-xs text-slate-400 max-w-[400px]">Save new chats and studios on this browser to your history and allow them to be used to improve our models.</div>
+                          <div className="text-sm font-medium text-foreground mb-1">Chat History & Training</div>
+                          <div className="text-xs text-textMuted max-w-[400px]">Save new chats and studios on this browser to your history and allow them to be used to improve our models.</div>
                         </div>
                         <label className="relative inline-flex items-center cursor-pointer">
                           <input type="checkbox" className="sr-only peer" defaultChecked />
-                          <div className="w-11 h-6 bg-white/10 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-500"></div>
+                          <div className="w-11 h-6 bg-borders peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-500"></div>
                         </label>
                       </div>
                       
@@ -214,10 +222,10 @@ export default function SettingsPage() {
                         <h3 className="text-sm font-semibold text-red-500 mb-2">Danger Zone</h3>
                         <div className="p-4 rounded-xl border border-red-500/20 bg-red-500/5 flex items-center justify-between">
                           <div>
-                            <div className="text-sm font-bold text-white mb-1">Delete Account</div>
-                            <div className="text-xs text-slate-400">Permanently delete your account and all data.</div>
+                            <div className="text-sm font-bold text-foreground mb-1">Delete Account</div>
+                            <div className="text-xs text-textMuted">Permanently delete your account and all data.</div>
                           </div>
-                          <button className="px-4 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-500 text-xs font-medium rounded-lg transition">
+                          <button className="px-4 py-2 bg-red-500/10 hover:bg-red-500/20 text-red-500 text-xs font-medium rounded-lg transition">
                             Delete Account
                           </button>
                         </div>

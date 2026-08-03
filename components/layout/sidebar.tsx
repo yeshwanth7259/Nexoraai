@@ -23,10 +23,10 @@ export function Sidebar({ onOpenAuth, workspaces = [] }: { onOpenAuth?: () => vo
       <Link href={href} className="block w-full">
         <div className={`flex items-center gap-3 px-4 py-3 rounded-xl cursor-pointer transition-all duration-200 ${
           isActive 
-            ? "bg-gradient-to-r from-primary/80 to-primary/40 text-white shadow-[0_0_15px_rgba(109,91,255,0.3)]" 
-            : "text-slate-400 hover:text-white hover:bg-white/5"
+            ? "bg-gradient-to-r from-primary/80 to-primary/40 text-foreground shadow-[0_0_15px_rgba(109,91,255,0.3)]" 
+            : "text-textMuted hover:text-foreground hover:bg-hoverBg"
         }`}>
-          <Icon size={18} strokeWidth={isActive ? 2.5 : 2} className={isActive ? "text-white" : ""} />
+          <Icon size={18} strokeWidth={isActive ? 2.5 : 2} className={isActive ? "text-foreground" : ""} />
           <span className={`text-[14px] ${isActive ? "font-semibold" : "font-medium"}`}>{label}</span>
         </div>
       </Link>
@@ -34,13 +34,13 @@ export function Sidebar({ onOpenAuth, workspaces = [] }: { onOpenAuth?: () => vo
   };
 
   const SectionHeader = ({ title }: { title: string }) => (
-    <div className="px-5 mt-6 mb-3 text-[10px] font-bold text-slate-500 uppercase tracking-widest">
+    <div className="px-5 mt-6 mb-3 text-[10px] font-bold text-textMuted uppercase tracking-widest">
       {title}
     </div>
   );
 
   return (
-    <aside className="hidden md:flex w-[260px] h-full flex-col border-r border-white/5 bg-[#0A0A0F] shrink-0 z-10 relative">
+    <aside className="hidden md:flex w-[260px] h-full flex-col border-r border-borders bg-bgDarker shrink-0 z-10 relative">
       {/* Header / Logo */}
       <div className="px-6 py-6 flex items-center gap-3">
         <Link href="/home" className="flex items-center gap-3">
@@ -55,7 +55,7 @@ export function Sidebar({ onOpenAuth, workspaces = [] }: { onOpenAuth?: () => vo
               <path d="M10 30 V10 L30 30 V10" fill="none" stroke="url(#n-grad)" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </div>
-          <span className="font-bold tracking-[0.2em] text-[15px] text-white uppercase">NEXORA</span>
+          <span className="font-bold tracking-[0.2em] text-[15px] text-foreground uppercase">NEXORA</span>
         </Link>
       </div>
 
@@ -83,7 +83,7 @@ export function Sidebar({ onOpenAuth, workspaces = [] }: { onOpenAuth?: () => vo
       </div>
 
       {/* User Profile */}
-      <div className="p-4 border-t border-white/5">
+      <div className="p-4 border-t border-borders">
         {user ? (
           <div className="flex items-center justify-between cursor-pointer group" onClick={signOut}>
             <div className="flex items-center gap-3">
@@ -93,11 +93,11 @@ export function Sidebar({ onOpenAuth, workspaces = [] }: { onOpenAuth?: () => vo
                 className="w-9 h-9 rounded-full bg-white/10"
               />
               <div className="flex flex-col">
-                <span className="text-[13px] font-semibold text-white leading-tight group-hover:text-primary transition">{user.email?.split('@')[0]}</span>
-                <span className="text-[11px] text-slate-500 truncate max-w-[120px]">{user.email}</span>
+                <span className="text-[13px] font-semibold text-foreground leading-tight group-hover:text-primary transition">{user.email?.split('@')[0]}</span>
+                <span className="text-[11px] text-textMuted truncate max-w-[120px]">{user.email}</span>
               </div>
             </div>
-            <ChevronDown size={14} className="text-slate-500 group-hover:text-white transition" />
+            <ChevronDown size={14} className="text-textMuted group-hover:text-foreground transition" />
           </div>
         ) : (
           <button 

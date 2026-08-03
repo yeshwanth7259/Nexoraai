@@ -87,9 +87,9 @@ export function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
             initial={{ scale: 0.95, y: 20 }}
             animate={{ scale: 1, y: 0 }}
             exit={{ scale: 0.95, y: 20 }}
-            className="glass-panel bg-[#0b0f24]/90 rounded-3xl shadow-2xl max-w-[400px] w-full p-8 relative border border-white/10"
+            className="glass-panel bg-[#0b0f24]/90 rounded-3xl shadow-2xl max-w-[400px] w-full p-8 relative border border-borders"
           >
-            <button onClick={onClose} className="absolute top-5 right-5 text-slate-400 hover:text-white p-1 transition-colors">
+            <button onClick={onClose} className="absolute top-5 right-5 text-textMuted hover:text-foreground p-1 transition-colors">
               <X size={20} strokeWidth={2} />
             </button>
             
@@ -97,8 +97,8 @@ export function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
               <div className="w-12 h-12 mx-auto mb-4 bg-primary/20 rounded-full flex items-center justify-center border border-primary/30">
                  <User size={24} className="text-primary" />
               </div>
-              <h3 className="text-2xl font-bold text-white tracking-tight">{authMode === "login" ? "Welcome back" : "Create an account"}</h3>
-              <p className="text-sm text-slate-400 mt-2">
+              <h3 className="text-2xl font-bold text-foreground tracking-tight">{authMode === "login" ? "Welcome back" : "Create an account"}</h3>
+              <p className="text-sm text-textMuted mt-2">
                 {authMode === "login" ? "Enter your details to sign in." : "Start your journey with Nexora OS."}
               </p>
             </div>
@@ -117,36 +117,36 @@ export function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
 
             <form onSubmit={handleAuth} className="space-y-4">
               <div>
-                <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Email</label>
+                <label className="block text-xs font-semibold text-textMuted uppercase tracking-wider mb-2">Email</label>
                 <input 
                   type="email" 
                   value={email} 
                   onChange={(e) => setEmail(e.target.value)} 
                   required 
                   disabled={isLoading}
-                  className="w-full bg-black/30 border border-white/10 rounded-xl py-3 px-4 text-sm text-white focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition disabled:opacity-50"
+                  className="w-full bg-black/30 border border-borders rounded-xl py-3 px-4 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition disabled:opacity-50"
                   placeholder="name@company.com"
                 />
               </div>
               <div>
-                <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Password</label>
+                <label className="block text-xs font-semibold text-textMuted uppercase tracking-wider mb-2">Password</label>
                 <input 
                   type="password" 
                   value={password} 
                   onChange={(e) => setPassword(e.target.value)} 
                   required 
                   disabled={isLoading}
-                  className="w-full bg-black/30 border border-white/10 rounded-xl py-3 px-4 text-sm text-white focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition disabled:opacity-50"
+                  className="w-full bg-black/30 border border-borders rounded-xl py-3 px-4 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition disabled:opacity-50"
                   placeholder="••••••••"
                 />
               </div>
               <button 
                 type="submit" 
                 disabled={isLoading}
-                className="w-full bg-primary hover:bg-accent text-white font-medium py-3 rounded-xl transition shadow-[0_0_20px_rgba(109,91,255,0.4)] mt-4 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+                className="w-full bg-primary hover:bg-accent text-foreground font-medium py-3 rounded-xl transition shadow-[0_0_20px_rgba(109,91,255,0.4)] mt-4 disabled:opacity-70 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
                 {isLoading && (
-                  <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-foreground" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
@@ -156,22 +156,22 @@ export function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
             </form>
 
             <div className="relative flex py-6 items-center">
-              <div className="flex-grow border-t border-white/10"></div>
-              <span className="flex-shrink mx-4 text-xs text-slate-500 font-medium tracking-widest uppercase">OR</span>
-              <div className="flex-grow border-t border-white/10"></div>
+              <div className="flex-grow border-t border-borders"></div>
+              <span className="flex-shrink mx-4 text-xs text-textMuted font-medium tracking-widest uppercase">OR</span>
+              <div className="flex-grow border-t border-borders"></div>
             </div>
 
             <button 
               onClick={handleGoogleLogin} 
               disabled={isLoading}
-              className="w-full bg-white/5 hover:bg-white/10 text-white text-sm font-medium py-3 rounded-xl border border-white/10 transition flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-hoverBg hover:bg-hoverBg text-foreground text-sm font-medium py-3 rounded-xl border border-borders transition flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Globe size={18} /> Continue with Google
             </button>
 
-            <div className="text-center text-sm text-slate-400 mt-8">
+            <div className="text-center text-sm text-textMuted mt-8">
               {authMode === "login" ? "Don't have an account?" : "Already have an account?"}{" "}
-              <button onClick={() => setAuthMode(authMode === "login" ? "signup" : "login")} className="text-highlight hover:text-white font-medium transition">
+              <button onClick={() => setAuthMode(authMode === "login" ? "signup" : "login")} className="text-highlight hover:text-foreground font-medium transition">
                 {authMode === "login" ? "Sign up" : "Log in"}
               </button>
             </div>

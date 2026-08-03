@@ -34,12 +34,12 @@ export function QuickUploadAction() {
       />
       <div 
         onClick={() => fileInputRef.current?.click()}
-        className="bg-[#12121A] rounded-xl border border-white/5 p-4 flex flex-col items-center justify-center gap-3 hover:bg-white/5 transition cursor-pointer group h-full"
+        className="bg-bgDarker rounded-xl border border-borders p-4 flex flex-col items-center justify-center gap-3 hover:bg-hoverBg transition cursor-pointer group h-full"
       >
         <div className="w-10 h-10 rounded-full flex items-center justify-center transition-transform group-hover:scale-110 bg-blue-500/10">
           <UploadCloud size={18} className="text-blue-400" />
         </div>
-        <span className="text-[11px] font-semibold text-slate-300 group-hover:text-white transition text-center">Upload File</span>
+        <span className="text-[11px] font-semibold text-foreground group-hover:text-foreground transition text-center">Upload File</span>
       </div>
     </>
   );

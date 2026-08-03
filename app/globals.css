@@ -3,6 +3,21 @@
 @tailwind utilities;
 
 :root {
+  /* Light Mode Variables */
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --primary: #6D5BFF;
+  --accent: #A855F7;
+  --highlight: #00E5FF;
+  --cards: #ffffff;
+  --borders: rgba(0, 0, 0, 0.1);
+  --bg-darker: #f1f5f9;
+  --text-muted: #64748b;
+  --hover-bg: rgba(0, 0, 0, 0.05);
+}
+
+.dark {
+  /* Dark Mode Variables */
   --background: #060816;
   --foreground: #f8fafc;
   --primary: #6D5BFF;
@@ -10,6 +25,9 @@
   --highlight: #00E5FF;
   --cards: #111827;
   --borders: rgba(255, 255, 255, 0.08);
+  --bg-darker: #05050A;
+  --text-muted: #94a3b8;
+  --hover-bg: rgba(255, 255, 255, 0.05);
 }
 
 body {

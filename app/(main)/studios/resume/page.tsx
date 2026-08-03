@@ -138,7 +138,7 @@ export default function ResumeMakerPage() {
   };
 
   return (
-    <div className="w-full max-w-[1600px] mx-auto text-white p-4 md:p-8 pb-32">
+    <div className="w-full max-w-[1600px] mx-auto text-foreground p-4 md:p-8 pb-32">
       <div className="mb-8">
         <div className="flex items-center gap-3 mb-2">
           <div className="w-10 h-10 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center text-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.3)]">
@@ -146,7 +146,7 @@ export default function ResumeMakerPage() {
           </div>
           <div>
             <h1 className="text-2xl font-bold">Resume Maker</h1>
-            <p className="text-slate-400 text-sm">Create, analyze, and optimize your ATS resume</p>
+            <p className="text-textMuted text-sm">Create, analyze, and optimize your ATS resume</p>
           </div>
         </div>
       </div>
@@ -156,13 +156,13 @@ export default function ResumeMakerPage() {
         <div className="flex flex-col gap-6">
           
           {/* Mode Selector */}
-          <div className="bg-[#0B0B14] p-2 rounded-2xl border border-white/5 flex gap-2">
+          <div className="bg-background p-2 rounded-2xl border border-borders flex gap-2">
             <button
               onClick={() => setActiveTab("optimize")}
               className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-sm font-medium transition-all ${
                 activeTab === "optimize" 
                   ? "bg-purple-500/10 border border-purple-500/20 text-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.1)]" 
-                  : "hover:bg-white/5 text-slate-400 border border-transparent"
+                  : "hover:bg-hoverBg text-textMuted border border-transparent"
               }`}
             >
               <FileText size={16} /> Optimize Existing
@@ -172,14 +172,14 @@ export default function ResumeMakerPage() {
               className={`flex-1 flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-sm font-medium transition-all ${
                 activeTab === "build" 
                   ? "bg-blue-500/10 border border-blue-500/20 text-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.1)]" 
-                  : "hover:bg-white/5 text-slate-400 border border-transparent"
+                  : "hover:bg-hoverBg text-textMuted border border-transparent"
               }`}
             >
               <PenTool size={16} /> Build from Scratch
             </button>
           </div>
 
-          <div className="bg-[#0B0B14] rounded-2xl border border-white/5 p-6">
+          <div className="bg-background rounded-2xl border border-borders p-6">
             <h2 className="text-lg font-semibold flex items-center gap-2 mb-4">
               <Layout size={18} className="text-purple-400" /> Choose Template
             </h2>
@@ -191,7 +191,7 @@ export default function ResumeMakerPage() {
                   className={`py-3 px-2 rounded-xl text-xs font-bold uppercase tracking-wider transition ${
                     selectedTemplate === tpl
                       ? "bg-white text-black shadow-lg"
-                      : "bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10"
+                      : "bg-hoverBg hover:bg-hoverBg text-foreground border border-borders"
                   }`}
                 >
                   {tpl}
@@ -200,12 +200,12 @@ export default function ResumeMakerPage() {
             </div>
           </div>
 
-          <div className="bg-[#0B0B14] rounded-2xl border border-white/5 p-6">
+          <div className="bg-background rounded-2xl border border-borders p-6">
             <h2 className="text-lg font-semibold flex items-center gap-2 mb-4">
               <Briefcase size={18} className="text-purple-400" /> Target Job Description
             </h2>
             <textarea
-              className="w-full h-40 bg-white/5 border border-white/10 rounded-xl p-4 text-sm text-slate-200 focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/50 resize-none"
+              className="w-full h-40 bg-hoverBg border border-borders rounded-xl p-4 text-sm text-foreground focus:outline-none focus:border-purple-500/50 focus:ring-1 focus:ring-purple-500/50 resize-none"
               placeholder="Paste the target job description here..."
               value={jobDescription}
               onChange={(e) => setJobDescription(e.target.value)}
@@ -213,7 +213,7 @@ export default function ResumeMakerPage() {
           </div>
 
           {activeTab === "optimize" ? (
-            <div className="bg-[#0B0B14] rounded-2xl border border-white/5 p-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className="bg-background rounded-2xl border border-borders p-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-lg font-semibold flex items-center gap-2">
                   <FileText size={18} className="text-blue-400" /> Current Resume
@@ -239,19 +239,19 @@ export default function ResumeMakerPage() {
                 </div>
               </div>
               <textarea
-                className="w-full h-64 bg-white/5 border border-white/10 rounded-xl p-4 text-sm text-slate-200 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 resize-none"
+                className="w-full h-64 bg-hoverBg border border-borders rounded-xl p-4 text-sm text-foreground focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 resize-none"
                 placeholder="Paste your current resume content here or upload a file (PDF/Word/TXT)..."
                 value={resumeText}
                 onChange={(e) => setResumeText(e.target.value)}
               />
             </div>
           ) : (
-            <div className="bg-[#0B0B14] rounded-2xl border border-white/5 p-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className="bg-background rounded-2xl border border-borders p-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
               <h2 className="text-lg font-semibold flex items-center gap-2 mb-4">
                 <Layout size={18} className="text-blue-400" /> Your Details & Experience
               </h2>
               <textarea
-                className="w-full h-64 bg-white/5 border border-white/10 rounded-xl p-4 text-sm text-slate-200 focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 resize-none"
+                className="w-full h-64 bg-hoverBg border border-borders rounded-xl p-4 text-sm text-foreground focus:outline-none focus:border-blue-500/50 focus:ring-1 focus:ring-blue-500/50 resize-none"
                 placeholder="List your contact info, summary, work experience, education, and skills. (e.g. John Doe, React Developer at Google for 2 years, know Tailwind and Nextjs...)"
                 value={userDetails}
                 onChange={(e) => setUserDetails(e.target.value)}
@@ -268,7 +268,7 @@ export default function ResumeMakerPage() {
           <button
             onClick={activeTab === "optimize" ? handleAnalyze : handleGenerate}
             disabled={isAnalyzing}
-            className={`w-full py-4 rounded-xl font-bold text-white transition-all flex items-center justify-center gap-2 ${
+            className={`w-full py-4 rounded-xl font-bold text-foreground transition-all flex items-center justify-center gap-2 ${
               isAnalyzing 
                 ? "bg-purple-600/50 cursor-not-allowed" 
                 : activeTab === "optimize" 
@@ -289,13 +289,13 @@ export default function ResumeMakerPage() {
         </div>
 
         {/* RESULTS COLUMN */}
-        <div className="bg-[#0B0B14] rounded-2xl border border-white/5 p-6 flex flex-col h-full min-h-[600px]">
+        <div className="bg-background rounded-2xl border border-borders p-6 flex flex-col h-full min-h-[600px]">
           <h2 className="text-lg font-semibold flex items-center gap-2 mb-6">
             <CheckCircle2 size={18} className="text-green-400" /> Result
           </h2>
 
           {!result && !isAnalyzing && (
-            <div className="flex-1 flex flex-col items-center justify-center text-center text-slate-500">
+            <div className="flex-1 flex flex-col items-center justify-center text-center text-textMuted">
               <FileText size={48} className="mb-4 opacity-50" />
               <p>Your beautiful, ATS-optimized resume will appear here.</p>
             </div>
@@ -317,11 +317,11 @@ export default function ResumeMakerPage() {
               {/* Score Section */}
               <div className={`grid gap-4 ${result.type === "optimize" ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-1"}`}>
                 {result.type === "optimize" && (
-                  <div className="flex flex-col gap-2 p-5 rounded-xl bg-[#12121A] border border-white/5">
+                  <div className="flex flex-col gap-2 p-5 rounded-xl bg-bgDarker border border-borders">
                     <div className="flex justify-between items-start">
                       <div>
-                        <h3 className="text-sm font-semibold text-slate-300 mb-1">Old ATS Score</h3>
-                        <p className="text-xs text-slate-500">Your original resume</p>
+                        <h3 className="text-sm font-semibold text-foreground mb-1">Old ATS Score</h3>
+                        <p className="text-xs text-textMuted">Your original resume</p>
                       </div>
                       <div className={`px-3 py-1.5 rounded-lg border text-xl font-black ${getScoreColor(result.oldScore || 0)}`}>
                         {result.oldScore}
@@ -330,13 +330,13 @@ export default function ResumeMakerPage() {
                   </div>
                 )}
 
-                <div className="flex flex-col gap-2 p-5 rounded-xl bg-[#12121A] border border-white/5 relative overflow-hidden group">
+                <div className="flex flex-col gap-2 p-5 rounded-xl bg-bgDarker border border-borders relative overflow-hidden group">
                   <div className={`absolute inset-0 bg-gradient-to-r opacity-50 group-hover:opacity-100 transition duration-500 ${
                     result.type === "optimize" ? "from-purple-500/10 to-blue-500/10" : "from-blue-500/10 to-cyan-500/10"
                   }`} />
                   <div className="flex justify-between items-start relative z-10">
                     <div>
-                      <h3 className="text-sm font-semibold text-white mb-1 flex items-center gap-2">
+                      <h3 className="text-sm font-semibold text-foreground mb-1 flex items-center gap-2">
                         <Sparkles size={14} className={result.type === "optimize" ? "text-purple-400" : "text-blue-400"} /> ATS Score
                       </h3>
                       <p className={`text-xs ${result.type === "optimize" ? "text-purple-300/70" : "text-blue-300/70"}`}>Optimized for keywords</p>
@@ -360,7 +360,7 @@ export default function ResumeMakerPage() {
                   </h3>
                   <ul className="space-y-2">
                     {result.issues.map((issue, idx) => (
-                      <li key={idx} className="text-xs text-slate-300 flex items-start gap-2">
+                      <li key={idx} className="text-xs text-foreground flex items-start gap-2">
                         <ChevronRight size={14} className="text-orange-500 shrink-0 mt-0.5" />
                         {issue}
                       </li>
