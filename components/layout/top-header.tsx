@@ -66,7 +66,7 @@ export function TopHeader({ onOpenCommandPalette, onOpenAuth }: { onOpenCommandP
         
         <button className="text-textMuted hover:text-foreground transition relative">
           <Bell size={20} />
-          <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center text-[9px] font-bold text-white border-2 border-background">
+          <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-red-500 rounded-full flex items-center justify-center text-[9px] font-bold text-foreground border-2 border-background">
             2
           </span>
         </button>

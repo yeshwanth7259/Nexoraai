@@ -149,7 +149,7 @@ export default function AssistantPage() {
             <div className="w-20 h-20 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center mb-8 shadow-[0_0_40px_rgba(109,91,255,0.4)] animate-in zoom-in duration-500">
               <Sparkles size={32} className="text-white" />
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold text-white mb-4 animate-in fade-in slide-in-from-bottom-2">
+            <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4 animate-in fade-in slide-in-from-bottom-2">
               How can I help you build today?
             </h1>
             <p className="text-textMuted max-w-lg mb-10 text-lg animate-in fade-in slide-in-from-bottom-3">
@@ -171,7 +171,7 @@ export default function AssistantPage() {
                 className={`mb-8 flex flex-col ${m.role === "user" ? "items-end" : "items-start"}`}
               >
                 {m.role === "user" ? (
-                  <div className="max-w-[85%] bg-primary/20 border border-primary/30 rounded-2xl px-5 py-3.5 text-[15px] text-white leading-relaxed shadow-sm backdrop-blur-md">
+                  <div className="max-w-[85%] bg-primary/20 border border-primary/30 rounded-2xl px-5 py-3.5 text-[15px] text-foreground leading-relaxed shadow-sm backdrop-blur-md">
                     {m.content}
                   </div>
                 ) : (
@@ -191,7 +191,7 @@ export default function AssistantPage() {
                                   <span>{match[1]}</span>
                                   <button 
                                     onClick={() => navigator.clipboard.writeText(String(children).replace(/\n$/, ''))}
-                                    className="hover:text-white transition-colors flex items-center gap-1.5"
+                                    className="hover:text-foreground transition-colors flex items-center gap-1.5"
                                   >
                                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
                                     Copy
@@ -214,9 +214,9 @@ export default function AssistantPage() {
                             )
                           },
                           p: ({children}) => <p className="mb-4 last:mb-0 leading-relaxed text-foreground">{children}</p>,
-                          h1: ({children}) => <h1 className="text-2xl font-bold mb-4 mt-6 text-white">{children}</h1>,
-                          h2: ({children}) => <h2 className="text-xl font-bold mb-3 mt-5 text-white">{children}</h2>,
-                          h3: ({children}) => <h3 className="text-lg font-bold mb-3 mt-4 text-white">{children}</h3>,
+                          h1: ({children}) => <h1 className="text-2xl font-bold mb-4 mt-6 text-foreground">{children}</h1>,
+                          h2: ({children}) => <h2 className="text-xl font-bold mb-3 mt-5 text-foreground">{children}</h2>,
+                          h3: ({children}) => <h3 className="text-lg font-bold mb-3 mt-4 text-foreground">{children}</h3>,
                           ul: ({children}) => <ul className="list-disc pl-6 mb-4 space-y-2 text-foreground">{children}</ul>,
                           ol: ({children}) => <ol className="list-decimal pl-6 mb-4 space-y-2 text-foreground">{children}</ol>,
                           li: ({children}) => <li className="leading-relaxed">{children}</li>,
@@ -295,7 +295,7 @@ export default function AssistantPage() {
                 exit={{ opacity: 0, height: 0 }}
                 className="px-2"
               >
-                <div className="relative inline-flex items-center gap-3 bg-white/5 border border-borders rounded-xl p-2 pr-4 backdrop-blur-md">
+                <div className="relative inline-flex items-center gap-3 bg-hoverBg border border-borders rounded-xl p-2 pr-4 backdrop-blur-md">
                   <button 
                     type="button"
                     onClick={() => setAttachedFile(null)}
@@ -319,7 +319,7 @@ export default function AssistantPage() {
                   )}
                   
                   <div className="flex flex-col">
-                    <span className="text-[12px] font-medium text-white max-w-[150px] truncate">
+                    <span className="text-[12px] font-medium text-foreground max-w-[150px] truncate">
                       {attachedFile.name}
                     </span>
                     <span className="text-[10px] text-textMuted">
@@ -361,10 +361,10 @@ export default function AssistantPage() {
                 }
               }}
               placeholder="Ask Nexora to build, design, or analyze anything..."
-              className="flex-1 max-h-40 min-h-[44px] bg-transparent border-none text-white focus:ring-0 resize-none px-3 py-3 focus:outline-none placeholder:text-textMuted"
+              className="flex-1 max-h-40 min-h-[44px] bg-transparent border-none text-foreground focus:ring-0 resize-none px-3 py-3 focus:outline-none placeholder:text-textMuted"
               rows={1}
             />
-            <button type="button" className="p-3 text-textMuted hover:text-white hover:bg-white/5 rounded-xl transition mb-0.5">
+            <button type="button" className="p-3 text-textMuted hover:text-foreground hover:bg-hoverBg rounded-xl transition mb-0.5">
               <Mic size={20} />
             </button>
             <button 
@@ -373,7 +373,7 @@ export default function AssistantPage() {
               className={`p-3 rounded-xl transition mb-0.5 ml-1 ${
                 (input.trim().length > 0 || attachedFile) && !isLoading
                   ? "bg-primary text-white shadow-[0_0_15px_rgba(109,91,255,0.4)]" 
-                  : "bg-white/5 text-textMuted"
+                  : "bg-hoverBg text-textMuted"
               }`}
             >
               <Send size={18} />
@@ -390,9 +390,9 @@ export default function AssistantPage() {
 
 function SuggestionCard({ title, desc, icon, onClick }: { title: string, desc: string, icon: string, onClick?: () => void }) {
   return (
-    <div onClick={onClick} className="glass-panel p-4 rounded-xl border border-borders hover:border-primary/40 hover:bg-white/5 transition text-left cursor-pointer group">
+    <div onClick={onClick} className="glass-panel p-4 rounded-xl border border-borders hover:border-primary/40 hover:bg-hoverBg transition text-left cursor-pointer group">
       <div className="text-2xl mb-2">{icon}</div>
-      <h3 className="text-white font-medium group-hover:text-primary transition">{title}</h3>
+      <h3 className="text-foreground font-medium group-hover:text-primary transition">{title}</h3>
       <p className="text-sm text-textMuted">{desc}</p>
     </div>
   );

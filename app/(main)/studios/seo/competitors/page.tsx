@@ -55,7 +55,7 @@ export default function CompetitorsPage() {
           <input 
             type="text" 
             placeholder="Your Domain (e.g., nexora.ai)" 
-            className="w-full bg-bgDarker border border-blue-500/20 rounded-xl py-2.5 pl-11 pr-4 text-sm text-white outline-none focus:border-blue-500/50 transition"
+            className="w-full bg-bgDarker border border-blue-500/20 rounded-xl py-2.5 pl-11 pr-4 text-sm text-foreground outline-none focus:border-blue-500/50 transition"
             value={domain1}
             onChange={(e) => setDomain1(e.target.value)}
           />
@@ -66,7 +66,7 @@ export default function CompetitorsPage() {
           <input 
             type="text" 
             placeholder="Competitor Domain (e.g., competitorsite.com)" 
-            className="w-full bg-bgDarker border border-purple-500/20 rounded-xl py-2.5 pl-11 pr-4 text-sm text-white outline-none focus:border-purple-500/50 transition"
+            className="w-full bg-bgDarker border border-purple-500/20 rounded-xl py-2.5 pl-11 pr-4 text-sm text-foreground outline-none focus:border-purple-500/50 transition"
             value={domain2}
             onChange={(e) => setDomain2(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && handleAnalyze()}
@@ -102,12 +102,12 @@ export default function CompetitorsPage() {
              {/* DOMAIN 1 */}
              <div className="bg-background border border-blue-500/20 rounded-3xl p-6 relative overflow-hidden">
                <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 blur-3xl rounded-full"></div>
-               <h2 className="text-xl font-bold text-white mb-6 relative z-10">{data.domains.d1}</h2>
+               <h2 className="text-xl font-bold text-foreground mb-6 relative z-10">{data.domains.d1}</h2>
                
                <div className="grid grid-cols-2 gap-4 relative z-10">
                  <div className="bg-bgDarker p-4 rounded-2xl border border-borders">
                     <p className="text-xs text-textMuted mb-1 flex items-center gap-1"><BarChart3 size={12}/> Domain Authority</p>
-                    <p className="text-2xl font-bold text-white">{data.metrics.d1.authority}</p>
+                    <p className="text-2xl font-bold text-foreground">{data.metrics.d1.authority}</p>
                  </div>
                  <div className="bg-bgDarker p-4 rounded-2xl border border-borders">
                     <p className="text-xs text-textMuted mb-1 flex items-center gap-1"><Users size={12}/> Est. Traffic</p>
@@ -127,12 +127,12 @@ export default function CompetitorsPage() {
              {/* DOMAIN 2 */}
              <div className="bg-background border border-purple-500/20 rounded-3xl p-6 relative overflow-hidden">
                <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/5 blur-3xl rounded-full"></div>
-               <h2 className="text-xl font-bold text-white mb-6 relative z-10">{data.domains.d2}</h2>
+               <h2 className="text-xl font-bold text-foreground mb-6 relative z-10">{data.domains.d2}</h2>
                
                <div className="grid grid-cols-2 gap-4 relative z-10">
                  <div className="bg-bgDarker p-4 rounded-2xl border border-borders">
                     <p className="text-xs text-textMuted mb-1 flex items-center gap-1"><BarChart3 size={12}/> Domain Authority</p>
-                    <p className="text-2xl font-bold text-white">{data.metrics.d2.authority}</p>
+                    <p className="text-2xl font-bold text-foreground">{data.metrics.d2.authority}</p>
                  </div>
                  <div className="bg-bgDarker p-4 rounded-2xl border border-borders">
                     <p className="text-xs text-textMuted mb-1 flex items-center gap-1"><Users size={12}/> Est. Traffic</p>
@@ -163,12 +163,12 @@ export default function CompetitorsPage() {
                  <div className="absolute left-0 w-32 h-32 rounded-full border-4 border-blue-500/50 bg-blue-500/10 flex items-center justify-center -translate-x-4 mix-blend-screen"></div>
                  <div className="absolute right-0 w-32 h-32 rounded-full border-4 border-purple-500/50 bg-purple-500/10 flex items-center justify-center translate-x-4 mix-blend-screen"></div>
                  <div className="absolute inset-0 flex items-center justify-center z-10">
-                   <span className="text-xl font-bold text-white drop-shadow-md">{data.overlap.percentage}%</span>
+                   <span className="text-xl font-bold text-foreground drop-shadow-md">{data.overlap.percentage}%</span>
                  </div>
                </div>
 
                <p className="text-sm text-textMuted">
-                 You share <span className="font-bold text-white">{formatNumber(data.overlap.shared)}</span> keywords with this competitor.
+                 You share <span className="font-bold text-foreground">{formatNumber(data.overlap.shared)}</span> keywords with this competitor.
                </p>
             </div>
 
@@ -176,7 +176,7 @@ export default function CompetitorsPage() {
             <div className="lg:col-span-2 bg-background border border-borders rounded-3xl p-6">
               <div className="flex items-center justify-between mb-6">
                <h3 className="text-lg font-semibold flex items-center gap-2"><TrendingDown size={18} className="text-orange-400"/> Content Gaps</h3>
-               <button className="text-xs font-medium text-primary hover:text-white transition">View All Gaps</button>
+               <button className="text-xs font-medium text-primary hover:text-foreground transition">View All Gaps</button>
               </div>
               <p className="text-xs text-textMuted mb-4">Keywords they rank for, but you don't. (Opportunities for new content)</p>
 
@@ -199,7 +199,7 @@ export default function CompetitorsPage() {
                         <td className="py-3 text-center text-textMuted">{row.d1Position}</td>
                         <td className="py-3 text-right text-textMuted">{formatNumber(row.volume)}</td>
                         <td className="py-3 text-right">
-                           <button className="px-3 py-1 bg-white/5 hover:bg-white/10 rounded-md text-xs font-medium transition flex items-center gap-1 ml-auto">
+                           <button className="px-3 py-1 bg-hoverBg hover:bg-hoverBg rounded-md text-xs font-medium transition flex items-center gap-1 ml-auto">
                              <Plus size={12} /> Add to Plan
                            </button>
                         </td>

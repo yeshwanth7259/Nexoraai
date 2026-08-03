@@ -46,7 +46,7 @@ export default function ContentOptimizerPage() {
           <input 
             type="text" 
             placeholder="Target Keyword (e.g., 'nextjs seo guide')..." 
-            className="w-full bg-bgDarker border border-borders rounded-xl py-2.5 pl-11 pr-4 text-sm text-white outline-none focus:border-green-500/50 transition"
+            className="w-full bg-bgDarker border border-borders rounded-xl py-2.5 pl-11 pr-4 text-sm text-foreground outline-none focus:border-green-500/50 transition"
             value={keyword}
             onChange={(e) => setKeyword(e.target.value)}
           />
@@ -108,7 +108,7 @@ export default function ContentOptimizerPage() {
                     <span className="text-xl font-bold">{data.score}</span>
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold text-white">Content Score</h3>
+                    <h3 className="text-lg font-bold text-foreground">Content Score</h3>
                     <p className="text-xs text-textMuted">Aim for 80+ to rank.</p>
                   </div>
                 </div>
@@ -164,7 +164,7 @@ export default function ContentOptimizerPage() {
                       <p className="text-[10px] text-textMuted uppercase tracking-wider mb-2 font-bold">Missing (Add these)</p>
                       <div className="flex flex-wrap gap-2">
                         {data.metrics.lsiMissing.map((k: string, i: number) => (
-                          <span key={i} className="px-2 py-1 bg-white/5 text-textMuted border border-borders rounded-md text-[11px] cursor-pointer hover:bg-white/10 transition">
+                          <span key={i} className="px-2 py-1 bg-hoverBg text-textMuted border border-borders rounded-md text-[11px] cursor-pointer hover:bg-hoverBg transition">
                              + {k}
                           </span>
                         ))}

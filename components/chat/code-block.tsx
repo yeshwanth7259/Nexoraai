@@ -31,7 +31,7 @@ export const CodeBlock = ({ language, value }: CodeBlockProps) => {
         <span className="font-mono uppercase tracking-wider">{language || 'text'}</span>
         <button
           onClick={handleCopy}
-          className="flex items-center gap-1.5 hover:text-white transition-colors p-1"
+          className="flex items-center gap-1.5 hover:text-foreground transition-colors p-1"
           title="Copy code"
         >
           {isCopied ? (

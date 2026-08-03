@@ -44,13 +44,13 @@ export default function SEODashboardPage() {
       
       {/* ON-PAGE ANALYZER TOOL */}
       <div className="w-full bg-background border border-borders rounded-2xl p-4 flex items-center gap-4">
-        <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-textMuted shrink-0">
+        <div className="w-10 h-10 rounded-full bg-hoverBg flex items-center justify-center text-textMuted shrink-0">
           <Search size={18} />
         </div>
         <input 
           type="text" 
           placeholder="Enter a URL to run an instant AI Audit (e.g., https://nexora.ai)..." 
-          className="flex-1 bg-transparent border-none text-[15px] outline-none text-white placeholder:text-textMuted"
+          className="flex-1 bg-transparent border-none text-[15px] outline-none text-foreground placeholder:text-textMuted"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleAnalyze()}
@@ -101,10 +101,10 @@ export default function SEODashboardPage() {
             <div className="bg-background border border-borders rounded-3xl p-6 flex items-center gap-6 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-green-500/10 blur-3xl rounded-full"></div>
               <div className="relative z-10 w-24 h-24 rounded-full border-8 border-green-500 flex items-center justify-center bg-black/20 shadow-[0_0_30px_rgba(34,197,94,0.2)]">
-                <span className="text-3xl font-bold text-white">{data.score}</span>
+                <span className="text-3xl font-bold text-foreground">{data.score}</span>
               </div>
               <div className="relative z-10">
-                <h2 className="text-xl font-bold text-white mb-1">SEO Health Score</h2>
+                <h2 className="text-xl font-bold text-foreground mb-1">SEO Health Score</h2>
                 <p className="text-sm text-textMuted mb-3">Target URL: <span className="text-foreground">{data.url}</span></p>
                 <div className="flex items-center gap-3">
                   <div className="flex flex-col">
@@ -148,7 +148,7 @@ export default function SEODashboardPage() {
                       {data.metrics.titleLength} chars
                     </span>
                   </div>
-                  <div className="p-3 bg-white/5 rounded-xl text-sm border border-borders break-all">
+                  <div className="p-3 bg-hoverBg rounded-xl text-sm border border-borders break-all">
                     {data.metrics.title || <span className="text-red-400 italic">Missing</span>}
                   </div>
                 </div>
@@ -160,7 +160,7 @@ export default function SEODashboardPage() {
                       {data.metrics.descriptionLength} chars
                     </span>
                   </div>
-                  <div className="p-3 bg-white/5 rounded-xl text-sm border border-borders text-textMuted break-all">
+                  <div className="p-3 bg-hoverBg rounded-xl text-sm border border-borders text-textMuted break-all">
                     {data.metrics.description || <span className="text-red-400 italic">Missing</span>}
                   </div>
                 </div>
@@ -262,7 +262,7 @@ function MetricCard({ title, value, icon: Icon, color }: any) {
         <Icon size={16} />
       </div>
       <div>
-        <span className="block text-xl font-bold text-white mb-0.5">{value}</span>
+        <span className="block text-xl font-bold text-foreground mb-0.5">{value}</span>
         <span className="text-[11px] text-textMuted">{title}</span>
       </div>
     </div>
@@ -280,7 +280,7 @@ function PremiumMetricCard({ title, value, desc, icon: Icon, color }: any) {
   return (
     <div className={`border rounded-2xl p-5 flex flex-col justify-between h-[120px] relative overflow-hidden group ${colorMap[color]}`}>
       <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px] flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-        <span className="text-[10px] uppercase tracking-wider font-bold text-white bg-black/60 px-2 py-1 rounded">Connect Integration</span>
+        <span className="text-[10px] uppercase tracking-wider font-bold text-foreground bg-black/60 px-2 py-1 rounded">Connect Integration</span>
       </div>
       <div className="flex justify-between items-start opacity-50">
         <Icon size={20} />

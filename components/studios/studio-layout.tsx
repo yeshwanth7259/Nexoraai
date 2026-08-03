@@ -26,13 +26,13 @@ export function StudioLayout({ title, description, placeholder, templates, icon:
           <Icon size={28} className="text-primary" />
         </div>
         <div>
-          <h1 className="text-3xl font-bold text-white">{title}</h1>
+          <h1 className="text-3xl font-bold text-foreground">{title}</h1>
           <p className="text-textMuted">{description}</p>
         </div>
       </div>
 
       <div className="mb-12">
-        <h2 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+        <h2 className="text-lg font-semibold text-foreground mb-4 flex items-center gap-2">
           <Sparkles size={18} className="text-accent" />
           What do you want to build?
         </h2>
@@ -43,14 +43,14 @@ export function StudioLayout({ title, description, placeholder, templates, icon:
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder={placeholder}
-              className="flex-1 max-h-40 min-h-[50px] bg-transparent border-none text-white focus:ring-0 resize-none px-4 py-3.5 focus:outline-none placeholder:text-textMuted text-lg"
+              className="flex-1 max-h-40 min-h-[50px] bg-transparent border-none text-foreground focus:ring-0 resize-none px-4 py-3.5 focus:outline-none placeholder:text-textMuted text-lg"
               rows={1}
             />
             <button 
               className={`p-3.5 rounded-xl transition mb-1 ml-2 ${
                 input.trim().length > 0 
                   ? "bg-primary text-white shadow-[0_0_15px_rgba(109,91,255,0.4)]" 
-                  : "bg-white/5 text-textMuted"
+                  : "bg-hoverBg text-textMuted"
               }`}
             >
               <Send size={20} />
@@ -60,15 +60,15 @@ export function StudioLayout({ title, description, placeholder, templates, icon:
       </div>
 
       <div>
-        <h2 className="text-lg font-semibold text-white mb-4">Or start from a template</h2>
+        <h2 className="text-lg font-semibold text-foreground mb-4">Or start from a template</h2>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {templates.map((template, idx) => (
             <div 
               key={idx} 
-              className="glass-panel p-5 rounded-xl border border-borders hover:border-primary/40 hover:bg-white/5 transition cursor-pointer group flex flex-col items-center justify-center text-center gap-3 h-32"
+              className="glass-panel p-5 rounded-xl border border-borders hover:border-primary/40 hover:bg-hoverBg transition cursor-pointer group flex flex-col items-center justify-center text-center gap-3 h-32"
             >
               {template.icon && <template.icon size={24} className="text-textMuted group-hover:text-primary transition" />}
-              <span className="font-medium text-textMuted group-hover:text-white transition">{template.title}</span>
+              <span className="font-medium text-textMuted group-hover:text-foreground transition">{template.title}</span>
             </div>
           ))}
         </div>

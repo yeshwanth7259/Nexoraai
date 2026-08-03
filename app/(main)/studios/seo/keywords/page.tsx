@@ -45,7 +45,7 @@ export default function KeywordResearchPage() {
       case 'commercial': return 'text-purple-400 bg-purple-500/10 border-purple-500/20';
       case 'transactional': return 'text-green-400 bg-green-500/10 border-green-500/20';
       case 'navigational': return 'text-orange-400 bg-orange-500/10 border-orange-500/20';
-      default: return 'text-textMuted bg-white/5 border-borders';
+      default: return 'text-textMuted bg-hoverBg border-borders';
     }
   };
 
@@ -54,13 +54,13 @@ export default function KeywordResearchPage() {
       
       {/* SEARCH BAR */}
       <div className="w-full bg-background border border-borders rounded-2xl p-4 flex items-center gap-4">
-        <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-textMuted shrink-0">
+        <div className="w-10 h-10 rounded-full bg-hoverBg flex items-center justify-center text-textMuted shrink-0">
           <Hash size={18} />
         </div>
         <input 
           type="text" 
           placeholder="Enter a seed keyword (e.g., 'crm software')..." 
-          className="flex-1 bg-transparent border-none text-[15px] outline-none text-white placeholder:text-textMuted"
+          className="flex-1 bg-transparent border-none text-[15px] outline-none text-foreground placeholder:text-textMuted"
           value={keyword}
           onChange={(e) => setKeyword(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleAnalyze()}
@@ -94,14 +94,14 @@ export default function KeywordResearchPage() {
               <div className="flex items-center gap-3 mb-2 text-textMuted">
                 <Search size={16} /> <span className="text-sm font-medium">Seed Keyword</span>
               </div>
-              <p className="text-2xl font-bold text-white capitalize">{data.seedKeyword}</p>
+              <p className="text-2xl font-bold text-foreground capitalize">{data.seedKeyword}</p>
             </div>
             
             <div className="bg-background border border-borders rounded-2xl p-5 flex flex-col justify-center">
               <div className="flex items-center gap-3 mb-2 text-textMuted">
                 <BarChart2 size={16} /> <span className="text-sm font-medium">Total Volume (Group)</span>
               </div>
-              <p className="text-2xl font-bold text-white">{formatNumber(data.totalVolume)}</p>
+              <p className="text-2xl font-bold text-foreground">{formatNumber(data.totalVolume)}</p>
             </div>
             
             <div className="bg-background border border-borders rounded-2xl p-5 flex flex-col justify-center relative overflow-hidden">
@@ -109,7 +109,7 @@ export default function KeywordResearchPage() {
                 <TrendingUp size={16} /> <span className="text-sm font-medium">Average Difficulty</span>
               </div>
               <div className="flex items-center gap-3">
-                 <p className="text-2xl font-bold text-white">{data.averageDifficulty}/100</p>
+                 <p className="text-2xl font-bold text-foreground">{data.averageDifficulty}/100</p>
                  <div className="flex-1 h-2 bg-white/10 rounded-full overflow-hidden">
                     <div className="h-full bg-orange-500" style={{ width: `${data.averageDifficulty}%` }}></div>
                  </div>
@@ -122,10 +122,10 @@ export default function KeywordResearchPage() {
              <div className="flex items-center justify-between mb-6">
                <h2 className="text-lg font-semibold">Generated Keyword Clusters</h2>
                <div className="flex gap-2">
-                 <button className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-textMuted transition">
+                 <button className="p-2 rounded-lg bg-hoverBg hover:bg-hoverBg text-textMuted transition">
                    <Filter size={16} />
                  </button>
-                 <button className="p-2 rounded-lg bg-white/5 hover:bg-white/10 text-textMuted transition">
+                 <button className="p-2 rounded-lg bg-hoverBg hover:bg-hoverBg text-textMuted transition">
                    <Download size={16} />
                  </button>
                </div>

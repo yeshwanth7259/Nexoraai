@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Rocket, Plus, Trash2, X, Bot, FileText, ArrowRight } from "lucide-react";
+import { Rocket, Plus, Trash2, X, Bot, FileText, ArrowRight, Folder } from "lucide-react";
 import { createWorkspaceAction, deleteWorkspaceAction } from "@/app/actions/workspaces";
 
 export function WorkspaceList({ initialWorkspaces }: { initialWorkspaces: any[] }) {
@@ -54,15 +54,13 @@ export function WorkspaceList({ initialWorkspaces }: { initialWorkspaces: any[] 
       </div>
 
       {initialWorkspaces.length === 0 ? (
-        <div className="glass-panel p-12 rounded-3xl flex flex-col items-center justify-center text-center border border-borders">
-          <div className="w-16 h-16 rounded-2xl bg-white/5 flex items-center justify-center mb-6 shadow-[inset_0_0_20px_rgba(255,255,255,0.05)]">
-            <Rocket className="text-textMuted" size={32} />
-          </div>
-          <h3 className="text-xl font-bold text-white mb-2">No workspaces found</h3>
-          <p className="text-textMuted mb-6 max-w-md">Create your first workspace to start organizing your AI agents, knowledge bases, and team context.</p>
+        <div className="flex flex-col items-center justify-center p-12 text-center border border-borders rounded-2xl bg-bgDarker">
+          <Folder size={48} className="text-textMuted mb-4" />
+          <h3 className="text-xl font-bold text-foreground mb-2">No workspaces found</h3>
+          <p className="text-textMuted mb-6 max-w-sm">Create your first workspace to start organizing your AI agents, knowledge bases, and team context.</p>
           <button 
             onClick={() => setIsModalOpen(true)}
-            className="px-6 py-3 rounded-xl bg-white/10 hover:bg-white/15 text-white font-medium transition border border-borders"
+            className="px-6 py-3 rounded-xl bg-white/10 hover:bg-white/15 text-foreground font-medium transition border border-borders"
           >
             Create Workspace
           </button>
@@ -86,8 +84,8 @@ export function WorkspaceList({ initialWorkspaces }: { initialWorkspaces: any[] 
                   </button>
                 </div>
                 
-                <h3 className="text-xl font-bold text-white mb-2 relative z-10 group-hover:text-primary transition-colors">{ws.name}</h3>
-                <p className="text-textMuted text-sm mb-6 line-clamp-2 min-h-[40px] relative z-10">
+                <h3 className="text-xl font-bold text-foreground mb-2 relative z-10 group-hover:text-primary transition-colors">{ws.name}</h3>
+                <p className="text-sm text-textMuted relative z-10 line-clamp-2 min-h-[40px]">
                   {ws.description || "No description provided for this workspace."}
                 </p>
                 
@@ -108,11 +106,11 @@ export function WorkspaceList({ initialWorkspaces }: { initialWorkspaces: any[] 
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm">
           <div className="w-full max-w-md glass-panel border border-borders rounded-2xl shadow-[0_16px_64px_rgba(0,0,0,0.5)] overflow-hidden animate-in fade-in zoom-in-95 duration-200">
-            <div className="flex items-center justify-between p-6 border-b border-borders bg-white/5">
+            <div className="flex items-center justify-between p-6 border-b border-borders bg-hoverBg">
               <h2 className="text-xl font-bold">Create New Workspace</h2>
               <button 
                 onClick={() => setIsModalOpen(false)}
-                className="p-2 rounded-full hover:bg-white/10 text-textMuted hover:text-white transition"
+                className="p-2 rounded-full hover:bg-hoverBg text-textMuted hover:text-foreground transition"
               >
                 <X size={18} />
               </button>
@@ -126,8 +124,8 @@ export function WorkspaceList({ initialWorkspaces }: { initialWorkspaces: any[] 
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full bg-background border border-borders rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-slate-600"
-                    placeholder="e.g. Marketing Team, Project Apollo..."
+                    className="w-full bg-background border border-borders rounded-xl px-4 py-3 text-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-textMuted"
+                    placeholder="E.g., Personal Blog, SaaS Startup"
                   />
                 </div>
                 <div>
@@ -135,8 +133,8 @@ export function WorkspaceList({ initialWorkspaces }: { initialWorkspaces: any[] 
                   <textarea 
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
-                    className="w-full bg-background border border-borders rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-slate-600 min-h-[100px] resize-none"
-                    placeholder="Briefly describe what this workspace is for..."
+                    className="w-full bg-background border border-borders rounded-xl px-4 py-3 text-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all placeholder:text-textMuted min-h-[100px] resize-none"
+                    placeholder="What are you building in this workspace?"
                   />
                 </div>
               </div>
@@ -144,7 +142,7 @@ export function WorkspaceList({ initialWorkspaces }: { initialWorkspaces: any[] 
                 <button 
                   type="button"
                   onClick={() => setIsModalOpen(false)}
-                  className="flex-1 py-3 px-4 rounded-xl font-medium text-white bg-white/5 hover:bg-white/10 border border-borders transition-colors"
+                  className="flex-1 py-3 px-4 rounded-xl font-medium text-white bg-hoverBg hover:bg-hoverBg border border-borders transition-colors"
                 >
                   Cancel
                 </button>

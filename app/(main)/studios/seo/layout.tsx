@@ -21,7 +21,7 @@ export default function SEOLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   return (
-    <div className="w-full max-w-[1600px] mx-auto text-white pb-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div className="w-full max-w-[1600px] mx-auto text-foreground pb-12 animate-in fade-in slide-in-from-bottom-4 duration-500">
       
       {/* SEO STUDIO HEADER & NAVIGATION */}
       <div className="flex flex-col gap-6 mb-8">
@@ -46,7 +46,7 @@ export default function SEOLayout({ children }: { children: React.ReactNode }) {
                 <div className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition whitespace-nowrap cursor-pointer ${
                   isActive 
                     ? "bg-white/10 text-white shadow-sm" 
-                    : "text-textMuted hover:text-foreground hover:bg-white/5"
+                    : "text-textMuted hover:text-foreground hover:bg-hoverBg"
                 }`}>
                   <mod.icon size={16} className={isActive ? "text-green-400" : ""} />
                   {mod.name}

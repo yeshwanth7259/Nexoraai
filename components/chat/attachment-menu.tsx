@@ -63,7 +63,7 @@ export function AttachmentMenu({ direction = "up", onFileSelect, onAction }: Att
       <button 
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className={`w-10 h-10 rounded-full flex items-center justify-center transition shrink-0 ${isOpen ? 'bg-white/10 text-white' : 'text-textMuted hover:text-white hover:bg-white/10 outline-none focus:ring-2 focus:ring-white/20'}`}
+        className={`w-10 h-10 rounded-full flex items-center justify-center transition shrink-0 ${isOpen ? 'bg-white/10 text-white' : 'text-textMuted hover:text-foreground hover:bg-hoverBg outline-none focus:ring-2 focus:ring-white/20'}`}
       >
         <Plus size={22} className={`transition-transform duration-200 ${isOpen ? 'rotate-45' : ''}`} />
       </button>
@@ -144,10 +144,10 @@ export function AttachmentMenu({ direction = "up", onFileSelect, onAction }: Att
 
 function MenuItem({ icon: Icon, title, badge, onClick, rightIcon: RightIcon }: any) {
   return (
-    <div onClick={onClick} className="flex items-center justify-between group cursor-pointer hover:bg-white/10 py-2.5 px-2.5 rounded-lg transition-colors">
+    <div onClick={onClick} className="flex items-center justify-between group cursor-pointer hover:bg-hoverBg py-2.5 px-2.5 rounded-lg transition-colors">
       <div className="flex items-center gap-3">
-        <Icon size={18} className="text-textMuted group-hover:text-white transition-colors shrink-0" strokeWidth={1.75} />
-        <span className="text-[14px] text-foreground group-hover:text-white transition-colors">
+        <Icon size={18} className="text-textMuted group-hover:text-foreground transition-colors shrink-0" strokeWidth={1.75} />
+        <span className="text-[14px] text-foreground group-hover:text-foreground transition-colors">
           {title}
         </span>
       </div>
@@ -157,7 +157,7 @@ function MenuItem({ icon: Icon, title, badge, onClick, rightIcon: RightIcon }: a
             {badge}
           </span>
         )}
-        {RightIcon && <RightIcon size={16} className="text-textMuted group-hover:text-white transition-colors" />}
+        {RightIcon && <RightIcon size={16} className="text-textMuted group-hover:text-foreground transition-colors" />}
       </div>
     </div>
   );

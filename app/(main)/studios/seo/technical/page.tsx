@@ -48,13 +48,13 @@ export default function TechnicalSEOPage() {
       
       {/* ANALYZER TOOL */}
       <div className="w-full bg-background border border-borders rounded-2xl p-4 flex items-center gap-4">
-        <div className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center text-textMuted shrink-0">
+        <div className="w-10 h-10 rounded-full bg-hoverBg flex items-center justify-center text-textMuted shrink-0">
           <Terminal size={18} />
         </div>
         <input 
           type="text" 
           placeholder="Enter a URL for a Deep Technical Audit (e.g., https://nexora.ai)..." 
-          className="flex-1 bg-transparent border-none text-[15px] outline-none text-white placeholder:text-textMuted"
+          className="flex-1 bg-transparent border-none text-[15px] outline-none text-foreground placeholder:text-textMuted"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleAnalyze()}

@@ -124,7 +124,7 @@ export function ChatInterface({
               className={`mb-8 flex flex-col ${m.role === "user" ? "items-end" : "items-start"}`}
             >
               {m.role === "user" ? (
-                <div className="max-w-[85%] bg-primary/20 border border-primary/30 rounded-2xl px-5 py-3.5 text-[15px] text-white leading-relaxed shadow-sm backdrop-blur-md">
+                <div className="max-w-[85%] bg-primary/20 border border-primary/30 rounded-2xl px-5 py-3.5 text-[15px] text-foreground leading-relaxed shadow-sm backdrop-blur-md">
                   <div className="prose prose-invert max-w-none">
                     <ReactMarkdown 
                       remarkPlugins={[remarkGfm]}
@@ -224,7 +224,7 @@ export function ChatInterface({
                 exit={{ opacity: 0, height: 0 }}
                 className="px-4 pt-2"
               >
-                <div className="relative inline-flex items-center gap-3 bg-white/5 border border-borders rounded-xl p-2 pr-4">
+                <div className="relative inline-flex items-center gap-3 bg-hoverBg border border-borders rounded-xl p-2 pr-4">
                   <button 
                     onClick={() => setAttachedFile(null)}
                     className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-slate-700 hover:bg-red-500 text-white flex items-center justify-center transition z-10"
@@ -247,7 +247,7 @@ export function ChatInterface({
                   )}
                   
                   <div className="flex flex-col">
-                    <span className="text-[12px] font-medium text-white max-w-[150px] truncate">
+                    <span className="text-[12px] font-medium text-foreground max-w-[150px] truncate">
                       {attachedFile.name}
                     </span>
                     <span className="text-[10px] text-textMuted">
@@ -277,10 +277,10 @@ export function ChatInterface({
                 }
               }}
               placeholder="Reply to Nexora..."
-              className="flex-1 bg-transparent border-none outline-none text-white placeholder-slate-500 text-[15px] py-3 px-2"
+              className="flex-1 bg-transparent border-none outline-none text-foreground placeholder-textMuted text-[15px] py-3 px-2"
             />
             
-            <button className="w-10 h-10 rounded-full flex items-center justify-center text-textMuted hover:text-white hover:bg-white/10 transition shrink-0">
+            <button className="w-10 h-10 rounded-full flex items-center justify-center text-textMuted hover:text-foreground hover:bg-hoverBg transition shrink-0">
               <Mic size={18} />
             </button>
             

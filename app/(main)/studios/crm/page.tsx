@@ -10,7 +10,7 @@ export default function CRMStudioPage() {
   const [activeTab, setActiveTab] = useState("kanban");
 
   return (
-    <div className="w-full h-full max-w-[1600px] mx-auto text-white pb-12 flex flex-col animate-in fade-in slide-in-from-bottom-4 duration-500">
+    <div className="w-full h-full max-w-[1600px] mx-auto text-foreground pb-12 flex flex-col animate-in fade-in slide-in-from-bottom-4 duration-500">
       
       {/* HEADER */}
       <div className="flex flex-col gap-6 mb-8">
@@ -68,13 +68,13 @@ export default function CRMStudioPage() {
           <div className="flex bg-hoverBg rounded-lg p-1">
             <button 
               onClick={() => setActiveTab('kanban')}
-              className={`px-4 py-1.5 rounded-md text-xs font-medium transition ${activeTab === 'kanban' ? 'bg-white/10 text-white' : 'text-textMuted hover:text-white'}`}
+              className={`px-4 py-1.5 rounded-md text-xs font-medium transition ${activeTab === 'kanban' ? 'bg-white/10 text-white' : 'text-textMuted hover:text-foreground'}`}
             >
               Kanban Board
             </button>
             <button 
               onClick={() => setActiveTab('list')}
-              className={`px-4 py-1.5 rounded-md text-xs font-medium transition ${activeTab === 'list' ? 'bg-white/10 text-white' : 'text-textMuted hover:text-white'}`}
+              className={`px-4 py-1.5 rounded-md text-xs font-medium transition ${activeTab === 'list' ? 'bg-white/10 text-white' : 'text-textMuted hover:text-foreground'}`}
             >
               List View
             </button>
@@ -83,9 +83,9 @@ export default function CRMStudioPage() {
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2 bg-hoverBg border border-borders rounded-lg px-3 py-1.5">
               <Search size={14} className="text-textMuted" />
-              <input type="text" placeholder="Search deals..." className="bg-transparent border-none text-sm outline-none w-48 placeholder:text-textMuted text-white" />
+              <input type="text" placeholder="Search deals..." className="bg-transparent border-none text-sm outline-none w-48 placeholder:text-textMuted text-foreground" />
             </div>
-            <button className="p-2 bg-hoverBg border border-borders rounded-lg text-textMuted hover:text-white transition">
+            <button className="p-2 bg-hoverBg border border-borders rounded-lg text-textMuted hover:text-foreground transition">
               <Filter size={16} />
             </button>
           </div>
@@ -158,18 +158,18 @@ function KanbanCard({ company, contact, amount, tags, won }: any) {
     <div className={`bg-bgDarker border rounded-xl p-4 cursor-grab hover:border-borders transition shadow-lg ${won ? 'border-green-500/20' : 'border-borders'}`}>
       <div className="flex justify-between items-start mb-3">
         <h4 className="font-semibold text-[15px]">{company}</h4>
-        <button className="text-textMuted hover:text-white"><MoreHorizontal size={16} /></button>
+        <button className="text-textMuted hover:text-foreground"><MoreHorizontal size={16} /></button>
       </div>
       
       <p className="text-xs text-textMuted flex items-center gap-2 mb-4">
-        <span className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center font-bold text-white text-[10px]">{contact.charAt(0)}</span>
+        <span className="w-6 h-6 rounded-full bg-white/10 flex items-center justify-center font-bold text-foreground text-[10px]">{contact.charAt(0)}</span>
         {contact}
       </p>
 
       {tags.length > 0 && (
         <div className="flex flex-wrap gap-2 mb-4">
           {tags.map((tag: string, i: number) => (
-            <span key={i} className="px-2 py-0.5 rounded text-[10px] font-medium bg-white/5 text-textMuted">
+            <span key={i} className="px-2 py-0.5 rounded text-[10px] font-medium bg-hoverBg text-textMuted">
               {tag}
             </span>
           ))}
@@ -179,8 +179,8 @@ function KanbanCard({ company, contact, amount, tags, won }: any) {
       <div className="flex items-center justify-between mt-2 pt-3 border-t border-borders">
         <span className="font-bold text-sm text-foreground">{amount}</span>
         <div className="flex items-center gap-2 text-textMuted">
-          <button className="hover:text-white transition"><Mail size={14} /></button>
-          <button className="hover:text-white transition"><Calendar size={14} /></button>
+          <button className="hover:text-foreground transition"><Mail size={14} /></button>
+          <button className="hover:text-foreground transition"><Calendar size={14} /></button>
         </div>
       </div>
     </div>

@@ -66,10 +66,10 @@ export function CommandPalette({ isOpen, onClose }: { isOpen: boolean; onClose: 
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 placeholder="Type a command or search..."
-                className="flex-1 bg-transparent border-none outline-none text-white text-lg placeholder-slate-500"
+                className="flex-1 bg-transparent border-none outline-none text-foreground text-lg placeholder-slate-500"
               />
               <div className="flex items-center gap-1">
-                 <kbd className="bg-white/5 border border-borders rounded px-1.5 py-0.5 text-xs text-textMuted">ESC</kbd>
+                 <kbd className="bg-hoverBg border border-borders rounded px-1.5 py-0.5 text-xs text-textMuted">ESC</kbd>
               </div>
             </div>
             
@@ -84,9 +84,9 @@ export function CommandPalette({ isOpen, onClose }: { isOpen: boolean; onClose: 
                     action.action();
                     onClose();
                   }}
-                  className="w-full flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-white/5 text-textMuted hover:text-white transition group text-left"
+                  className="w-full flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-hoverBg text-textMuted hover:text-foreground transition group text-left"
                 >
-                  <div className="w-8 h-8 rounded-lg bg-white/5 flex items-center justify-center group-hover:bg-primary/20 group-hover:text-primary transition">
+                  <div className="w-8 h-8 rounded-lg bg-hoverBg flex items-center justify-center group-hover:bg-primary/20 group-hover:text-primary transition">
                     <action.icon size={16} />
                   </div>
                   <span className="font-medium text-[15px]">{action.label}</span>
