@@ -4,16 +4,16 @@
 
 :root {
   /* Light Mode Variables */
-  --background: #f8fafc;
-  --foreground: #0f172a;
+  --background: #ffffff;
+  --foreground: #09090b;
   --primary: #6D5BFF;
   --accent: #A855F7;
   --highlight: #00E5FF;
   --cards: #ffffff;
-  --borders: rgba(0, 0, 0, 0.1);
-  --bg-darker: #f1f5f9;
-  --text-muted: #64748b;
-  --hover-bg: rgba(0, 0, 0, 0.05);
+  --borders: #e4e4e7;
+  --bg-darker: #f4f4f5;
+  --text-muted: #71717a;
+  --hover-bg: #f4f4f5;
 }
 
 .dark {
@@ -58,10 +58,14 @@ body {
 
 /* Glassmorphism utility */
 .glass-panel {
-  background: rgba(17, 24, 39, 0.7);
+  background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--borders);
+}
+
+.dark .glass-panel {
+  background: rgba(17, 24, 39, 0.7);
 }
 
 /* Aurora Background */

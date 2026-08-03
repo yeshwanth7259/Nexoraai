@@ -39,7 +39,7 @@ export default async function HomePage() {
         <div className="lg:col-span-9 flex flex-col gap-6">
           
           {/* HERO SECTION */}
-          <div className="relative w-full min-h-[300px] md:min-h-[360px] rounded-[2rem] border border-borders bg-gradient-to-br from-[#0B0B14] to-[#12121A] p-6 sm:p-8 md:p-10 flex flex-col justify-between shadow-2xl">
+          <div className="relative w-full min-h-[300px] md:min-h-[360px] rounded-[2rem] border border-borders bg-gradient-to-br from-blue-500/10 to-purple-500/10 dark:from-[#0B0B14] dark:to-[#12121A] p-6 sm:p-8 md:p-10 flex flex-col justify-between shadow-2xl">
             {/* Background Glows & Graphics */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden rounded-[2rem]">
               <div className="absolute top-0 right-0 w-[600px] h-full transform translate-x-10 md:translate-x-0">
@@ -66,7 +66,7 @@ export default async function HomePage() {
             </div>
 
             <div className="relative z-10 max-w-xl">
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-3 tracking-tight">{greeting}, <br className="block sm:hidden" /><span className="capitalize text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-400">{firstName}</span>! <span className="animate-wave inline-block origin-bottom-right">👋</span></h1>
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-3 tracking-tight">{greeting}, <br className="block sm:hidden" /><span className="capitalize text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent dark:from-white dark:to-slate-400">{firstName}</span>! <span className="animate-wave inline-block origin-bottom-right">👋</span></h1>
               <p className="text-textMuted text-[15px] leading-relaxed max-w-md mb-8">
                 Welcome to Nexora AI OS. Build, grow & manage your digital universe with the power of artificial intelligence.
               </p>
@@ -197,7 +197,7 @@ export default async function HomePage() {
         <div className="lg:col-span-3 flex flex-col gap-6">
           
           {/* AI ASSISTANT PROMO */}
-          <div className="bg-gradient-to-b from-[#1A1438] to-[#0B0B14] rounded-[2rem] border border-purple-500/30 p-6 md:p-8 relative overflow-hidden shadow-[0_10px_40px_-10px_rgba(109,91,255,0.3)]">
+          <div className="bg-gradient-to-b from-primary/10 to-background dark:from-[#1A1438] dark:to-[#0B0B14] rounded-[2rem] border border-primary/20 dark:border-purple-500/30 p-6 md:p-8 relative overflow-hidden shadow-[0_10px_40px_-10px_rgba(109,91,255,0.15)] dark:shadow-[0_10px_40px_-10px_rgba(109,91,255,0.3)]">
             <div className="absolute -top-10 -right-10 w-32 h-32 bg-primary/30 rounded-full blur-[40px]"></div>
             <div className="flex items-center justify-between mb-8 relative z-10">
               <div className="flex items-center gap-2">

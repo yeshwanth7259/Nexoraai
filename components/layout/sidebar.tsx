@@ -23,10 +23,10 @@ export function Sidebar({ onOpenAuth, workspaces = [] }: { onOpenAuth?: () => vo
       <Link href={href} className="block w-full">
         <div className={`flex items-center gap-3 px-4 py-3 rounded-xl cursor-pointer transition-all duration-200 ${
           isActive 
-            ? "bg-gradient-to-r from-primary/80 to-primary/40 text-foreground shadow-[0_0_15px_rgba(109,91,255,0.3)]" 
+            ? "bg-gradient-to-r from-primary to-accent text-white shadow-[0_0_15px_rgba(109,91,255,0.3)]" 
             : "text-textMuted hover:text-foreground hover:bg-hoverBg"
         }`}>
-          <Icon size={18} strokeWidth={isActive ? 2.5 : 2} className={isActive ? "text-foreground" : ""} />
+          <Icon size={18} strokeWidth={isActive ? 2.5 : 2} className={isActive ? "text-white" : ""} />
           <span className={`text-[14px] ${isActive ? "font-semibold" : "font-medium"}`}>{label}</span>
         </div>
       </Link>
