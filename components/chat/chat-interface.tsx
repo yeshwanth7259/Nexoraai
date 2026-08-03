@@ -131,16 +131,16 @@ export function ChatInterface({
                   </div>
                 </div>
               ) : (
-                <div className="flex gap-4 max-w-full w-full group">
+                <div className="flex gap-3 md:gap-4 max-w-full w-full group">
                   <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center shrink-0 mt-1 shadow-[0_0_10px_rgba(109,91,255,0.5)]">
                     <Sparkles size={16} className="text-white" />
                   </div>
-                  <div className="flex-1 pt-1 text-[15px] text-slate-200 leading-relaxed whitespace-pre-wrap">
-                  <div className="prose prose-invert max-w-none prose-img:rounded-xl prose-img:shadow-lg">
-                    <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                      {m.content}
-                    </ReactMarkdown>
-                  </div>
+                  <div className="flex-1 min-w-0 pt-1 text-[15px] text-slate-200 leading-relaxed">
+                    <div className="prose prose-invert max-w-none prose-p:leading-relaxed prose-pre:max-w-full prose-img:rounded-xl prose-img:shadow-lg break-words">
+                      <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                        {m.content}
+                      </ReactMarkdown>
+                    </div>
                   </div>
                 </div>
               )}
@@ -164,7 +164,7 @@ export function ChatInterface({
       <motion.div 
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        className="absolute bottom-10 left-0 right-0 flex justify-center px-4 z-40"
+        className="absolute bottom-4 md:bottom-10 left-0 right-0 flex justify-center px-4 z-40"
       >
         <div className="w-full max-w-3xl glass-panel rounded-[2rem] p-2 flex flex-col gap-2 shadow-[0_20px_60px_-15px_rgba(109,91,255,0.3)] focus-within:border-highlight/50 bg-[#060816]/60 backdrop-blur-xl">
           
