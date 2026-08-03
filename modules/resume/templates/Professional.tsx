@@ -29,11 +29,9 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   contactInfo: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 10,
     color: '#64748b',
     fontSize: 9,
+    lineHeight: 1.4,
   },
   section: {
     marginBottom: 15,
@@ -106,18 +104,15 @@ export const ProfessionalTemplate = ({ data }: Props) => {
         <View style={styles.header}>
           <Text style={styles.name}>{data?.personalInfo?.name || 'Name'}</Text>
           <Text style={styles.title}>{data?.personalInfo?.title || 'Title'}</Text>
-          <View style={styles.contactInfo}>
-            <Text>{data?.personalInfo?.email}</Text>
-            <Text>•</Text>
-            <Text>{data?.personalInfo?.phone}</Text>
-            <Text>•</Text>
-            <Text>{data?.personalInfo?.location}</Text>
-            {(data?.personalInfo?.links || []).map((link, i) => (
-              <React.Fragment key={i}>
-                <Text>•</Text>
-                <Text>{link}</Text>
-              </React.Fragment>
-            ))}
+          <View>
+            <Text style={styles.contactInfo}>
+              {[
+                data?.personalInfo?.email,
+                data?.personalInfo?.phone,
+                data?.personalInfo?.location,
+                ...(data?.personalInfo?.links || [])
+              ].filter(Boolean).join('   •   ')}
+            </Text>
           </View>
         </View>
 
@@ -134,15 +129,15 @@ export const ProfessionalTemplate = ({ data }: Props) => {
             <View key={idx} style={styles.job}>
               <View style={styles.jobHeader}>
                 <View>
-                  <Text style={styles.role}>{job?.role}</Text>
-                  <Text style={styles.company}>{job?.company}</Text>
+                  <Text style={styles.role}>{job?.role || ''}</Text>
+                  <Text style={styles.company}>{job?.company || ''}</Text>
                 </View>
-                <Text style={styles.duration}>{job?.duration}</Text>
+                <Text style={styles.duration}>{job?.duration || ''}</Text>
               </View>
               {(job?.description || []).map((desc, dIdx) => (
                 <View key={dIdx} style={styles.bulletPoint}>
                   <Text style={styles.bullet}>•</Text>
-                  <Text>{desc}</Text>
+                  <Text style={{ flex: 1, lineHeight: 1.4 }}>{desc || ''}</Text>
                 </View>
               ))}
             </View>
@@ -156,9 +151,9 @@ export const ProfessionalTemplate = ({ data }: Props) => {
             {data.projects.map((proj, idx) => (
               <View key={idx} style={styles.job}>
                 <View style={styles.jobHeader}>
-                  <Text style={styles.role}>{proj?.name}</Text>
+                  <Text style={styles.role}>{proj?.name || ''}</Text>
                 </View>
-                <Text style={styles.summary}>{proj?.description}</Text>
+                <Text style={styles.summary}>{proj?.description || ''}</Text>
                 <Text style={styles.skillsList}><Text style={{fontWeight: 'bold'}}>Tech Stack: </Text>{(proj?.technologies || []).join(', ')}</Text>
               </View>
             ))}
@@ -170,7 +165,7 @@ export const ProfessionalTemplate = ({ data }: Props) => {
           <Text style={styles.sectionTitle}>Technical Skills</Text>
           {(data?.skills || []).map((skill, idx) => (
             <View key={idx} style={{ flexDirection: 'row', marginBottom: 2 }}>
-              <Text style={{ fontWeight: 'bold', width: 100 }}>{skill?.category}:</Text>
+              <Text style={{ fontWeight: 'bold', width: 100 }}>{skill?.category || ''}:</Text>
               <Text style={{ flex: 1 }}>{(skill?.items || []).join(', ')}</Text>
             </View>
           ))}
@@ -182,10 +177,10 @@ export const ProfessionalTemplate = ({ data }: Props) => {
           {(data?.education || []).map((edu, idx) => (
             <View key={idx} style={styles.educationItem}>
               <View>
-                <Text style={styles.degree}>{edu?.degree}</Text>
-                <Text style={styles.company}>{edu?.school}</Text>
+                <Text style={styles.degree}>{edu?.degree || ''}</Text>
+                <Text style={styles.company}>{edu?.school || ''}</Text>
               </View>
-              <Text style={styles.duration}>{edu?.year}</Text>
+              <Text style={styles.duration}>{edu?.year || ''}</Text>
             </View>
           ))}
         </View>
