@@ -86,11 +86,11 @@ const styles = StyleSheet.create({
   },
   bulletPoint: {
     flexDirection: 'row',
-    marginBottom: 3,
-    paddingLeft: 10,
+    marginBottom: 4,
+    paddingLeft: 12,
   },
   bullet: {
-    width: 10,
+    width: 12,
     color: '#94a3b8',
   },
   skillCategory: {
@@ -132,18 +132,18 @@ export const ModernTemplate = ({ data }: Props) => {
           <Text style={styles.title}>{data?.personalInfo?.title || 'Title'}</Text>
           
           <View style={{ marginTop: 10 }}>
-            <Text style={styles.contactItem}>{data?.personalInfo?.email}</Text>
-            <Text style={styles.contactItem}>{data?.personalInfo?.phone}</Text>
-            <Text style={styles.contactItem}>{data?.personalInfo?.location}</Text>
+            <Text style={styles.contactItem}>{data?.personalInfo?.email || ''}</Text>
+            <Text style={styles.contactItem}>{data?.personalInfo?.phone || ''}</Text>
+            <Text style={styles.contactItem}>{data?.personalInfo?.location || ''}</Text>
             {(data?.personalInfo?.links || []).map((link, i) => (
-              <Text key={i} style={styles.contactItem}>{link}</Text>
+              <Text key={i} style={styles.contactItem}>{link || ''}</Text>
             ))}
           </View>
 
           <Text style={styles.leftSectionTitle}>Skills</Text>
           {(data?.skills || []).map((skill, idx) => (
             <View key={idx}>
-              <Text style={styles.skillCategory}>{skill?.category}</Text>
+              <Text style={styles.skillCategory}>{skill?.category || ''}</Text>
               <Text style={styles.skillItems}>{(skill?.items || []).join(', ')}</Text>
             </View>
           ))}
@@ -151,9 +151,9 @@ export const ModernTemplate = ({ data }: Props) => {
           <Text style={styles.leftSectionTitle}>Education</Text>
           {(data?.education || []).map((edu, idx) => (
             <View key={idx} style={styles.educationItem}>
-              <Text style={styles.degree}>{edu?.degree}</Text>
-              <Text style={styles.school}>{edu?.school}</Text>
-              <Text style={styles.school}>{edu?.year}</Text>
+              <Text style={styles.degree}>{edu?.degree || ''}</Text>
+              <Text style={styles.school}>{edu?.school || ''}</Text>
+              <Text style={styles.school}>{edu?.year || ''}</Text>
             </View>
           ))}
         </View>
@@ -167,14 +167,16 @@ export const ModernTemplate = ({ data }: Props) => {
           {(data?.experience || []).map((job, idx) => (
             <View key={idx} style={styles.job}>
               <View style={styles.jobHeader}>
-                <Text style={styles.role}>{job?.role}</Text>
-                <Text style={styles.company}>{job?.company}</Text>
-                <Text style={styles.duration}>{job?.duration}</Text>
+                <Text style={styles.role}>{job?.role || ''}</Text>
+                <Text style={styles.company}>{job?.company || ''}</Text>
+                <Text style={styles.duration}>{job?.duration || ''}</Text>
               </View>
               {(job?.description || []).map((desc, dIdx) => (
                 <View key={dIdx} style={styles.bulletPoint}>
                   <Text style={styles.bullet}>•</Text>
-                  <Text style={{ flex: 1, color: '#475569' }}>{desc}</Text>
+                  <View style={{ flex: 1 }}>
+                    <Text style={{ color: '#475569' }}>{desc || ''}</Text>
+                  </View>
                 </View>
               ))}
             </View>
@@ -185,8 +187,8 @@ export const ModernTemplate = ({ data }: Props) => {
               <Text style={styles.rightSectionTitle}>Projects</Text>
               {data.projects.map((proj, idx) => (
                 <View key={idx} style={styles.job}>
-                  <Text style={styles.role}>{proj?.name}</Text>
-                  <Text style={{ color: '#475569', marginBottom: 4 }}>{proj?.description}</Text>
+                  <Text style={styles.role}>{proj?.name || ''}</Text>
+                  <Text style={{ color: '#475569', marginBottom: 4 }}>{proj?.description || ''}</Text>
                   <Text style={{ fontSize: 9, color: '#64748b' }}>Tech Stack: {(proj?.technologies || []).join(', ')}</Text>
                 </View>
               ))}

@@ -69,11 +69,11 @@ const styles = StyleSheet.create({
   },
   bulletPoint: {
     flexDirection: 'row',
-    marginBottom: 2,
-    paddingLeft: 10,
+    marginBottom: 4,
+    paddingLeft: 12,
   },
   bullet: {
-    width: 10,
+    width: 12,
   },
   educationItem: {
     flexDirection: 'row',
@@ -137,7 +137,9 @@ export const ProfessionalTemplate = ({ data }: Props) => {
               {(job?.description || []).map((desc, dIdx) => (
                 <View key={dIdx} style={styles.bulletPoint}>
                   <Text style={styles.bullet}>•</Text>
-                  <Text style={{ flex: 1, lineHeight: 1.4 }}>{desc || ''}</Text>
+                  <View style={{ flex: 1 }}>
+                    <Text style={{ lineHeight: 1.4 }}>{desc || ''}</Text>
+                  </View>
                 </View>
               ))}
             </View>

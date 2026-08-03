@@ -71,15 +71,14 @@ const styles = StyleSheet.create({
   },
   bulletPoint: {
     flexDirection: 'row',
-    marginBottom: 3,
-    paddingLeft: 10,
+    marginBottom: 4,
+    paddingLeft: 12,
   },
   bullet: {
-    width: 10,
+    width: 12,
     color: '#9ca3af',
   },
   descText: {
-    flex: 1,
     color: '#374151',
   },
   skillCategory: {
@@ -145,7 +144,9 @@ export const MinimalTemplate = ({ data }: Props) => {
               {(job?.description || []).map((desc, dIdx) => (
                 <View key={dIdx} style={styles.bulletPoint}>
                   <Text style={styles.bullet}>-</Text>
-                  <Text style={styles.descText}>{desc || ''}</Text>
+                  <View style={{ flex: 1 }}>
+                    <Text style={styles.descText}>{desc || ''}</Text>
+                  </View>
                 </View>
               ))}
             </View>
