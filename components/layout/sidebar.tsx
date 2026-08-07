@@ -70,9 +70,7 @@ export function Sidebar({ onOpenAuth, workspaces = [] }: { onOpenAuth?: () => vo
           <NavItem icon={LineChart} label="SEO Studio" href="/studios/seo" />
           <NavItem icon={Edit3} label="Content Studio" href="/studios/content" />
           <NavItem icon={FileText} label="Resume Maker" href="/studios/resume" />
-          <NavItem icon={Palette} label="UI/UX Studio" href="/studios/ui-ux" />
-          <NavItem icon={Smartphone} label="App Dev Studio" href="/studios/app-dev" />
-          <NavItem icon={Video} label="Video Generation" href="/studios/video" />
+
 
         </nav>
       </div>

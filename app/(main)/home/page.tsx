@@ -103,18 +103,7 @@ export default async function HomePage() {
                 icon={FileText} title="Resume Maker" desc="Build ATS-friendly resumes" 
                 color="purple" href="/studios/resume"
               />
-              <StudioCard 
-                icon={Palette} title="UI/UX Studio" desc="Generate modern designs" 
-                color="pink" href="/studios/ui-ux"
-              />
-              <StudioCard 
-                icon={Smartphone} title="App Dev Studio" desc="Build mobile apps instantly" 
-                color="blue" href="/studios/app-dev"
-              />
-              <StudioCard 
-                icon={Video} title="Video Generation" desc="Create cinematic videos" 
-                color="orange" href="/studios/video"
-              />
+
             </div>
           </div>
 
