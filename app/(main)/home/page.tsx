@@ -8,6 +8,7 @@ import { getDashboardMetrics, getRecentProjects, getUpcomingTasks, getSessionUse
 import { formatDistanceToNow } from 'date-fns';
 import { InlinePrompt } from "@/components/home/inline-prompt";
 import { QuickUploadAction } from "@/components/home/quick-upload-action";
+import { Greeting } from "@/components/home/greeting";
 
 export const metadata = {
   title: "Dashboard | Nexora AI OS",
@@ -22,12 +23,6 @@ export default async function HomePage() {
   ]);
 
   const { projectsCount, metrics } = dashboardData;
-
-  // Calculate greeting
-  const hour = new Date().getHours();
-  let greeting = "Good evening";
-  if (hour < 12) greeting = "Good morning";
-  else if (hour < 18) greeting = "Good afternoon";
 
   const firstName = user?.profileName || user?.email?.split('@')[0] || "User";
 
@@ -66,7 +61,7 @@ export default async function HomePage() {
             </div>
 
             <div className="relative z-10 max-w-xl">
-              <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold mb-3 tracking-tight">{greeting}, <br className="block sm:hidden" /><span className="capitalize text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent dark:from-white dark:to-slate-400">{firstName}</span>! <span className="animate-wave inline-block origin-bottom-right">👋</span></h1>
+              <Greeting firstName={firstName} />
               <p className="text-textMuted text-[15px] leading-relaxed max-w-md mb-8">
                 Welcome to Nexora AI OS. Build, grow & manage your digital universe with the power of artificial intelligence.
               </p>
