@@ -16,8 +16,7 @@ export async function POST(req: Request) {
       latestMessage = latestMessage.substring(latestMessage.lastIndexOf("user query:") + 11).trim();
     }
 
-    const imageKeywords = ["image", "poster", "thumbnail", "logo", "picture", "photo", "illustration", "art", "draw me", "paint me"];
-    const isImageRequest = imageKeywords.some(keyword => latestMessage.includes(keyword));
+    const isImageRequest = /\b(generate|create|make)\b.*\b(image|poster|thumbnail|logo|picture|photo|illustration|art)\b/i.test(latestMessage) || /\b(draw me|paint me)\b/i.test(latestMessage);
 
     if (isImageRequest) {
       console.log("[AI Router] Image Generation Intent Detected!");
