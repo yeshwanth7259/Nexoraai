@@ -27,6 +27,12 @@ export function AuthModal({ isOpen, onClose }: { isOpen: boolean; onClose: () =>
         return;
       }
 
+      if (process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY.includes("your_eyJ_token_goes_here") || process.env.NEXT_PUBLIC_SUPABASE_URL.includes("your_project_id")) {
+        setAuthError("Invalid Supabase configuration! You are using placeholder values. Please update your .env file with actual keys from your Supabase dashboard.");
+        setIsLoading(false);
+        return;
+      }
+
       if (authMode === "signup") {
         const { error, data } = await supabase.auth.signUp({ 
           email, 
