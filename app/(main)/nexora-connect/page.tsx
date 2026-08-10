@@ -5,7 +5,6 @@ import { Bot, Globe, ShieldCheck, Cpu, ArrowRight, Loader2, Database, AlertCircl
 
 export default function NexoraConnectPage() {
   const [url, setUrl] = useState("");
-  const [projectId, setProjectId] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState<{ type: "idle" | "success" | "error"; message: string }>({
     type: "idle",
@@ -14,13 +13,16 @@ export default function NexoraConnectPage() {
 
   const handleIngest = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!url || !projectId) {
-      setStatus({ type: "error", message: "Please provide both a URL and a Project ID." });
+    if (!url) {
+      setStatus({ type: "error", message: "Please provide a website URL to analyze." });
       return;
     }
 
     setIsLoading(true);
     setStatus({ type: "idle", message: "" });
+    
+    // Auto-generate a unique project ID behind the scenes
+    const generatedProjectId = `agent_${Math.random().toString(36).substring(2, 11)}_${Date.now()}`;
 
     try {
       const response = await fetch("/api/scrape", {
@@ -28,7 +30,7 @@ export default function NexoraConnectPage() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ url, projectId }),
+        body: JSON.stringify({ url, projectId: generatedProjectId }),
       });
 
       const data = await response.json();
@@ -37,9 +39,11 @@ export default function NexoraConnectPage() {
         throw new Error(data.error || "Failed to process the URL.");
       }
 
-      setStatus({ type: "success", message: data.message });
+      setStatus({ 
+        type: "success", 
+        message: `${data.message} Your Agent ID is: ${generatedProjectId}` 
+      });
       setUrl("");
-      setProjectId("");
     } catch (err: any) {
       setStatus({ type: "error", message: err.message });
     } finally {
@@ -87,22 +91,7 @@ export default function NexoraConnectPage() {
                 className="flex h-11 w-full rounded-md border border-white/10 bg-white/5 px-3 py-2 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:cursor-not-allowed disabled:opacity-50"
                 disabled={isLoading}
               />
-            </div>
-
-            <div className="space-y-2">
-              <label htmlFor="projectId" className="text-sm font-medium text-gray-300">
-                Agent / Project ID
-              </label>
-              <input
-                id="projectId"
-                type="text"
-                placeholder="e.g., nexora-sales-agent"
-                value={projectId}
-                onChange={(e) => setProjectId(e.target.value)}
-                className="flex h-11 w-full rounded-md border border-white/10 bg-white/5 px-3 py-2 text-sm text-white placeholder:text-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent disabled:cursor-not-allowed disabled:opacity-50"
-                disabled={isLoading}
-              />
-              <p className="text-xs text-gray-500 mt-1">This ID binds the ingested knowledge to a specific AI widget.</p>
+              <p className="text-xs text-gray-500 mt-1">We will automatically generate a unique agent ID for this website.</p>
             </div>
 
             {status.type === "error" && (
