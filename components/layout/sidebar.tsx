@@ -64,6 +64,7 @@ export function Sidebar({ onOpenAuth, workspaces = [] }: { onOpenAuth?: () => vo
         <nav className="space-y-1">
           <NavItem icon={Home} label="Dashboard" href="/home" active={pathname === '/home' || pathname === '/'} />
           <NavItem icon={Sparkles} label="AI Assistant" href="/assistant" />
+          <NavItem icon={Globe} label="Nexora Connect" href="/nexora-connect" />
           
           <SectionHeader title="AI STUDIOS" />
           
