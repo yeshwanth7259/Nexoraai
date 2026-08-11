@@ -10,6 +10,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { parseFileToText } from "@/utils/file-parser";
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import { useSpeech } from "@/hooks/useSpeech";
 
 
 export default function AssistantPage() {
@@ -22,6 +23,14 @@ export default function AssistantPage() {
   const [messages, setMessages] = useState<{role: string, content: string}[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [attachedFile, setAttachedFile] = useState<File | null>(null);
+
+  const { isListening, transcript, toggleListening, speakText } = useSpeech();
+
+  useEffect(() => {
+    if (transcript) {
+      setInput(transcript);
+    }
+  }, [transcript]);
 
   const sendMessage = async (msg: { role: string; content: string }) => {
     const newMessages = [...messages, msg];
@@ -52,6 +61,7 @@ export default function AssistantPage() {
           updated[updated.length - 1].content = text;
           return updated;
         });
+        speakText(text);
       } else {
         const reader = res.body.getReader();
         const decoder = new TextDecoder();
@@ -60,7 +70,10 @@ export default function AssistantPage() {
 
         while (true) {
           const { done, value } = await reader.read();
-          if (done) break;
+          if (done) {
+            speakText(assistantReply);
+            break;
+          }
           
           buffer += decoder.decode(value, { stream: true });
           const lines = buffer.split('\n');
@@ -360,11 +373,19 @@ export default function AssistantPage() {
                   }
                 }
               }}
-              placeholder="Ask Nexora to build, design, or analyze anything..."
+              placeholder={isListening ? "Listening... speak now" : "Ask Nexora to build, design, or analyze anything..."}
               className="flex-1 max-h-40 min-h-[44px] bg-transparent border-none text-foreground focus:ring-0 resize-none px-3 py-3 focus:outline-none placeholder:text-textMuted"
               rows={1}
             />
-            <button type="button" className="p-3 text-textMuted hover:text-foreground hover:bg-hoverBg rounded-xl transition mb-0.5">
+            <button 
+              type="button" 
+              onClick={toggleListening}
+              className={`p-3 rounded-xl transition mb-0.5 ${
+                isListening 
+                  ? "bg-red-500/20 text-red-400 border border-red-500/40 animate-pulse shadow-lg shadow-red-500/20" 
+                  : "text-textMuted hover:text-foreground hover:bg-hoverBg"
+              }`}
+            >
               <Mic size={20} />
             </button>
             <button 
