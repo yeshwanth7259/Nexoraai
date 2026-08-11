@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Mic, Send, X, File as FileIcon } from "lucide-react";
 import { AttachmentMenu } from "@/components/chat/attachment-menu";
+import { useSpeech } from "@/hooks/useSpeech";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
@@ -12,6 +13,14 @@ export function InlinePrompt() {
   const [input, setInput] = useState("");
   const [attachedFile, setAttachedFile] = useState<File | null>(null);
   const router = useRouter();
+  
+  const { isListening, transcript, toggleListening } = useSpeech();
+
+  useEffect(() => {
+    if (transcript) {
+      setInput(transcript);
+    }
+  }, [transcript]);
 
   const handleFileSelect = (file: File) => {
     setAttachedFile(file);
@@ -101,12 +110,19 @@ export function InlinePrompt() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Ask Nexora to build..." 
+          placeholder={isListening ? "Listening... speak now" : "Ask Nexora to build..."} 
           className="bg-transparent border-none text-foreground text-[13px] sm:text-[15px] placeholder:text-textMuted w-full focus:outline-none focus:ring-0 ml-1 sm:ml-2 min-w-0"
         />
         
         <div className="flex items-center gap-1 sm:gap-2 shrink-0">
-          <button className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-hoverBg hover:bg-hoverBg flex items-center justify-center text-textMuted transition">
+          <button 
+            onClick={toggleListening}
+            className={`w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center transition ${
+              isListening
+                ? "bg-red-500/20 text-red-400 border border-red-500/40 animate-pulse shadow-lg shadow-red-500/20"
+                : "bg-hoverBg hover:bg-hoverBg text-textMuted"
+            }`}
+          >
             <Mic size={16} className="sm:w-[18px] sm:h-[18px]" />
           </button>
           <button 
