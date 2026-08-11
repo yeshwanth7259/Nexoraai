@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@ai-sdk/anthropic": "^4.0.19",
-    "@ai-sdk/google": "^3.0.100",
+    "@ai-sdk/google": "^4.0.41",
     "@ai-sdk/react": "^4.0.51",
     "@anthropic-ai/sdk": "^0.24.0",
     "@codesandbox/sandpack-react": "^2.20.0",
@@ -18,7 +18,7 @@
     "@react-pdf/renderer": "^4.5.1",
     "@supabase/ssr": "^0.12.4",
     "@supabase/supabase-js": "^2.111.0",
-    "ai": "^7.0.48",
+    "ai": "^7.0.59",
     "cheerio": "^1.2.0",
     "clsx": "^2.1.1",
     "date-fns": "^4.4.0",
