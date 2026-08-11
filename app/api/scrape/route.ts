@@ -42,7 +42,7 @@ export async function POST(req: Request) {
 
     // 4. Convert chunks into Vector Embeddings using Gemini's embedding model
     const { embeddings } = await embedMany({
-      model: google.textEmbeddingModel('text-embedding-004'),
+      model: google.textEmbeddingModel('gemini-embedding-2'),
       values: chunks,
     });
 
