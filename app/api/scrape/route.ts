@@ -5,13 +5,17 @@ import * as cheerio from 'cheerio';
 
 export const maxDuration = 60; // Allow 60 seconds for scraping
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY! // Note: Use Service Key to bypass RLS for backend insertions
-);
-
 export async function POST(req: Request) {
   try {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+    if (!supabaseUrl || !supabaseServiceKey) {
+      return Response.json({ error: "Missing Supabase configuration." }, { status: 500 });
+    }
+
+    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+
     const { url, projectId } = await req.json();
 
     if (!url || !projectId) {
