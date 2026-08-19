@@ -55,18 +55,9 @@ export default function AssistantPage() {
       setMessages((prev) => [...prev, { role: "assistant", content: "" }]);
       
       if (contentType.includes("text/plain")) {
-        const text = await res.text();
-        setMessages((prev) => {
-          const updated = [...prev];
-          updated[updated.length - 1].content = text;
-          return updated;
-        });
-        speakText(text);
-      } else {
         const reader = res.body.getReader();
         const decoder = new TextDecoder();
         let assistantReply = "";
-        let buffer = "";
 
         while (true) {
           const { done, value } = await reader.read();
@@ -74,26 +65,8 @@ export default function AssistantPage() {
             speakText(assistantReply);
             break;
           }
-          
-          buffer += decoder.decode(value, { stream: true });
-          const lines = buffer.split('\n');
-          buffer = lines.pop() || "";
-          
-          for (const line of lines) {
-            if (line.trim() === "") continue;
-            if (line.startsWith('data: ')) {
-              const dataStr = line.substring(6).trim();
-              if (dataStr === "[DONE]") continue;
-              try {
-                const data = JSON.parse(dataStr);
-                if (data.candidates?.[0]?.content?.parts?.[0]?.text) {
-                  assistantReply += data.candidates[0].content.parts[0].text;
-                }
-              } catch (e) {
-                // Ignore partial JSON blocks across chunks
-              }
-            }
-          }
+          const chunk = decoder.decode(value, { stream: true });
+          assistantReply += chunk;
 
           setMessages((prev) => {
             const updated = [...prev];
@@ -101,6 +74,15 @@ export default function AssistantPage() {
             return updated;
           });
         }
+      } else {
+        // Fallback for non-streaming or different formats
+        const text = await res.text();
+        setMessages((prev) => {
+          const updated = [...prev];
+          updated[updated.length - 1].content = text;
+          return updated;
+        });
+        speakText(text);
       }
     } catch (err) {
       setMessages((prev) => [...prev, { role: "assistant", content: "⚠️ Connection error." }]);
