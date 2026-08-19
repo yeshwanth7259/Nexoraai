@@ -103,7 +103,7 @@ export default function VideoStudioPage() {
                   Nexora <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-400 to-orange-500">Video</span> <span className="text-yellow-500">Gen</span>
                 </h1>
                 <p className="text-textMuted max-w-2xl mx-auto text-base">
-                  Describe the video you want to create, and let Nexora's AI model generate stunning cinematic visuals instantly.
+                  Describe the video you want to create, and let Nexora&apos;s AI model generate stunning cinematic visuals instantly.
                 </p>
               </div>
 

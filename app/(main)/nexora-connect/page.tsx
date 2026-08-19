@@ -202,7 +202,7 @@ export default function NexoraConnectPage() {
               <div className="h-48 overflow-y-auto bg-[#070B14] border border-slate-800/80 rounded-xl p-4 space-y-3 text-xs">
                 {chatLog.length === 0 ? (
                   <div className="h-full flex items-center justify-center text-slate-500 italic">
-                    Ask something about your website (e.g. "What services do you offer?")
+                    Ask something about your website (e.g. &quot;What services do you offer?&quot;)
                   </div>
                 ) : (
                   chatLog.map((c, i) => (

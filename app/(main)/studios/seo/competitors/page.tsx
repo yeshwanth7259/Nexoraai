@@ -178,7 +178,7 @@ export default function CompetitorsPage() {
                <h3 className="text-lg font-semibold flex items-center gap-2"><TrendingDown size={18} className="text-orange-400"/> Content Gaps</h3>
                <button className="text-xs font-medium text-primary hover:text-foreground transition">View All Gaps</button>
               </div>
-              <p className="text-xs text-textMuted mb-4">Keywords they rank for, but you don't. (Opportunities for new content)</p>
+              <p className="text-xs text-textMuted mb-4">Keywords they rank for, but you don&apos;t. (Opportunities for new content)</p>
 
               <div className="w-full overflow-x-auto">
                 <table className="w-full text-left text-sm">

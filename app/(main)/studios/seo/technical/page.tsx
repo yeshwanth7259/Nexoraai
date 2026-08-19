@@ -116,7 +116,7 @@ export default function TechnicalSEOPage() {
               <div className="flex items-start justify-between p-4 bg-bgDarker border border-borders rounded-2xl">
                 <div>
                   <p className="text-sm font-medium text-foreground mb-1">Language Declaration</p>
-                  <p className="text-xs text-textMuted">lang="{data.language || "Not set"}"</p>
+                  <p className="text-xs text-textMuted">lang=&quot;{data.language || "Not set"}&quot;</p>
                 </div>
                 <StatusIcon value={data.language} />
               </div>

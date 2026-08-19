@@ -167,7 +167,7 @@ export default async function HomePage() {
                 ) : (
                   <div className="text-center py-10">
                     <CheckCircle2 size={32} className="mx-auto mb-3 text-textMuted" />
-                    <p className="text-sm text-textMuted">You're all caught up!</p>
+                    <p className="text-sm text-textMuted">You&apos;re all caught up!</p>
                   </div>
                 )}
               </div>
@@ -191,7 +191,7 @@ export default async function HomePage() {
               <Link href="/assistant" className="text-textMuted hover:text-foreground"><ArrowRight size={14} /></Link>
             </div>
             <div className="relative z-10">
-              <h3 className="text-xl font-bold text-foreground mb-2 leading-tight">I'm Nexora AI</h3>
+              <h3 className="text-xl font-bold text-foreground mb-2 leading-tight">I&apos;m Nexora AI</h3>
               <p className="text-sm text-textMuted mb-6 leading-relaxed">
                 Your digital business partner. How can I help you today?
               </p>

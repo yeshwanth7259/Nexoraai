@@ -166,7 +166,7 @@ export default function AssistantPage() {
               How can I help you build today?
             </h1>
             <p className="text-textMuted max-w-lg mb-10 text-lg animate-in fade-in slide-in-from-bottom-3">
-              I'm your universal AI assistant. I can design websites, optimize SEO, manage your CRM, and deploy apps. 
+              I&apos;m your universal AI assistant. I can design websites, optimize SEO, manage your CRM, and deploy apps. 
             </p>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-2xl animate-in fade-in slide-in-from-bottom-4">

@@ -94,7 +94,7 @@ export function CommandPalette({ isOpen, onClose }: { isOpen: boolean; onClose: 
               ))}
               {filteredActions.length === 0 && (
                 <div className="px-3 py-8 text-center text-textMuted text-sm">
-                  No results found for "{search}"
+                  No results found for &quot;{search}&quot;
                 </div>
               )}
             </div>
