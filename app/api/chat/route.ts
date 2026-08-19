@@ -1,11 +1,11 @@
 export const runtime = 'edge';
 
-import { AIGateway } from "@/modules/ai-gateway"; // Edge-compatible or generic gateway
+import { streamText } from 'ai';
+import { google } from '@ai-sdk/google';
 
 export async function POST(req: Request) {
   try {
     const { messages, userPlan }: any = await req.json();
-    const apiKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY || ("AQ.Ab8R" + "N6IgHg1RsJG-KZ9" + "Doplsmvwue_fCGRN" + "LSlWnkGdaTtPY7g");
 
     // 1. Basic AI Router (Intent Detection)
     // Intercept the latest message to see if it's an image generation request
@@ -64,44 +64,25 @@ Your core mission is to empower students to learn deeply and developers to build
 - Be concise, direct, empathetic, and highly accurate. You are Nexora AI.
 `;
 
-    const geminiMessages = messages.map((m: any) => ({
-      role: m.role === 'user' ? 'user' : 'model',
-      parts: [{ text: m.content }]
+    // Filter out empty messages and format them for the AI SDK
+    const formattedMessages = messages.filter((m: any) => m.content && m.content.trim() !== '').map((m: any) => ({
+      role: m.role === 'user' ? 'user' : 'assistant',
+      content: m.content
     }));
 
-    const payload = {
-      system_instruction: {
-        parts: { text: NEXORA_SYSTEM_PROMPT }
-      },
-      contents: geminiMessages,
-      generationConfig: {
-        temperature: 0.7,
-      }
-    };
-    
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:streamGenerateContent?alt=sse&key=${apiKey}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(payload)
+    // Start streaming using Vercel AI SDK
+    const result = await streamText({
+      model: google('gemini-flash-latest'),
+      system: NEXORA_SYSTEM_PROMPT,
+      messages: formattedMessages,
+      temperature: 0.7,
     });
 
-    if (!response.ok) {
-      const err = await response.text();
-      return new Response(err, { status: response.status });
-    }
+    // Return a pure text stream to perfectly match the frontend parser
+    return result.toTextStreamResponse();
 
-    return new Response(response.body, {
-      headers: {
-        "Content-Type": "text/event-stream",
-        "Cache-Control": "no-cache",
-        "Connection": "keep-alive",
-      }
-    });
-
-  } catch (error) {
+  } catch (error: any) {
     console.error("Chat API Error:", error);
-    return new Response(JSON.stringify({ error: "Failed to process chat request." }), { status: 500 });
+    return new Response(JSON.stringify({ error: error.message || "Failed to process chat request." }), { status: 500 });
   }
 }
