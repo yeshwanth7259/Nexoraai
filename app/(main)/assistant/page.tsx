@@ -62,6 +62,14 @@ export default function AssistantPage() {
         while (true) {
           const { done, value } = await reader.read();
           if (done) {
+            if (assistantReply.trim() === "") {
+               assistantReply = "⚠️ The AI service is currently experiencing high traffic or rate limits. Please try again in a few seconds.";
+               setMessages((prev) => {
+                 const updated = [...prev];
+                 updated[updated.length - 1].content = assistantReply;
+                 return updated;
+               });
+            }
             speakText(assistantReply);
             break;
           }

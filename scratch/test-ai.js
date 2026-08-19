@@ -5,11 +5,12 @@ async function test() {
   try {
     const { text } = await generateText({
       model: google('gemini-flash-latest'),
-      prompt: 'hi',
+      prompt: 'I need to build a eccomerce website for my saree bussiness',
     });
+    console.log("TEXT RESPONSE:");
     console.log(text);
   } catch (err) {
-    console.error(err);
+    console.error("ERROR:", err);
   }
 }
 

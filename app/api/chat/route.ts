@@ -1,7 +1,7 @@
 export const runtime = 'edge';
 
 import { streamText } from 'ai';
-import { google } from '@ai-sdk/google';
+import { openai } from '@ai-sdk/openai';
 
 export async function POST(req: Request) {
   try {
@@ -45,7 +45,7 @@ export async function POST(req: Request) {
       }
     }
 
-    // 2. Standard Chat Routing (Gemini)
+    // 2. Standard Chat Routing (OpenAI)
     const NEXORA_SYSTEM_PROMPT = `
 You are Nexora AI, a cutting-edge AI engine built by Spacetech Solutions.
 Your core mission is to empower students to learn deeply and developers to build production-grade software efficiently.
@@ -72,7 +72,7 @@ Your core mission is to empower students to learn deeply and developers to build
 
     // Start streaming using Vercel AI SDK
     const result = await streamText({
-      model: google('gemini-flash-latest'),
+      model: openai('gpt-4o-mini'),
       system: NEXORA_SYSTEM_PROMPT,
       messages: formattedMessages,
       temperature: 0.7,
